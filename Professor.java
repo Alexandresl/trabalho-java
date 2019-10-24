@@ -10,5 +10,5 @@ package trabalhojava;
  * @author 93580843087
  */
 public class Professor {
-    
+    //Aqui é o professor
 }
