@@ -10,6 +10,7 @@ package trabalhojava;
  * @author 93580843087
  */
 public interface OperacoesDAO {
+    // Classes a serem implementadas
     public boolean pesquisar(Object obj);
     public void inserir (Object obj);
     public void excluir (Object obj);
