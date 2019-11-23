@@ -144,5 +144,49 @@ public class AlunoDAO {
         }
 
     }
+    
+    // Método para pesquisar alunos por nome
+    
+    public List<Aluno> buscaAlunos(String param) {
+        // try...catch para tratar eventual erro
+        try {
+            // Cria a lista
+            List<Aluno> lista = new ArrayList<>();
+            // Cria comando sql
+            String sql = "SELECT * FROM aluno WHERE matricula LIKE ? OR nome LIKE ? ORDER BY matricula";
+            // prepara sql para execução
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, param);
+            stmt.setString(2, param);
+            // o resultado do select é armazenada em um objeto ResultSet
+            ResultSet rs = stmt.executeQuery();
+            /**
+             * Armazena o resultado da pesquisa que está no ResultSet na nossa
+             * lista
+             */
+            while (rs.next()) {
+                // Para casda ocorrência de rs é gerado um novo objeto Aluno
+                Aluno aluno = new Aluno();
+                // É setado os atributos. Os parâmetros do get são os nomes das colunas
+                aluno.setMatricula(rs.getInt("matricula"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setEmail(rs.getString("email"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setPerfil(rs.getString("perfil"));
+                aluno.setSenha(rs.getString("senha"));
+                aluno.setProposta(rs.getString("proposta"));
+                // Após setar todos os atributos, o objeto é adicionado à lista
+                lista.add(aluno);
+            }
 
+            return lista;
+
+        } catch (Exception error) {
+
+            JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
+            return null;
+        }
+
+    }
 }

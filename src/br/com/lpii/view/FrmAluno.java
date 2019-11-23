@@ -8,6 +8,8 @@ package br.com.lpii.view;
 import br.com.lpii.dao.AlunoDAO;
 import br.com.lpii.model.Aluno;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +27,68 @@ public class FrmAluno extends javax.swing.JFrame {
         label_proposta.setEnabled(false);
         txt_perfil.setEnabled(false);
         txt_proposta.setEnabled(false);
+        gerenciaCampos("block");
+        gerenciaBotoes(true, false, false, false);
+
+    }
+
+    /**
+     * Método para gerenciar campos bloquear - block | desbloquear unblock
+     * limpar - clean
+     */
+    public void gerenciaCampos(String action) {
+        switch (action) {
+            case "block":
+                txt_matricula.setEnabled(false);
+                txt_nome.setEnabled(false);
+                txt_cpf.setEnabled(false);
+                txt_email.setEnabled(false);
+                txt_celular.setEnabled(false);
+                btn_dados_pesquisar.setEnabled(false);
+                break;
+            case "unblock":
+                txt_matricula.setEnabled(true);
+                txt_nome.setEnabled(true);
+                txt_cpf.setEnabled(true);
+                txt_email.setEnabled(true);
+                txt_celular.setEnabled(true);
+                btn_dados_pesquisar.setEnabled(true);
+                break;
+            case "clean":
+                txt_matricula.setText("");
+                txt_nome.setText("");
+                txt_cpf.setText("");
+                txt_email.setText("");
+                txt_celular.setText("");
+                txt_pesquisar.setText("");
+                break;
+        }
+    }
+
+    /**
+     * Métodos para gerenciar botões
+     */
+    public void gerenciaBotoes(boolean novo, boolean salvar, boolean editar, boolean excluir) {
+        btn_novo.setEnabled(novo);
+        btn_salvar.setEnabled(salvar);
+        btn_editar.setEnabled(editar);
+        btn_excluir.setEnabled(excluir);
+    }
+
+    /**
+     * Método para garantir que não vá número no campo matrícula
+     */
+    public void ValidaNumero(JTextField matrícula) {
+        long valor;
+        if (matrícula.getText().length() != 0) {
+            try {
+                valor = Long.parseLong(matrícula.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Campo matrícula só aceita números", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                matrícula.grabFocus();
+                txt_matricula.setText("");
+            }
+        }
     }
 
     /**
@@ -49,29 +113,18 @@ public class FrmAluno extends javax.swing.JFrame {
                 a.getCpf(),
                 a.getEmail(),
                 a.getTelefone(),
-                a.getProposta()
+                a.getProposta(),
+                a.getPerfil()
             });
         }
 
     }
 
     public void ativaInfComplementares() {
-    
-        label_pefil.setText("Perfil:"); 
+
+        label_pefil.setText("Perfil:");
         label_proposta.setText("Situação do Tema do TC: ");
-    
-    }
-    
-    /**
-     * Método responsável por limpar todos os campos do formulário
-     */
-    public void cleanTxt() {
-        txt_matricula.setText("");
-        txt_nome.setText("");
-        txt_cpf.setText("");
-        txt_email.setText("");
-        txt_celular.setText("");
-        txt_pesquisar.setText("");
+
     }
 
     /**
@@ -173,6 +226,11 @@ public class FrmAluno extends javax.swing.JFrame {
 
         txt_matricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_matricula.setForeground(new java.awt.Color(0, 102, 51));
+        txt_matricula.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_matriculaFocusLost(evt);
+            }
+        });
 
         txt_nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_nome.setForeground(new java.awt.Color(0, 102, 51));
@@ -211,11 +269,6 @@ public class FrmAluno extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txt_cpf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_cpf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_cpfActionPerformed(evt);
-            }
-        });
 
         btn_dados_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_dados_pesquisar.setForeground(new java.awt.Color(0, 102, 51));
@@ -321,11 +374,26 @@ public class FrmAluno extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         txt_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_pesquisar.setForeground(new java.awt.Color(153, 153, 153));
+        txt_pesquisar.setText("Digite uma matrícula ou nome");
+        txt_pesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_pesquisarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_pesquisarFocusLost(evt);
+            }
+        });
 
         btn_consulta_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_consulta_pesquisar.setForeground(new java.awt.Color(0, 102, 51));
         btn_consulta_pesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/zoom.png"))); // NOI18N
         btn_consulta_pesquisar.setText("Pesquisar");
+        btn_consulta_pesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_consulta_pesquisarActionPerformed(evt);
+            }
+        });
 
         tbl_aluno.setForeground(new java.awt.Color(0, 153, 51));
         tbl_aluno.setModel(new javax.swing.table.DefaultTableModel(
@@ -372,15 +440,15 @@ public class FrmAluno extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_consulta_pesquisar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_consulta_pesquisar)
-                    .addComponent(txt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_consulta_pesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(273, 273, 273))
@@ -471,10 +539,6 @@ public class FrmAluno extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_cpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cpfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_cpfActionPerformed
-
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
         // Ação responsável por salvar no banco de dados
         /**
@@ -489,7 +553,7 @@ public class FrmAluno extends javax.swing.JFrame {
         aluno.setPerfil("Aluno");
         aluno.setSenha("");
         aluno.setProposta("Em aberto");
-        
+
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
          * construtor
@@ -503,11 +567,19 @@ public class FrmAluno extends javax.swing.JFrame {
         /**
          * Limpa os campos do formulário
          */
-        cleanTxt();
+        gerenciaCampos("clean");
+        gerenciaCampos("block");
+        gerenciaBotoes(true, false, false, false);
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
-        // TODO add your handling code here:
+        // Libera os campos para preenchimento dos dados do aluno
+        gerenciaCampos("unblock");
+        gerenciaCampos("clean");
+        // libera o botão salvar e obloqueia os demais
+        gerenciaBotoes(true, true, false, false);
+        // Foco no campo matrícula
+        txt_matricula.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -521,80 +593,150 @@ public class FrmAluno extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void tbl_alunoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_alunoMouseClicked
+
+        // Libera botões editar e exluir
+        gerenciaBotoes(true, false, true, true);
+
         // Verifica se foi disparado duplo click sobre uma linha da tabela
         if (evt.getClickCount() == 2) {
 
             // Comando para carregar para outra aba
             jTabbedPane1.setSelectedIndex(0);
-            
-            // Pega os dados e envia para o formulário de clientes
-            txt_matricula.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 0).toString());
-            txt_nome.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 1).toString());
-            txt_cpf.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 2).toString());
-            txt_email.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 3).toString());
-            txt_celular.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 4).toString());
-            txt_perfil.setText("Aluno");
-            txt_proposta.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 5).toString());
+
         }
 
+        // Pega os dados e envia para o formulário de clientes
+        txt_matricula.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 0).toString());
+        txt_nome.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 1).toString());
+        txt_cpf.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 2).toString());
+        txt_email.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 3).toString());
+        txt_celular.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 4).toString());
+        txt_perfil.setText("Aluno");
+        txt_proposta.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 5).toString());
 
     }//GEN-LAST:event_tbl_alunoMouseClicked
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-        // Ação responsável por Editar Aluno
-        /**
-         * insere dados no objeto aluno
-         */
-        Aluno aluno = new Aluno();
-        
-        aluno.setMatricula(Integer.parseInt( txt_matricula.getText()));
-        aluno.setNome(txt_nome.getText());
-        aluno.setCpf(txt_cpf.getText());
-        aluno.setEmail(txt_email.getText());
-        aluno.setTelefone(txt_celular.getText());
-        aluno.setPerfil(txt_perfil.getText());
-        aluno.setProposta(txt_proposta.getText());
-        
-        /**
-         * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
-         * construtor
-         */
-        AlunoDAO dao = new AlunoDAO();
-        /**
-         * Método que irá salbar o obj Aluno no banco de dados
-         */
-        dao.alterarAluno(aluno);
-        
-        /**
-         * Atualiza table aluno após a edição
-         */
-        toList();
+
+        // Libera campos e botões
+        gerenciaCampos("unblock");
+        gerenciaBotoes(true, false, true, true);
+
+        // Verifica se botão está sendo pressionado na aba dados ou busca
+        if (jTabbedPane1.getSelectedIndex() == 1) {
+            // se na aba busca apenas direciona para a aba dados
+            jTabbedPane1.setSelectedIndex(0);
+        } else {
+
+            /**
+             * Ação responsável por Editar Aluno insere dados no objeto aluno
+             */
+            Aluno aluno = new Aluno();
+
+            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+            aluno.setNome(txt_nome.getText());
+            aluno.setCpf(txt_cpf.getText());
+            aluno.setEmail(txt_email.getText());
+            aluno.setTelefone(txt_celular.getText());
+            aluno.setPerfil(txt_perfil.getText());
+            aluno.setProposta(txt_proposta.getText());
+
+            /**
+             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
+             * partir do construtor
+             */
+            AlunoDAO dao = new AlunoDAO();
+
+            /**
+             * Método que irá salbar o obj Aluno no banco de dados
+             */
+            dao.alterarAluno(aluno);
+
+            /**
+             * Atualiza table aluno após a edição
+             */
+            toList();
+
+        }
 
     }//GEN-LAST:event_btn_editarActionPerformed
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
-        // Ação responsável por excluir Aluno
+
         /**
-         * insere dados no objeto aluno
+         * Ação responsável por excluir Aluno insere dados no objeto aluno
          */
         Aluno aluno = new Aluno();
         aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
-        
+
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
          * construtor
          */
         AlunoDAO dao = new AlunoDAO();
+
         /**
          * Método que irá salbar o obj Aluno no banco de dados
          */
-        dao.alterarAluno(aluno);
-        
+        dao.excluirAluno(aluno);
+
         /**
          * Atualiza table aluno após a edição
          */
         toList();
+        gerenciaCampos("clean");
+        // Comando para carregar para outra aba
+        jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btn_excluirActionPerformed
+
+    private void txt_matriculaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_matriculaFocusLost
+        ValidaNumero(txt_matricula);
+        
+    }//GEN-LAST:event_txt_matriculaFocusLost
+
+    private void txt_pesquisarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_pesquisarFocusGained
+        if (!txt_pesquisar.getText().equals("") && txt_pesquisar.getText().equals("Digite uma matrícula ou nome")) {
+            txt_pesquisar.setText("");
+        }
+        
+    }//GEN-LAST:event_txt_pesquisarFocusGained
+
+    private void btn_consulta_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consulta_pesquisarActionPerformed
+        // Crio o parâmetro que será utilizado na busca
+        String param = "%" + txt_pesquisar.getText() + "%";
+        
+        // Instancia objeto DAO
+        AlunoDAO dao = new AlunoDAO();
+        // Armazena em uma lista o retorno do método listarAlunos
+        List<Aluno> lista = dao.buscaAlunos(param);
+        // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
+        DefaultTableModel dados = (DefaultTableModel) tbl_aluno.getModel();
+        // limpa dados da tabela
+        dados.setNumRows(0);
+
+        // cada ocorrência em lista irá para um objeto aluno
+        for (Aluno a : lista) {
+            // E agora será adicionado a lista na tabela. Linha a linha
+            dados.addRow(new Object[]{
+                a.getMatricula(),
+                a.getNome(),
+                a.getCpf(),
+                a.getEmail(),
+                a.getTelefone(),
+                a.getProposta(),
+                a.getPerfil()
+            });
+        }        
+    }//GEN-LAST:event_btn_consulta_pesquisarActionPerformed
+
+    private void txt_pesquisarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_pesquisarFocusLost
+        
+        if (txt_pesquisar.getText().equals("")) {
+            txt_pesquisar.setText("Digite uma matrícula ou nome");
+            toList();
+        }
+        
+    }//GEN-LAST:event_txt_pesquisarFocusLost
 
     /**
      * @param args the command line arguments
