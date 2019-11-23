@@ -19,8 +19,8 @@ public class ConnectionFactory {
         // try... catch. Para tratar eventuais erros na conexão
         try {
             return DriverManager.getConnection("jdbc:mysql://127.0.0.1/trabalho-java", "admin", "admin");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception error) {
+            throw new RuntimeException(error);
         }
     }
     
