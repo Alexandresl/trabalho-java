@@ -26,7 +26,7 @@ public class Aluno extends Pessoa{
     }
     
     /**
-     * Contrutor da classe aluno
+     * Contrutores da classe aluno
      * Os atributos, nome, email e senha são heradados da super classe Pessoa
      */
     public Aluno (int matricula, String nome, String email, String senha, String cpf, String telefone, String proposta, String perfil) {

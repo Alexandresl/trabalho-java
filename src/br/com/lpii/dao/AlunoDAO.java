@@ -59,7 +59,7 @@ public class AlunoDAO {
         try {
             // Comando SQL
             String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, " +
-                    "perfil = ?, senha = ?, proposta = ? WHERE matricula = ?";
+                    "perfil = ? WHERE matricula = ?";
             
             
             // Conectar o banco de dados e organizar o SQL
@@ -70,9 +70,7 @@ public class AlunoDAO {
             stmt.setString(3, aluno.getEmail());
             stmt.setString(4, aluno.getTelefone());
             stmt.setString(5, aluno.getPerfil());
-            stmt.setString(6, aluno.getSenha());
-            stmt.setString(7, aluno.getProposta());
-            stmt.setInt(8, aluno.getMatricula());
+            stmt.setInt(6, aluno.getMatricula());
 
             //Executa sql
             stmt.execute();
@@ -89,7 +87,7 @@ public class AlunoDAO {
         try {
             
             // Comando SQL
-            String sql = "DELETE FROM aluno where matricula = ?";
+            String sql = "DELETE FROM aluno WHERE matricula = ?";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
