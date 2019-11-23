@@ -21,8 +21,10 @@ public class FrmAluno extends javax.swing.JFrame {
      */
     public FrmAluno() {
         initComponents();
-        label_pefil.setText(""); 
-        label_proposta.setText("");
+        label_pefil.setEnabled(false);
+        label_proposta.setEnabled(false);
+        txt_perfil.setEnabled(false);
+        txt_proposta.setEnabled(false);
     }
 
     /**
@@ -331,11 +333,11 @@ public class FrmAluno extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Matrícula", "Nome", "CPF", "Email", "Telefone", "Proposta"
+                "Matrícula", "Nome", "CPF", "Email", "Telefone", "Proposta", "Perfil"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -531,7 +533,6 @@ public class FrmAluno extends javax.swing.JFrame {
             txt_cpf.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 2).toString());
             txt_email.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 3).toString());
             txt_celular.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 4).toString());
-            ativaInfComplementares();
             txt_perfil.setText("Aluno");
             txt_proposta.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 5).toString());
         }
@@ -548,9 +549,11 @@ public class FrmAluno extends javax.swing.JFrame {
         
         aluno.setMatricula(Integer.parseInt( txt_matricula.getText()));
         aluno.setNome(txt_nome.getText());
-        aluno.setEmail(txt_email.getText());
         aluno.setCpf(txt_cpf.getText());
+        aluno.setEmail(txt_email.getText());
         aluno.setTelefone(txt_celular.getText());
+        aluno.setPerfil(txt_perfil.getText());
+        aluno.setProposta(txt_proposta.getText());
         
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
