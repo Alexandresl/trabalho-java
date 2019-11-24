@@ -160,7 +160,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         jLabel7.setText("jLabel7");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Aluno");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -176,7 +176,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Cadastro de Professores");
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/logo-instituto.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logo-instituto.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -347,7 +347,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         btn_consulta_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_consulta_pesquisar.setForeground(new java.awt.Color(0, 102, 51));
-        btn_consulta_pesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/zoom.png"))); // NOI18N
+        btn_consulta_pesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btn_consulta_pesquisar.setText("Pesquisar");
         btn_consulta_pesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -415,7 +415,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         btn_novo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_novo.setForeground(new java.awt.Color(0, 102, 51));
-        btn_novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/add.png"))); // NOI18N
+        btn_novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add.png"))); // NOI18N
         btn_novo.setText("Novo");
         btn_novo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -425,7 +425,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         btn_salvar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_salvar.setForeground(new java.awt.Color(0, 102, 51));
-        btn_salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/disk.png"))); // NOI18N
+        btn_salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/disk.png"))); // NOI18N
         btn_salvar.setText("Salvar");
         btn_salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -435,7 +435,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         btn_editar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_editar.setForeground(new java.awt.Color(0, 102, 51));
-        btn_editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/pencil.png"))); // NOI18N
+        btn_editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/pencil.png"))); // NOI18N
         btn_editar.setText("Editar");
         btn_editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -445,7 +445,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         btn_excluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_excluir.setForeground(new java.awt.Color(0, 102, 51));
-        btn_excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/cancel.png"))); // NOI18N
+        btn_excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cancel.png"))); // NOI18N
         btn_excluir.setText("Excluir");
         btn_excluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

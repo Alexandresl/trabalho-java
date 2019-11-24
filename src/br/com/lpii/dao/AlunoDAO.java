@@ -210,6 +210,7 @@ public class AlunoDAO {
                 // usuário logou
                 // Abre tela principal
                 FrmMenu tela = new FrmMenu();
+                tela.usuarioLogado = rs.getString("nome");
                 tela.setVisible(true);
                 
                 return true;

@@ -28,7 +28,7 @@ public class Utilitarios {
     
     public void inserirIcone(JFrame frm) {
         try {
-            frm.setIconImage(Toolkit.getDefaultToolkit().getImage("src/br/com/lpii/assets/icone_if_g.png"));
+            frm.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imagens/icone_if_g.png"));
         } catch (Exception e) {
             System.out.println("");
         }
