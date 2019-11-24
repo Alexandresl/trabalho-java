@@ -7,6 +7,7 @@ package br.com.lpii.dao;
 
 import br.com.lpii.jdbc.ConnectionFactory;
 import br.com.lpii.model.Aluno;
+import br.com.lpii.view.FrmMenu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -191,10 +192,38 @@ public class AlunoDAO {
     }
     
     // Método que efetua login quando perfil professor
-    public void loginAluno(String email, String senha) {
+    public boolean loginAluno(String email, String senha) {
         try {
+            // Verifica se existe o usuário no banco
+            String sql = "SELECT * FROM aluno WHERE email = ? AND senha = ?";
+            // prepara sql para execução
+            PreparedStatement stmt = con.prepareStatement(sql);
+            // o resultado do select é armazenada em um objeto ResultSet
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
             
-        } catch (Exception e) {
+            // Armazena o resultado
+            ResultSet rs = stmt.executeQuery();
+            
+            // verifica se encontrou
+            if (rs.next()) {
+                // usuário logou
+                // Abre tela principal
+                FrmMenu tela = new FrmMenu();
+                tela.setVisible(true);
+                
+                return true;
+                
+            } else {
+                // dados incoretos
+                JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos.");
+                return false;
+            }
+            
+        } catch (SQLException error) {
+            
+            JOptionPane.showMessageDialog(null, "Erro sql: " + error);
+            return false;
             
         }
     }

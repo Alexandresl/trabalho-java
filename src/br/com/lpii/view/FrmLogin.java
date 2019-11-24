@@ -5,7 +5,9 @@
  */
 package br.com.lpii.view;
 
+import br.com.lpii.dao.AlunoDAO;
 import br.com.lpii.model.Utilitarios;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,8 +45,8 @@ public class FrmLogin extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Seja bem vindo(a) ao sistema");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Seja bem vindo(a) ao sistema - Autenticação");
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
@@ -106,6 +108,11 @@ public class FrmLogin extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(0, 102, 51));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/door_open.png"))); // NOI18N
         jButton1.setText("Entrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 102, 51));
@@ -167,6 +174,38 @@ public class FrmLogin extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Botão entrar
+        try {
+            // Crio as variáveis
+            String email, senha, perfil;
+
+
+            // Adiciono os valores vindo do formulário
+            perfil = cb_perfil.getSelectedItem().toString();
+            email = txt_email.getText();
+            senha = String.valueOf(txt_senha.getPassword());
+
+            // Verifica se perfil é de aluno ou professor
+            if (perfil.equals("Aluno")) {
+
+                AlunoDAO dao = new AlunoDAO();
+
+                boolean sucesso = dao.loginAluno(email, senha);
+                
+                if (sucesso) this.dispose();
+
+            } else if (perfil.equals("Professor")) {
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um perfil");
+            }
+
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this, "Error ao logar: " + error);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
