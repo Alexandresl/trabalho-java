@@ -7,6 +7,7 @@ package br.com.lpii.view;
 
 import br.com.lpii.dao.AlunoDAO;
 import br.com.lpii.model.Aluno;
+import br.com.lpii.model.Utilitarios;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -16,17 +17,19 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author
  */
-public class FrmAluno extends javax.swing.JFrame {
+public class FrmProfessores extends javax.swing.JFrame {
 
     /**
      * Método construtor
      */
-    public FrmAluno() {
+    public FrmProfessores() {
         initComponents();
+        Utilitarios u = new Utilitarios();
+        u.inserirIcone(this);
         label_pefil.setEnabled(false);
         label_proposta.setEnabled(false);
-        txt_perfil.setEnabled(false);
-        txt_proposta.setEnabled(false);
+        txt_orientador.setEnabled(false);
+        txt_banca.setEnabled(false);
         gerenciaCampos("block");
         gerenciaBotoes(true, false, false, false);
 
@@ -39,27 +42,27 @@ public class FrmAluno extends javax.swing.JFrame {
     public void gerenciaCampos(String action) {
         switch (action) {
             case "block":
-                txt_matricula.setEnabled(false);
+                txt_codigo.setEnabled(false);
                 txt_nome.setEnabled(false);
-                txt_cpf.setEnabled(false);
+                
                 txt_email.setEnabled(false);
-                txt_celular.setEnabled(false);
+                
                 
                 break;
             case "unblock":
-                txt_matricula.setEnabled(true);
+                txt_codigo.setEnabled(true);
                 txt_nome.setEnabled(true);
-                txt_cpf.setEnabled(true);
+                
                 txt_email.setEnabled(true);
-                txt_celular.setEnabled(true);
+                
                 
                 break;
             case "clean":
-                txt_matricula.setText("");
+                txt_codigo.setText("");
                 txt_nome.setText("");
-                txt_cpf.setText("");
+                
                 txt_email.setText("");
-                txt_celular.setText("");
+                
                 txt_pesquisar.setText("");
                 break;
         }
@@ -86,7 +89,7 @@ public class FrmAluno extends javax.swing.JFrame {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Campo matrícula só aceita números", "Informação", JOptionPane.INFORMATION_MESSAGE);
                 matrícula.grabFocus();
-                txt_matricula.setText("");
+                txt_codigo.setText("");
             }
         }
     }
@@ -100,7 +103,7 @@ public class FrmAluno extends javax.swing.JFrame {
         // Armazena em uma lista o retorno do método listarAlunos
         List<Aluno> lista = dao.listarAlunos();
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
-        DefaultTableModel dados = (DefaultTableModel) tbl_aluno.getModel();
+        DefaultTableModel dados = (DefaultTableModel) tbl_professor.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
 
@@ -141,27 +144,25 @@ public class FrmAluno extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        txt_matricula = new javax.swing.JTextField();
-        txt_nome = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txt_email = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txt_celular = new javax.swing.JFormattedTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txt_cpf = new javax.swing.JFormattedTextField();
-        jPanel3 = new javax.swing.JPanel();
-        label_pefil = new javax.swing.JLabel();
-        txt_proposta = new javax.swing.JTextField();
-        label_proposta = new javax.swing.JLabel();
-        txt_perfil = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         txt_pesquisar = new javax.swing.JTextField();
         btn_consulta_pesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_aluno = new javax.swing.JTable();
+        tbl_professor = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        txt_codigo = new javax.swing.JTextField();
+        txt_nome = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txt_email = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        label_pefil = new javax.swing.JLabel();
+        txt_banca = new javax.swing.JTextField();
+        label_proposta = new javax.swing.JLabel();
+        txt_orientador = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txt_senha = new javax.swing.JPasswordField();
         btn_novo = new javax.swing.JButton();
         btn_salvar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
@@ -183,7 +184,7 @@ public class FrmAluno extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 153, 51));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Cadastro de Aluno:");
+        jLabel1.setText("Cadastro de Professores");
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/lpii/assets/logo-instituto.png"))); // NOI18N
 
@@ -216,156 +217,11 @@ public class FrmAluno extends javax.swing.JFrame {
         jTabbedPane1.setFocusable(false);
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setEnabled(false);
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setText("Matrícula:");
-
-        txt_matricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_matricula.setForeground(new java.awt.Color(0, 102, 51));
-        txt_matricula.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_matriculaFocusLost(evt);
-            }
-        });
-
-        txt_nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_nome.setForeground(new java.awt.Color(0, 102, 51));
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("Nome:");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setText("Email:");
-
-        txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_email.setForeground(new java.awt.Color(0, 102, 51));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel5.setText("Celular:");
-
-        txt_celular.setForeground(new java.awt.Color(0, 102, 51));
-        try {
-            txt_celular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("( ## ) ##### - ####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txt_celular.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel6.setText("CPF:");
-
-        txt_cpf.setForeground(new java.awt.Color(0, 102, 51));
-        try {
-            txt_cpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("### . ### . ### - ##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txt_cpf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imformações Complementares", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
-
-        label_pefil.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        label_pefil.setForeground(new java.awt.Color(0, 102, 51));
-        label_pefil.setText("Perfil");
-
-        label_proposta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        label_proposta.setForeground(new java.awt.Color(0, 102, 51));
-        label_proposta.setText("Situação do Tema do TC");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(label_pefil)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(label_proposta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_proposta, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_pefil)
-                    .addComponent(txt_proposta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_proposta)
-                    .addComponent(txt_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(107, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Dados do aluno", jPanel2);
-
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         txt_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_pesquisar.setForeground(new java.awt.Color(153, 153, 153));
-        txt_pesquisar.setText("Digite uma matrícula ou nome");
+        txt_pesquisar.setText("Digite um código ou nome");
         txt_pesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txt_pesquisarFocusGained(evt);
@@ -385,37 +241,34 @@ public class FrmAluno extends javax.swing.JFrame {
             }
         });
 
-        tbl_aluno.setForeground(new java.awt.Color(0, 153, 51));
-        tbl_aluno.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_professor.setForeground(new java.awt.Color(0, 153, 51));
+        tbl_professor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Matrícula", "Nome", "CPF", "Email", "Telefone", "Proposta", "Perfil"
+                "Código", "Nome", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_aluno.setGridColor(new java.awt.Color(153, 153, 153));
-        tbl_aluno.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbl_professor.setGridColor(new java.awt.Color(153, 153, 153));
+        tbl_professor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_alunoMouseClicked(evt);
+                tbl_professorMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbl_aluno);
-        if (tbl_aluno.getColumnModel().getColumnCount() > 0) {
-            tbl_aluno.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tbl_aluno.getColumnModel().getColumn(1).setPreferredWidth(140);
-            tbl_aluno.getColumnModel().getColumn(2).setPreferredWidth(40);
-            tbl_aluno.getColumnModel().getColumn(3).setPreferredWidth(140);
-            tbl_aluno.getColumnModel().getColumn(4).setPreferredWidth(60);
-            tbl_aluno.getColumnModel().getColumn(5).setPreferredWidth(60);
+        jScrollPane1.setViewportView(tbl_professor);
+        if (tbl_professor.getColumnModel().getColumnCount() > 0) {
+            tbl_professor.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tbl_professor.getColumnModel().getColumn(1).setPreferredWidth(140);
+            tbl_professor.getColumnModel().getColumn(2).setPreferredWidth(140);
         }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -423,14 +276,14 @@ public class FrmAluno extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(txt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_consulta_pesquisar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -444,7 +297,131 @@ public class FrmAluno extends javax.swing.JFrame {
                 .addGap(273, 273, 273))
         );
 
-        jTabbedPane1.addTab("Consulta de alunos", jPanel4);
+        jTabbedPane1.addTab("Consulta de Professores", jPanel4);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setEnabled(false);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel2.setText("Código");
+
+        txt_codigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_codigo.setForeground(new java.awt.Color(0, 102, 51));
+        txt_codigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_codigoFocusLost(evt);
+            }
+        });
+
+        txt_nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_nome.setForeground(new java.awt.Color(0, 102, 51));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel3.setText("Nome:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel4.setText("Email:");
+
+        txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_email.setForeground(new java.awt.Color(0, 102, 51));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Número de projetos relacionados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+
+        label_pefil.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_pefil.setForeground(new java.awt.Color(0, 102, 51));
+        label_pefil.setText("orientador");
+
+        label_proposta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_proposta.setForeground(new java.awt.Color(0, 102, 51));
+        label_proposta.setText("Banca:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(label_pefil)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addComponent(label_proposta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_banca, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_pefil)
+                    .addComponent(txt_banca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_proposta)
+                    .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel6.setText("Senha");
+
+        txt_senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_senha.setForeground(new java.awt.Color(0, 102, 51));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Dados do professor", jPanel2);
 
         btn_novo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_novo.setForeground(new java.awt.Color(0, 102, 51));
@@ -492,7 +469,10 @@ public class FrmAluno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(178, 178, 178)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(175, 175, 175)
                 .addComponent(btn_novo, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_salvar)
@@ -501,9 +481,6 @@ public class FrmAluno extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_excluir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_editar, btn_excluir, btn_novo, btn_salvar});
@@ -513,14 +490,14 @@ public class FrmAluno extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btn_novo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_salvar)
                     .addComponent(btn_editar)
                     .addComponent(btn_excluir))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_editar, btn_excluir, btn_novo, btn_salvar});
@@ -535,11 +512,11 @@ public class FrmAluno extends javax.swing.JFrame {
          * insere dados no objeto aluno
          */
         Aluno aluno = new Aluno();
-        aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+        aluno.setMatricula(Integer.parseInt(txt_codigo.getText()));
         aluno.setNome(txt_nome.getText());
-        aluno.setCpf(txt_cpf.getText());
+        
         aluno.setEmail(txt_email.getText());
-        aluno.setTelefone(txt_celular.getText());
+        
         aluno.setPerfil("Aluno");
         aluno.setSenha("");
         aluno.setProposta("Em aberto");
@@ -569,7 +546,7 @@ public class FrmAluno extends javax.swing.JFrame {
         // libera o botão salvar e obloqueia os demais
         gerenciaBotoes(true, true, false, false);
         // Foco no campo matrícula
-        txt_matricula.requestFocus();
+        txt_codigo.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -582,7 +559,7 @@ public class FrmAluno extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowActivated
 
-    private void tbl_alunoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_alunoMouseClicked
+    private void tbl_professorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_professorMouseClicked
 
         // Libera botões editar e exluir
         gerenciaBotoes(true, false, true, true);
@@ -596,15 +573,15 @@ public class FrmAluno extends javax.swing.JFrame {
         }
 
         // Pega os dados e envia para o formulário de clientes
-        txt_matricula.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 0).toString());
-        txt_nome.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 1).toString());
-        txt_cpf.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 2).toString());
-        txt_email.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 3).toString());
-        txt_celular.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 4).toString());
-        txt_perfil.setText("Aluno");
-        txt_proposta.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 5).toString());
+        txt_codigo.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 0).toString());
+        txt_nome.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 1).toString());
+        
+        txt_email.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 3).toString());
+        
+        txt_orientador.setText("Aluno");
+        txt_banca.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 5).toString());
 
-    }//GEN-LAST:event_tbl_alunoMouseClicked
+    }//GEN-LAST:event_tbl_professorMouseClicked
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
 
@@ -623,13 +600,13 @@ public class FrmAluno extends javax.swing.JFrame {
              */
             Aluno aluno = new Aluno();
 
-            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+            aluno.setMatricula(Integer.parseInt(txt_codigo.getText()));
             aluno.setNome(txt_nome.getText());
-            aluno.setCpf(txt_cpf.getText());
+            
             aluno.setEmail(txt_email.getText());
-            aluno.setTelefone(txt_celular.getText());
-            aluno.setPerfil(txt_perfil.getText());
-            aluno.setProposta(txt_proposta.getText());
+            
+            aluno.setPerfil(txt_orientador.getText());
+            aluno.setProposta(txt_banca.getText());
 
             /**
              * Instancia objeto da classe AlunoDao Já é aberta a conexão a
@@ -657,7 +634,7 @@ public class FrmAluno extends javax.swing.JFrame {
          * Ação responsável por excluir Aluno insere dados no objeto aluno
          */
         Aluno aluno = new Aluno();
-        aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+        aluno.setMatricula(Integer.parseInt(txt_codigo.getText()));
 
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
@@ -679,10 +656,10 @@ public class FrmAluno extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btn_excluirActionPerformed
 
-    private void txt_matriculaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_matriculaFocusLost
-        ValidaNumero(txt_matricula);
+    private void txt_codigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_codigoFocusLost
+        ValidaNumero(txt_codigo);
         
-    }//GEN-LAST:event_txt_matriculaFocusLost
+    }//GEN-LAST:event_txt_codigoFocusLost
 
     private void btn_consulta_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consulta_pesquisarActionPerformed
         // Crio o parâmetro que será utilizado na busca
@@ -693,7 +670,7 @@ public class FrmAluno extends javax.swing.JFrame {
         // Armazena em uma lista o retorno do método listarAlunos
         List<Aluno> lista = dao.buscaAlunos(param);
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
-        DefaultTableModel dados = (DefaultTableModel) tbl_aluno.getModel();
+        DefaultTableModel dados = (DefaultTableModel) tbl_professor.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
 
@@ -742,20 +719,21 @@ public class FrmAluno extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmAluno().setVisible(true);
+                new FrmProfessores().setVisible(true);
             }
         });
     }
@@ -770,7 +748,6 @@ public class FrmAluno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -782,14 +759,13 @@ public class FrmAluno extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel label_pefil;
     private javax.swing.JLabel label_proposta;
-    private javax.swing.JTable tbl_aluno;
-    private javax.swing.JFormattedTextField txt_celular;
-    private javax.swing.JFormattedTextField txt_cpf;
+    private javax.swing.JTable tbl_professor;
+    private javax.swing.JTextField txt_banca;
+    private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextField txt_email;
-    private javax.swing.JTextField txt_matricula;
     private javax.swing.JTextField txt_nome;
-    private javax.swing.JTextField txt_perfil;
+    private javax.swing.JTextField txt_orientador;
     private javax.swing.JTextField txt_pesquisar;
-    private javax.swing.JTextField txt_proposta;
+    private javax.swing.JPasswordField txt_senha;
     // End of variables declaration//GEN-END:variables
 }

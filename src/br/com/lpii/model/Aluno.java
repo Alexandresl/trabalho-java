@@ -19,7 +19,6 @@ public class Aluno extends Pessoa{
     private String cpf;
     private String telefone;
     private String proposta;
-    private String perfil;
     
     public Aluno () {
         super();
@@ -30,11 +29,10 @@ public class Aluno extends Pessoa{
      * Os atributos, nome, email e senha são heradados da super classe Pessoa
      */
     public Aluno (int matricula, String nome, String email, String senha, String cpf, String telefone, String proposta, String perfil) {
-        super(nome, email, senha);
+        super(nome, email, senha, perfil);
         this.cpf = cpf;
         this.telefone = telefone;
         this.proposta = proposta;
-        this.perfil = perfil;
     }
 
     public int getMatricula() {
@@ -59,14 +57,6 @@ public class Aluno extends Pessoa{
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public String getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(String perfil) {
-        this.perfil = perfil;
     }
 
     public String getProposta() {

@@ -15,6 +15,7 @@ public class Pessoa {
     private String nome;
     private String email;
     private String senha;
+    private String perfil;
     
     // Métodos construtores
     
@@ -22,13 +23,22 @@ public class Pessoa {
         
     }
     
-    public Pessoa (String nome, String email, String senha) {
+    public Pessoa (String nome, String email, String senha, String perfil) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.perfil = perfil;
     }
     
     // Getters Setters
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
+    }
 
     public String getNome() {
         return nome;
