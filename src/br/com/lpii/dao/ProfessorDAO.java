@@ -7,6 +7,7 @@ package br.com.lpii.dao;
 
 import br.com.lpii.jdbc.ConnectionFactory;
 import br.com.lpii.model.Aluno;
+import br.com.lpii.model.Professor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,32 +20,29 @@ import javax.swing.JOptionPane;
  * ?
  * Classe responsável pela interação com o banco de dados
  */
-public class AlunoDAO {
+public class ProfessorDAO {
 
     private Connection con;
 
-    public AlunoDAO() {
+    public ProfessorDAO() {
         this.con = new ConnectionFactory().getConnection();
     }
 
     // Método cadastrar aluno
-    public void cadastrarAluno(Aluno aluno) {
+    public void cadastrarProfessor(Professor professor) {
         try {
             // Comando SQL
-            String sql = "INSERT INTO aluno (matricula, nome, cpf, email, telefone, perfil, senha, proposta) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO professor (nome, email, count_banca, senha, perfil) "
+                    + "VALUES (?, ?, ?, ?, ?)";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
-            stmt.setInt(1, aluno.getMatricula());
-            stmt.setString(2, aluno.getNome());
-            stmt.setString(3, aluno.getCpf());
-            stmt.setString(4, aluno.getEmail());
-            stmt.setString(5, aluno.getTelefone());
-            stmt.setString(6, aluno.getPerfil());
-            stmt.setString(7, aluno.getSenha());
-            stmt.setString(8, aluno.getProposta());
-
+            stmt.setString(1, professor.getNome());
+            stmt.setString(2, professor.getEmail());
+            stmt.setInt(3, 0);
+            stmt.setString(4, professor.getSenha());
+            stmt.setString(5, "Professor");
+            
             //Executa sql
             stmt.execute();
             stmt.close();
@@ -55,22 +53,23 @@ public class AlunoDAO {
     }
 
     // Método alterar aluno
-    public void alterarAluno(Aluno aluno) {
+    public void alterarProfessor(Professor professor) {
         try {
             // Comando SQL
-            String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, " +
-                    "perfil = ? WHERE matricula = ?";
+            String sql = "UPDATE professor SET nome = ?, email = ?, count_banca = ?, " +
+                    "senha = ?, perfil = ? WHERE id_professor = ?";
             
             
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
-            stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getCpf());
-            stmt.setString(3, aluno.getEmail());
-            stmt.setString(4, aluno.getTelefone());
-            stmt.setString(5, aluno.getPerfil());
-            stmt.setInt(6, aluno.getMatricula());
+            stmt.setString(1, professor.getNome());
+            stmt.setString(2, professor.getEmail());
+            stmt.setInt(3, professor.getNumBancas());
+            stmt.setString(4, professor.getSenha());
+            stmt.setString(5, "Professor");
+            stmt.setInt(6, professor.getCodigo());
+            
 
             //Executa sql
             stmt.execute();
@@ -82,16 +81,16 @@ public class AlunoDAO {
     }
 
     // Método exluir aluno
-    public void excluirAluno(Aluno aluno) {
+    public void excluirProfessor(Professor professor) {
 
         try {
             
             // Comando SQL
-            String sql = "DELETE FROM aluno WHERE matricula = ?";
+            String sql = "DELETE FROM aluno WHERE id_professor = ?";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
-            stmt.setInt(1, aluno.getMatricula());
+            stmt.setInt(1, professor.getCodigo());
 
             //Executa sql
             stmt.execute();
@@ -104,13 +103,13 @@ public class AlunoDAO {
     }
 
     // Método para listar todos os alunos
-    public List<Aluno> listarAlunos() {
+    public List<Professor> listarProfessor() {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
-            List<Aluno> lista = new ArrayList<>();
+            List<Professor> lista = new ArrayList<>();
             // Cria comando sql
-            String sql = "SELECT * FROM aluno ORDER BY matricula";
+            String sql = "SELECT * FROM professor ORDER BY id_professor";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
@@ -121,18 +120,16 @@ public class AlunoDAO {
              */
             while (rs.next()) {
                 // Para casda ocorrência de rs é gerado um novo objeto Aluno
-                Aluno aluno = new Aluno();
+                Professor professor = new Professor();
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
-                aluno.setMatricula(rs.getInt("matricula"));
-                aluno.setNome(rs.getString("nome"));
-                aluno.setCpf(rs.getString("cpf"));
-                aluno.setEmail(rs.getString("email"));
-                aluno.setTelefone(rs.getString("telefone"));
-                aluno.setPerfil(rs.getString("perfil"));
-                aluno.setSenha(rs.getString("senha"));
-                aluno.setProposta(rs.getString("proposta"));
+                professor.setCodigo(rs.getInt("id_professor"));
+                professor.setNome(rs.getString("nome"));
+                professor.setEmail(rs.getString("email"));
+                professor.setPerfil(rs.getString("perfil"));
+                professor.setSenha(rs.getString("senha"));
+                professor.setNumBancas(rs.getInt("count_banca"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
-                lista.add(aluno);
+                lista.add(professor);
             }
 
             return lista;
@@ -147,13 +144,13 @@ public class AlunoDAO {
     
     // Método para pesquisar alunos por nome
     
-    public List<Aluno> buscaAlunos(String param) {
+    public List<Professor> buscaProfessor(String param) {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
-            List<Aluno> lista = new ArrayList<>();
+            List<Professor> lista = new ArrayList<>();
             // Cria comando sql
-            String sql = "SELECT * FROM aluno WHERE matricula LIKE ? OR nome LIKE ? ORDER BY matricula";
+            String sql = "SELECT * FROM professor WHERE id_professor LIKE ? OR nome LIKE ? ORDER BY id_professor";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, param);
@@ -165,19 +162,17 @@ public class AlunoDAO {
              * lista
              */
             while (rs.next()) {
-                // Para casda ocorrência de rs é gerado um novo objeto Aluno
-                Aluno aluno = new Aluno();
+               // Para casda ocorrência de rs é gerado um novo objeto Aluno
+                Professor professor = new Professor();
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
-                aluno.setMatricula(rs.getInt("matricula"));
-                aluno.setNome(rs.getString("nome"));
-                aluno.setCpf(rs.getString("cpf"));
-                aluno.setEmail(rs.getString("email"));
-                aluno.setTelefone(rs.getString("telefone"));
-                aluno.setPerfil(rs.getString("perfil"));
-                aluno.setSenha(rs.getString("senha"));
-                aluno.setProposta(rs.getString("proposta"));
+                professor.setCodigo(rs.getInt("id_professor"));
+                professor.setNome(rs.getString("nome"));
+                professor.setEmail(rs.getString("email"));
+                professor.setPerfil(rs.getString("perfil"));
+                professor.setSenha(rs.getString("senha"));
+                professor.setNumBancas(rs.getInt("count_banca"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
-                lista.add(aluno);
+                lista.add(professor);
             }
 
             return lista;
@@ -190,16 +185,45 @@ public class AlunoDAO {
 
     }
     
-    // Método que efetua login quando perfil professor
-    public void loginAluno(String email, String senha) {
+    // Método para pesquisar um Professor por id
+    
+    public Professor buscaProfessor(int codigo) {
+        // cria um professor que será retornado
+           Professor professor = new Professor();
+        // try...catch para tratar eventual erro
         try {
-            
-        } catch (Exception e) {
-            
+            // Cria comando sql
+            String sql = "SELECT * FROM professor WHERE id_professor LIKE ?";
+            // prepara sql para execução
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, codigo);
+            // o resultado do select é armazenada em um objeto ResultSet
+            ResultSet rs = stmt.executeQuery();
+            /**
+             * Armazena o resultado da pesquisa que está no ResultSet na nossa
+             * lista
+             */
+            while (rs.next()) {
+               
+                // É setado os atributos. Os parâmetros do get são os nomes das colunas
+                professor.setCodigo(rs.getInt("id_professor"));
+                professor.setNome(rs.getString("nome"));
+                professor.setEmail(rs.getString("email"));
+                professor.setPerfil(rs.getString("perfil"));
+                professor.setSenha(rs.getString("senha"));
+                professor.setNumBancas(rs.getInt("count_banca"));
+                
+            }
+
+            return professor;
+
+        } catch (Exception error) {
+
+            JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
+            return null;
         }
+
     }
     
-}
-
     
- 
+}

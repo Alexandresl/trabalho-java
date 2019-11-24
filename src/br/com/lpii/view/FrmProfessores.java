@@ -5,8 +5,8 @@
  */
 package br.com.lpii.view;
 
-import br.com.lpii.dao.AlunoDAO;
-import br.com.lpii.model.Aluno;
+import br.com.lpii.dao.ProfessorDAO;
+import br.com.lpii.model.Professor;
 import br.com.lpii.model.Utilitarios;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -26,10 +26,11 @@ public class FrmProfessores extends javax.swing.JFrame {
         initComponents();
         Utilitarios u = new Utilitarios();
         u.inserirIcone(this);
-        label_pefil.setEnabled(false);
-        label_proposta.setEnabled(false);
+        label_orientador.setEnabled(false);
+        label_banca.setEnabled(false);
         txt_orientador.setEnabled(false);
         txt_banca.setEnabled(false);
+        txt_codigo.setEnabled(false);
         gerenciaCampos("block");
         gerenciaBotoes(true, false, false, false);
 
@@ -42,27 +43,20 @@ public class FrmProfessores extends javax.swing.JFrame {
     public void gerenciaCampos(String action) {
         switch (action) {
             case "block":
-                txt_codigo.setEnabled(false);
                 txt_nome.setEnabled(false);
-                
                 txt_email.setEnabled(false);
-                
-                
+                txt_senha.setEnabled(false);
                 break;
             case "unblock":
-                txt_codigo.setEnabled(true);
                 txt_nome.setEnabled(true);
-                
                 txt_email.setEnabled(true);
-                
-                
+                txt_senha.setEnabled(true);
                 break;
             case "clean":
                 txt_codigo.setText("");
                 txt_nome.setText("");
-                
                 txt_email.setText("");
-                
+                txt_senha.setText("");
                 txt_pesquisar.setText("");
                 break;
         }
@@ -99,25 +93,21 @@ public class FrmProfessores extends javax.swing.JFrame {
      */
     public void toList() {
         // Instancia objeto DAO
-        AlunoDAO dao = new AlunoDAO();
+        ProfessorDAO dao = new ProfessorDAO();
         // Armazena em uma lista o retorno do método listarAlunos
-        List<Aluno> lista = dao.listarAlunos();
+        List<Professor> lista = dao.listarProfessor();
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
         DefaultTableModel dados = (DefaultTableModel) tbl_professor.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
 
         // cada ocorrência em lista irá para um objeto aluno
-        for (Aluno a : lista) {
+        for (Professor p : lista) {
             // E agora será adicionado a lista na tabela. Linha a linha
             dados.addRow(new Object[]{
-                a.getMatricula(),
-                a.getNome(),
-                a.getCpf(),
-                a.getEmail(),
-                a.getTelefone(),
-                a.getProposta(),
-                a.getPerfil()
+                p.getCodigo(),
+                p.getNome(),
+                p.getEmail(),
             });
         }
 
@@ -125,8 +115,8 @@ public class FrmProfessores extends javax.swing.JFrame {
 
     public void ativaInfComplementares() {
 
-        label_pefil.setText("Perfil:");
-        label_proposta.setText("Situação do Tema do TC: ");
+        label_orientador.setText("Perfil:");
+        label_banca.setText("Situação do Tema do TC: ");
 
     }
 
@@ -144,11 +134,6 @@ public class FrmProfessores extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel4 = new javax.swing.JPanel();
-        txt_pesquisar = new javax.swing.JTextField();
-        btn_consulta_pesquisar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_professor = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_codigo = new javax.swing.JTextField();
@@ -157,12 +142,17 @@ public class FrmProfessores extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txt_email = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        label_pefil = new javax.swing.JLabel();
+        label_orientador = new javax.swing.JLabel();
         txt_banca = new javax.swing.JTextField();
-        label_proposta = new javax.swing.JLabel();
+        label_banca = new javax.swing.JLabel();
         txt_orientador = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txt_senha = new javax.swing.JPasswordField();
+        jPanel4 = new javax.swing.JPanel();
+        txt_pesquisar = new javax.swing.JTextField();
+        btn_consulta_pesquisar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_professor = new javax.swing.JTable();
         btn_novo = new javax.swing.JButton();
         btn_salvar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
@@ -217,11 +207,135 @@ public class FrmProfessores extends javax.swing.JFrame {
         jTabbedPane1.setFocusable(false);
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setEnabled(false);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel2.setText("Código");
+
+        txt_codigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_codigo.setForeground(new java.awt.Color(0, 102, 51));
+        txt_codigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_codigoFocusLost(evt);
+            }
+        });
+
+        txt_nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_nome.setForeground(new java.awt.Color(0, 102, 51));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel3.setText("Nome:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel4.setText("Email:");
+
+        txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_email.setForeground(new java.awt.Color(0, 102, 51));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Número de projetos relacionados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+
+        label_orientador.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_orientador.setForeground(new java.awt.Color(0, 102, 51));
+        label_orientador.setText("orientador");
+
+        label_banca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_banca.setForeground(new java.awt.Color(0, 102, 51));
+        label_banca.setText("Banca:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(label_orientador)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addComponent(label_banca)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_banca, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_orientador)
+                    .addComponent(txt_banca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_banca)
+                    .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel6.setText("Senha");
+
+        txt_senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_senha.setForeground(new java.awt.Color(0, 102, 51));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Dados do professor", jPanel2);
+
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         txt_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_pesquisar.setForeground(new java.awt.Color(153, 153, 153));
-        txt_pesquisar.setText("Digite um código ou nome");
+        txt_pesquisar.setText("Digite o nome do professor");
         txt_pesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txt_pesquisarFocusGained(evt);
@@ -298,130 +412,6 @@ public class FrmProfessores extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Consulta de Professores", jPanel4);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setEnabled(false);
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setText("Código");
-
-        txt_codigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_codigo.setForeground(new java.awt.Color(0, 102, 51));
-        txt_codigo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_codigoFocusLost(evt);
-            }
-        });
-
-        txt_nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_nome.setForeground(new java.awt.Color(0, 102, 51));
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("Nome:");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setText("Email:");
-
-        txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_email.setForeground(new java.awt.Color(0, 102, 51));
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Número de projetos relacionados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
-
-        label_pefil.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        label_pefil.setForeground(new java.awt.Color(0, 102, 51));
-        label_pefil.setText("orientador");
-
-        label_proposta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        label_proposta.setForeground(new java.awt.Color(0, 102, 51));
-        label_proposta.setText("Banca:");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(label_pefil)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(label_proposta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_banca, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_pefil)
-                    .addComponent(txt_banca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_proposta)
-                    .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel6.setText("Senha");
-
-        txt_senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_senha.setForeground(new java.awt.Color(0, 102, 51));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(167, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Dados do professor", jPanel2);
 
         btn_novo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_novo.setForeground(new java.awt.Color(0, 102, 51));
@@ -511,25 +501,21 @@ public class FrmProfessores extends javax.swing.JFrame {
         /**
          * insere dados no objeto aluno
          */
-        Aluno aluno = new Aluno();
-        aluno.setMatricula(Integer.parseInt(txt_codigo.getText()));
-        aluno.setNome(txt_nome.getText());
-        
-        aluno.setEmail(txt_email.getText());
-        
-        aluno.setPerfil("Aluno");
-        aluno.setSenha("");
-        aluno.setProposta("Em aberto");
+        Professor professor = new Professor();
+        professor.setNome(txt_nome.getText());
+        professor.setEmail(txt_email.getText());
+        professor.setPerfil("Professor");
+        professor.setSenha(String.valueOf(txt_senha.getPassword()));
 
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
          * construtor
          */
-        AlunoDAO dao = new AlunoDAO();
+        ProfessorDAO dao = new ProfessorDAO();
         /**
          * Método que irá salbar o obj Aluno no banco de dados
          */
-        dao.cadastrarAluno(aluno);
+        dao.cadastrarProfessor(professor);
 
         /**
          * Limpa os campos do formulário
@@ -566,20 +552,23 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         // Verifica se foi disparado duplo click sobre uma linha da tabela
         if (evt.getClickCount() == 2) {
-
             // Comando para carregar para outra aba
             jTabbedPane1.setSelectedIndex(0);
-
         }
-
+        // Pega o ID vindo da tabela
+        int codProfessor = Integer.parseInt(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 0).toString());
+        // Busca os dados na tabela
+        ProfessorDAO dao = new ProfessorDAO();
+        Professor professor = dao.buscaProfessor(codProfessor);
+        
+        
         // Pega os dados e envia para o formulário de clientes
-        txt_codigo.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 0).toString());
-        txt_nome.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 1).toString());
-        
-        txt_email.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 3).toString());
-        
-        txt_orientador.setText("Aluno");
-        txt_banca.setText(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 5).toString());
+        txt_codigo.setText(String.valueOf(professor.getCodigo()));
+        txt_nome.setText(professor.getNome());
+        txt_email.setText(professor.getEmail());
+        txt_senha.setText(professor.getSenha());
+        txt_orientador.setText("0");
+        txt_banca.setText(String.valueOf(professor.getNumBancas()));
 
     }//GEN-LAST:event_tbl_professorMouseClicked
 
@@ -598,26 +587,24 @@ public class FrmProfessores extends javax.swing.JFrame {
             /**
              * Ação responsável por Editar Aluno insere dados no objeto aluno
              */
-            Aluno aluno = new Aluno();
+            Professor professor = new Professor();
 
-            aluno.setMatricula(Integer.parseInt(txt_codigo.getText()));
-            aluno.setNome(txt_nome.getText());
+            professor.setCodigo(Integer.parseInt(txt_codigo.getText()));
+            professor.setNome(txt_nome.getText());
+            professor.setEmail(txt_email.getText());
+            professor.setPerfil(txt_orientador.getText());
             
-            aluno.setEmail(txt_email.getText());
-            
-            aluno.setPerfil(txt_orientador.getText());
-            aluno.setProposta(txt_banca.getText());
 
             /**
              * Instancia objeto da classe AlunoDao Já é aberta a conexão a
              * partir do construtor
              */
-            AlunoDAO dao = new AlunoDAO();
+            ProfessorDAO dao = new ProfessorDAO();
 
             /**
              * Método que irá salbar o obj Aluno no banco de dados
              */
-            dao.alterarAluno(aluno);
+            dao.alterarProfessor(professor);
 
             /**
              * Atualiza table aluno após a edição
@@ -633,19 +620,19 @@ public class FrmProfessores extends javax.swing.JFrame {
         /**
          * Ação responsável por excluir Aluno insere dados no objeto aluno
          */
-        Aluno aluno = new Aluno();
-        aluno.setMatricula(Integer.parseInt(txt_codigo.getText()));
+        Professor professor = new Professor();
+        professor.setCodigo(Integer.parseInt(txt_codigo.getText()));
 
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
          * construtor
          */
-        AlunoDAO dao = new AlunoDAO();
+        ProfessorDAO dao = new ProfessorDAO();
 
         /**
          * Método que irá salbar o obj Aluno no banco de dados
          */
-        dao.excluirAluno(aluno);
+        dao.excluirProfessor(professor);
 
         /**
          * Atualiza table aluno após a edição
@@ -666,44 +653,40 @@ public class FrmProfessores extends javax.swing.JFrame {
         String param = "%" + txt_pesquisar.getText() + "%";
         
         // Instancia objeto DAO
-        AlunoDAO dao = new AlunoDAO();
+        ProfessorDAO dao = new ProfessorDAO();
         // Armazena em uma lista o retorno do método listarAlunos
-        List<Aluno> lista = dao.buscaAlunos(param);
+        List<Professor> lista = dao.buscaProfessor(param);
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
         DefaultTableModel dados = (DefaultTableModel) tbl_professor.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
 
         // cada ocorrência em lista irá para um objeto aluno
-        for (Aluno a : lista) {
+        for (Professor p : lista) {
             // E agora será adicionado a lista na tabela. Linha a linha
             dados.addRow(new Object[]{
-                a.getMatricula(),
-                a.getNome(),
-                a.getCpf(),
-                a.getEmail(),
-                a.getTelefone(),
-                a.getProposta(),
-                a.getPerfil()
+                p.getCodigo(),
+                p.getNome(),
+                p.getEmail()
             });
         }        
     }//GEN-LAST:event_btn_consulta_pesquisarActionPerformed
 
     private void txt_pesquisarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_pesquisarFocusGained
-        if (!txt_pesquisar.getText().equals("") && txt_pesquisar.getText().equals("Digite uma matrícula ou nome")) {
+        if (!txt_pesquisar.getText().equals("") && txt_pesquisar.getText().equals("Digite o nome do professor")) {
             txt_pesquisar.setText("");
         }
     }//GEN-LAST:event_txt_pesquisarFocusGained
 
     private void txt_pesquisarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_pesquisarFocusLost
         if (txt_pesquisar.getText().equals("")) {
-            txt_pesquisar.setText("Digite uma matrícula ou nome");
+            txt_pesquisar.setText("Digite o nome do professor");
             toList();
         }
     }//GEN-LAST:event_txt_pesquisarFocusLost
 
     /**
-     * @param args the command line arguments
+     * Método main do FrmProfessores
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -757,8 +740,8 @@ public class FrmProfessores extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel label_pefil;
-    private javax.swing.JLabel label_proposta;
+    private javax.swing.JLabel label_banca;
+    private javax.swing.JLabel label_orientador;
     private javax.swing.JTable tbl_professor;
     private javax.swing.JTextField txt_banca;
     private javax.swing.JTextField txt_codigo;
