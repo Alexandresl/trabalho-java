@@ -117,7 +117,12 @@ public class FrmLogin extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 102, 51));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cancel.png"))); // NOI18N
-        jButton2.setText("Cancelar");
+        jButton2.setText("Sair");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,6 +211,16 @@ public class FrmLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error ao logar: " + error);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int op;
+         
+        op = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja sai?");
+        
+        if (op == 0) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
