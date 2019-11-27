@@ -43,6 +43,7 @@ public class FrmProfessores extends javax.swing.JFrame {
     public void gerenciaCampos(String action) {
         switch (action) {
             case "block":
+
                 txt_nome.setEnabled(false);
                 txt_email.setEnabled(false);
                 txt_senha.setEnabled(false);
@@ -107,8 +108,7 @@ public class FrmProfessores extends javax.swing.JFrame {
             dados.addRow(new Object[]{
                 p.getCodigo(),
                 p.getNome(),
-                p.getEmail(),
-            });
+                p.getEmail(),});
         }
 
     }
@@ -497,32 +497,61 @@ public class FrmProfessores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        // Ação responsável por salvar no banco de dados
-        /**
-         * insere dados no objeto aluno
-         */
-        Professor professor = new Professor();
-        professor.setNome(txt_nome.getText());
-        professor.setEmail(txt_email.getText());
-        professor.setPerfil("Professor");
-        professor.setSenha(String.valueOf(txt_senha.getPassword()));
 
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
          * construtor
          */
         ProfessorDAO dao = new ProfessorDAO();
-        /**
-         * Método que irá salbar o obj Aluno no banco de dados
-         */
-        dao.cadastrarProfessor(professor);
 
-        /**
-         * Limpa os campos do formulário
-         */
-        gerenciaCampos("clean");
-        gerenciaCampos("block");
-        gerenciaBotoes(true, false, false, false);
+        if (!txt_codigo.getText().equals("") && dao.verificaProfessor(Integer.parseInt(txt_codigo.getText()))) {
+            
+
+            /**
+             * Ação responsável por Editar Aluno insere dados no objeto aluno
+             */
+            Professor professor = new Professor();
+
+            professor.setCodigo(Integer.parseInt(txt_codigo.getText()));
+            professor.setNome(txt_nome.getText());
+            professor.setEmail(txt_email.getText());
+            professor.setPerfil(txt_orientador.getText());
+
+            /**
+             * Método que irá salbar o obj Aluno no banco de dados
+             */
+            dao.alterarProfessor(professor);
+
+            /**
+             * Atualiza table aluno após a edição
+             */
+            toList();
+        } else {
+
+            // Ação responsável por salvar no banco de dados
+            /**
+             * insere dados no objeto aluno
+             */
+            Professor professor = new Professor();
+            professor.setNome(txt_nome.getText());
+            professor.setEmail(txt_email.getText());
+            professor.setPerfil("Professor");
+            professor.setSenha(String.valueOf(txt_senha.getPassword()));
+
+            /**
+             * Método que irá salbar o obj Aluno no banco de dados
+             */
+            dao.cadastrarProfessor(professor);
+
+            /**
+             * Limpa os campos do formulário
+             */
+            gerenciaCampos("clean");
+            gerenciaCampos("block");
+            gerenciaBotoes(true, false, false, false);
+
+        }
+
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
@@ -560,8 +589,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         // Busca os dados na tabela
         ProfessorDAO dao = new ProfessorDAO();
         Professor professor = dao.buscaProfessor(codProfessor);
-        
-        
+
         // Pega os dados e envia para o formulário de clientes
         txt_codigo.setText(String.valueOf(professor.getCodigo()));
         txt_nome.setText(professor.getNome());
@@ -574,43 +602,17 @@ public class FrmProfessores extends javax.swing.JFrame {
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
 
-        // Libera campos e botões
-        gerenciaCampos("unblock");
-        gerenciaBotoes(true, false, true, true);
-
         // Verifica se botão está sendo pressionado na aba dados ou busca
         if (jTabbedPane1.getSelectedIndex() == 1) {
             // se na aba busca apenas direciona para a aba dados
             jTabbedPane1.setSelectedIndex(0);
-        } else {
-
-            /**
-             * Ação responsável por Editar Aluno insere dados no objeto aluno
-             */
-            Professor professor = new Professor();
-
-            professor.setCodigo(Integer.parseInt(txt_codigo.getText()));
-            professor.setNome(txt_nome.getText());
-            professor.setEmail(txt_email.getText());
-            professor.setPerfil(txt_orientador.getText());
+            gerenciaCampos("unblock");
+            gerenciaBotoes(true, true, false, true);
+        } else if (jTabbedPane1.getSelectedIndex() == 0 && !txt_nome.isEnabled()) {
             
-
-            /**
-             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
-             * partir do construtor
-             */
-            ProfessorDAO dao = new ProfessorDAO();
-
-            /**
-             * Método que irá salbar o obj Aluno no banco de dados
-             */
-            dao.alterarProfessor(professor);
-
-            /**
-             * Atualiza table aluno após a edição
-             */
-            toList();
-
+            // Libera campos e botões
+            gerenciaCampos("unblock");
+            gerenciaBotoes(true, true, false , true);
         }
 
     }//GEN-LAST:event_btn_editarActionPerformed
@@ -645,13 +647,13 @@ public class FrmProfessores extends javax.swing.JFrame {
 
     private void txt_codigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_codigoFocusLost
         ValidaNumero(txt_codigo);
-        
+
     }//GEN-LAST:event_txt_codigoFocusLost
 
     private void btn_consulta_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consulta_pesquisarActionPerformed
         // Crio o parâmetro que será utilizado na busca
         String param = "%" + txt_pesquisar.getText() + "%";
-        
+
         // Instancia objeto DAO
         ProfessorDAO dao = new ProfessorDAO();
         // Armazena em uma lista o retorno do método listarAlunos
@@ -669,7 +671,7 @@ public class FrmProfessores extends javax.swing.JFrame {
                 p.getNome(),
                 p.getEmail()
             });
-        }        
+        }
     }//GEN-LAST:event_btn_consulta_pesquisarActionPerformed
 
     private void txt_pesquisarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_pesquisarFocusGained

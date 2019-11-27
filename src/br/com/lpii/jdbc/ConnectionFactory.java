@@ -18,7 +18,7 @@ public class ConnectionFactory {
         
         // try... catch. Para tratar eventuais erros na conexão
         try {
-            return DriverManager.getConnection("jdbc:mysql://127.0.0.1/trabalho-java", "admin", "admin");
+            return DriverManager.getConnection("jdbc:mysql://br538.hostgator.com.br:3306/alexa577_trabalhoJava", "alexa577_admin", "admin");
         } catch (Exception error) {
             throw new RuntimeException(error);
         }

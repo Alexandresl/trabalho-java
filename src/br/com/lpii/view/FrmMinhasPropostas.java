@@ -16,17 +16,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author
  */
-public class FrmAluno extends javax.swing.JFrame {
+public class FrmMinhasPropostas extends javax.swing.JFrame {
 
     /**
      * Método construtor
      */
-    public FrmAluno() {
+    public FrmMinhasPropostas() {
         initComponents();
-        label_pefil.setEnabled(false);
-        label_proposta.setEnabled(false);
-        txt_perfil.setEnabled(false);
-        txt_proposta.setEnabled(false);
         gerenciaCampos("block");
         gerenciaBotoes(true, false, false, false);
 
@@ -40,26 +36,17 @@ public class FrmAluno extends javax.swing.JFrame {
         switch (action) {
             case "block":
                 txt_matricula.setEnabled(false);
-                txt_nome.setEnabled(false);
-                txt_cpf.setEnabled(false);
-                txt_email.setEnabled(false);
-                txt_celular.setEnabled(false);
+                
                 
                 break;
             case "unblock":
                 txt_matricula.setEnabled(true);
-                txt_nome.setEnabled(true);
-                txt_cpf.setEnabled(true);
-                txt_email.setEnabled(true);
-                txt_celular.setEnabled(true);
+                
                 
                 break;
             case "clean":
                 txt_matricula.setText("");
-                txt_nome.setText("");
-                txt_cpf.setText("");
-                txt_email.setText("");
-                txt_celular.setText("");
+                
                 txt_pesquisar.setText("");
                 break;
         }
@@ -120,13 +107,6 @@ public class FrmAluno extends javax.swing.JFrame {
 
     }
 
-    public void ativaInfComplementares() {
-
-        label_pefil.setText("Perfil:");
-        label_proposta.setText("Situação do Tema do TC: ");
-
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -136,7 +116,6 @@ public class FrmAluno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -144,19 +123,11 @@ public class FrmAluno extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_matricula = new javax.swing.JTextField();
-        txt_nome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
-        txt_email = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txt_celular = new javax.swing.JFormattedTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txt_cpf = new javax.swing.JFormattedTextField();
-        jPanel3 = new javax.swing.JPanel();
-        label_pefil = new javax.swing.JLabel();
-        txt_proposta = new javax.swing.JTextField();
-        label_proposta = new javax.swing.JLabel();
-        txt_perfil = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         txt_pesquisar = new javax.swing.JTextField();
         btn_consulta_pesquisar = new javax.swing.JButton();
@@ -167,10 +138,8 @@ public class FrmAluno extends javax.swing.JFrame {
         btn_editar = new javax.swing.JButton();
         btn_excluir = new javax.swing.JButton();
 
-        jLabel7.setText("jLabel7");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Aluno");
+        setTitle("Propostas para TCC");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -183,7 +152,7 @@ public class FrmAluno extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 153, 51));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Cadastro de Aluno:");
+        jLabel1.setText("Minhas Propostas");
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logo-instituto.png"))); // NOI18N
 
@@ -221,7 +190,7 @@ public class FrmAluno extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setText("Matrícula:");
+        jLabel2.setText("Título do trabalho:");
 
         txt_matricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_matricula.setForeground(new java.awt.Color(0, 102, 51));
@@ -230,136 +199,67 @@ public class FrmAluno extends javax.swing.JFrame {
                 txt_matriculaFocusLost(evt);
             }
         });
+        txt_matricula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_matriculaActionPerformed(evt);
+            }
+        });
 
-        txt_nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_nome.setForeground(new java.awt.Color(0, 102, 51));
-
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("Nome:");
+        jLabel3.setText("Descrição:");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setText("Email:");
+        jLabel4.setText("Área de interesse:");
 
-        txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_email.setForeground(new java.awt.Color(0, 102, 51));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel5.setText("Celular:");
-
-        txt_celular.setForeground(new java.awt.Color(0, 102, 51));
-        try {
-            txt_celular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("( ## ) ##### - ####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txt_celular.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel6.setText("CPF:");
-
-        txt_cpf.setForeground(new java.awt.Color(0, 102, 51));
-        try {
-            txt_cpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("### . ### . ### - ##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txt_cpf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imformações Complementares", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
-
-        label_pefil.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        label_pefil.setForeground(new java.awt.Color(0, 102, 51));
-        label_pefil.setText("Perfil");
-
-        label_proposta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        label_proposta.setForeground(new java.awt.Color(0, 102, 51));
-        label_proposta.setText("Situação do Tema do TC");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(label_pefil)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(label_proposta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_proposta, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_pefil)
-                    .addComponent(txt_proposta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_proposta)
-                    .addComponent(txt_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(0, 102, 51));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pyton", "JavaScript", "Java", "PHP", "C#", "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS", "WordPress", "Desenvolimento Web", "Machine Learning", "Desenvolvimento de Games", "Data Science", "Banco de dados", "Teste de Software", "Algoritmo", "Estrutura de dados" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(89, 89, 89)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(107, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Dados do aluno", jPanel2);
+        jTabbedPane1.addTab("Cadastro de propostas", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -385,7 +285,6 @@ public class FrmAluno extends javax.swing.JFrame {
             }
         });
 
-        tbl_aluno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tbl_aluno.setForeground(new java.awt.Color(0, 153, 51));
         tbl_aluno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -445,7 +344,7 @@ public class FrmAluno extends javax.swing.JFrame {
                 .addGap(273, 273, 273))
         );
 
-        jTabbedPane1.addTab("Consulta de alunos", jPanel4);
+        jTabbedPane1.addTab("Minhas propostas", jPanel4);
 
         btn_novo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_novo.setForeground(new java.awt.Color(0, 102, 51));
@@ -521,7 +420,7 @@ public class FrmAluno extends javax.swing.JFrame {
                     .addComponent(btn_salvar)
                     .addComponent(btn_editar)
                     .addComponent(btn_excluir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_editar, btn_excluir, btn_novo, btn_salvar});
@@ -531,64 +430,22 @@ public class FrmAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        
-        // Verifica se usuário existe no banco de dados
-        // Se sim será invocado método para edição
-        // caso contrário será realizado novo cadastro
-        
-        /**
-         * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
-         * construtor
-         */
-        AlunoDAO dao = new AlunoDAO();
-        
-        if (dao.verificaAluno(Integer.parseInt(txt_matricula.getText()))) {
-            
-            /**
-             * Ação responsável por Editar Aluno insere dados no objeto aluno
-             */
-            Aluno aluno = new Aluno();
-
-            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
-            aluno.setNome(txt_nome.getText());
-            aluno.setCpf(txt_cpf.getText());
-            aluno.setEmail(txt_email.getText());
-            aluno.setTelefone(txt_celular.getText());
-            aluno.setPerfil(txt_perfil.getText());
-            aluno.setProposta(txt_proposta.getText());
-
-            /**
-             * Método que irá salbar o obj Aluno no banco de dados
-             */
-            dao.alterarAluno(aluno);
-
-            /**
-             * Atualiza table aluno após a edição
-             */
-            toList();
-            
-            // limpa campos e gerencia botões
-            gerenciaCampos("block");
-            gerenciaCampos("clean");
-            gerenciaBotoes(true, false, false, false);
-            
-        } else {
-        
-            // Ação responsável por salvar no banco de dados
+        // Ação responsável por salvar no banco de dados
         /**
          * insere dados no objeto aluno
          */
         Aluno aluno = new Aluno();
         aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
-        aluno.setNome(txt_nome.getText());
-        aluno.setCpf(txt_cpf.getText());
-        aluno.setEmail(txt_email.getText());
-        aluno.setTelefone(txt_celular.getText());
+
         aluno.setPerfil("Aluno");
         aluno.setSenha("");
         aluno.setProposta("Em aberto");
 
-        
+        /**
+         * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
+         * construtor
+         */
+        AlunoDAO dao = new AlunoDAO();
         /**
          * Método que irá salbar o obj Aluno no banco de dados
          */
@@ -600,10 +457,6 @@ public class FrmAluno extends javax.swing.JFrame {
         gerenciaCampos("clean");
         gerenciaCampos("block");
         gerenciaBotoes(true, false, false, false);
-        
-        }
-        
-        
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
@@ -628,6 +481,9 @@ public class FrmAluno extends javax.swing.JFrame {
 
     private void tbl_alunoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_alunoMouseClicked
 
+        // Libera botões editar e exluir
+        gerenciaBotoes(true, false, true, true);
+
         // Verifica se foi disparado duplo click sobre uma linha da tabela
         if (evt.getClickCount() == 2) {
 
@@ -638,31 +494,46 @@ public class FrmAluno extends javax.swing.JFrame {
 
         // Pega os dados e envia para o formulário de clientes
         txt_matricula.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 0).toString());
-        txt_nome.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 1).toString());
-        txt_cpf.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 2).toString());
-        txt_email.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 3).toString());
-        txt_celular.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 4).toString());
-        txt_perfil.setText("Aluno");
-        txt_proposta.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 5).toString());
-        gerenciaBotoes(true, false, true, true);
+        
 
     }//GEN-LAST:event_tbl_alunoMouseClicked
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
 
-        
+        // Libera campos e botões
+        gerenciaCampos("unblock");
+        gerenciaBotoes(true, false, true, true);
 
         // Verifica se botão está sendo pressionado na aba dados ou busca
         if (jTabbedPane1.getSelectedIndex() == 1) {
             // se na aba busca apenas direciona para a aba dados
             jTabbedPane1.setSelectedIndex(0);
-            gerenciaCampos("unblock");
-            gerenciaBotoes(true, true, false, true);
-        } else if (jTabbedPane1.getSelectedIndex() == 0 && !txt_nome.isEnabled()) {
+        } else {
+
+            /**
+             * Ação responsável por Editar Aluno insere dados no objeto aluno
+             */
+            Aluno aluno = new Aluno();
+
+            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
             
-            // Libera campos e botões
-            gerenciaCampos("unblock");
-            gerenciaBotoes(true, true, false , true);
+
+            /**
+             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
+             * partir do construtor
+             */
+            AlunoDAO dao = new AlunoDAO();
+
+            /**
+             * Método que irá salbar o obj Aluno no banco de dados
+             */
+            dao.alterarAluno(aluno);
+
+            /**
+             * Atualiza table aluno após a edição
+             */
+            toList();
+
         }
 
     }//GEN-LAST:event_btn_editarActionPerformed
@@ -741,6 +612,10 @@ public class FrmAluno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_pesquisarFocusLost
 
+    private void txt_matriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_matriculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_matriculaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -758,20 +633,23 @@ public class FrmAluno extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMinhasPropostas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMinhasPropostas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMinhasPropostas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMinhasPropostas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmAluno().setVisible(true);
+                new FrmMinhasPropostas().setVisible(true);
             }
         });
     }
@@ -782,30 +660,21 @@ public class FrmAluno extends javax.swing.JFrame {
     private javax.swing.JButton btn_excluir;
     private javax.swing.JButton btn_novo;
     private javax.swing.JButton btn_salvar;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel label_pefil;
-    private javax.swing.JLabel label_proposta;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable tbl_aluno;
-    private javax.swing.JFormattedTextField txt_celular;
-    private javax.swing.JFormattedTextField txt_cpf;
-    private javax.swing.JTextField txt_email;
     private javax.swing.JTextField txt_matricula;
-    private javax.swing.JTextField txt_nome;
-    private javax.swing.JTextField txt_perfil;
     private javax.swing.JTextField txt_pesquisar;
-    private javax.swing.JTextField txt_proposta;
     // End of variables declaration//GEN-END:variables
 }

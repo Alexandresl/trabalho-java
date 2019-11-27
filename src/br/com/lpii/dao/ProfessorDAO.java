@@ -225,5 +225,33 @@ public class ProfessorDAO {
 
     }
     
+        public boolean verificaProfessor(int id) {
+        try {
+            // Verifica se existe o usuário no banco
+            String sql = "SELECT * FROM professor WHERE id_professor = ?";
+            // prepara sql para execução
+            PreparedStatement stmt = con.prepareStatement(sql);
+            // o resultado do select é armazenada em um objeto ResultSet
+            stmt.setInt(1, id);
+            
+            // Armazena o resultado
+            ResultSet rs = stmt.executeQuery();
+            
+            // verifica se encontrou
+            if (rs.next()) {
+                // Usuário existe
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (SQLException error) {
+            
+            JOptionPane.showMessageDialog(null, "Erro sql: " + error);
+            return false;
+            
+        }
+    }
+    
     
 }
