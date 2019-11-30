@@ -32,8 +32,8 @@ public class AlunoDAO {
     public void cadastrarAluno(Aluno aluno) {
         try {
             // Comando SQL
-            String sql = "INSERT INTO aluno (matricula, nome, cpf, email, telefone, perfil, senha, proposta) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO aluno (matricula, nome, cpf, email, telefone, senha, proposta) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
@@ -42,9 +42,8 @@ public class AlunoDAO {
             stmt.setString(3, aluno.getCpf());
             stmt.setString(4, aluno.getEmail());
             stmt.setString(5, aluno.getTelefone());
-            stmt.setString(6, aluno.getPerfil());
-            stmt.setString(7, aluno.getSenha());
-            stmt.setString(8, aluno.getProposta());
+            stmt.setString(6, aluno.getSenha());
+            stmt.setString(7, aluno.getProposta());
 
             //Executa sql
             stmt.execute();
@@ -58,9 +57,10 @@ public class AlunoDAO {
     // Método alterar aluno
     public void alterarAluno(Aluno aluno) {
         try {
+            
             // Comando SQL
-            String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, " +
-                    "perfil = ? WHERE matricula = ?";
+            String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, senha = ? " +
+                    "WHERE matricula = ?";
             
             
             // Conectar o banco de dados e organizar o SQL
@@ -70,13 +70,15 @@ public class AlunoDAO {
             stmt.setString(2, aluno.getCpf());
             stmt.setString(3, aluno.getEmail());
             stmt.setString(4, aluno.getTelefone());
-            stmt.setString(5, aluno.getPerfil());
+            stmt.setString(5, aluno.getSenha());
             stmt.setInt(6, aluno.getMatricula());
 
             //Executa sql
             stmt.execute();
             stmt.close();
+            
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
+            
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
         }
@@ -98,8 +100,11 @@ public class AlunoDAO {
             stmt.execute();
             stmt.close();
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
+            
         } catch (SQLException error) {
+            
             JOptionPane.showMessageDialog(null, "Erro: " + error);
+            
         }
         
     }
@@ -129,7 +134,6 @@ public class AlunoDAO {
                 aluno.setCpf(rs.getString("cpf"));
                 aluno.setEmail(rs.getString("email"));
                 aluno.setTelefone(rs.getString("telefone"));
-                aluno.setPerfil(rs.getString("perfil"));
                 aluno.setSenha(rs.getString("senha"));
                 aluno.setProposta(rs.getString("proposta"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
@@ -174,7 +178,6 @@ public class AlunoDAO {
                 aluno.setCpf(rs.getString("cpf"));
                 aluno.setEmail(rs.getString("email"));
                 aluno.setTelefone(rs.getString("telefone"));
-                aluno.setPerfil(rs.getString("perfil"));
                 aluno.setSenha(rs.getString("senha"));
                 aluno.setProposta(rs.getString("proposta"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
@@ -191,7 +194,7 @@ public class AlunoDAO {
 
     }
     
-    // Método que efetua login quando perfil professor
+    // Método que efetua login quando perfil aluno
     public boolean loginAluno(String email, String senha) {
         try {
             // Verifica se existe o usuário no banco
@@ -210,7 +213,12 @@ public class AlunoDAO {
                 // usuário logou
                 // Abre tela principal
                 FrmMenu tela = new FrmMenu();
-                tela.usuarioLogado = rs.getString("nome");
+                tela.setNomeUsuario(rs.getString("nome"));
+                tela.setIdUsuario(rs.getString("matricula"));
+                tela.setTipoUsuario("Aluno");
+                // Desabilita os menus que não estarão visível para o aluno
+                tela.submenu_aluno.setVisible(false);
+                tela.menu_professor.setVisible(false);
                 tela.setVisible(true);
                 
                 return true;
@@ -255,6 +263,44 @@ public class AlunoDAO {
             return false;
             
         }
+    }
+    
+    public Aluno getAluno(int matricula) {
+        
+        Aluno aluno = new Aluno();
+        
+        try {
+            // Verifica se existe o usuário no banco
+            String sql = "SELECT * FROM aluno WHERE matricula = ?";
+            // prepara sql para execução
+            PreparedStatement stmt = con.prepareStatement(sql);
+            // o resultado do select é armazenada em um objeto ResultSet
+            stmt.setInt(1, matricula);
+            
+            // Armazena o resultado
+            ResultSet rs = stmt.executeQuery();
+            
+            // verifica se encontrou
+            if (rs.next()) {
+                
+                // É setado os atributos. Os parâmetros do get são os nomes das colunas
+                aluno.setMatricula(rs.getInt("matricula"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setEmail(rs.getString("email"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setSenha(rs.getString("senha"));
+                aluno.setProposta(rs.getString("proposta"));
+                
+            }
+            
+        } catch (SQLException error) {
+            
+            JOptionPane.showMessageDialog(null, "Erro sql: " + error);
+            
+        }
+        
+        return aluno; 
     }
     
 }

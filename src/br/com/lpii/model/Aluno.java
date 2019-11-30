@@ -20,19 +20,14 @@ public class Aluno extends Pessoa{
     private String telefone;
     private String proposta;
     
-    public Aluno () {
-        super();
-    }
+
     
     /**
      * Contrutores da classe aluno
      * Os atributos, nome, email e senha são heradados da super classe Pessoa
      */
-    public Aluno (int matricula, String nome, String email, String senha, String cpf, String telefone, String proposta, String perfil) {
-        super(nome, email, senha, perfil);
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.proposta = proposta;
+    public Aluno () {
+        super();
     }
 
     public int getMatricula() {

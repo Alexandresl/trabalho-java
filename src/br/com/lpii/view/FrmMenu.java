@@ -16,8 +16,35 @@ import javax.swing.JOptionPane;
  * @author Alexandre Lima
  */
 public class FrmMenu extends javax.swing.JFrame {
+
+    private String tipoUsuario;
+    private String nomeUsuario;
+    private String idUsuario;
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
     
-    public String usuarioLogado;
 
     /**
      * Creates new form FrmMenu
@@ -46,19 +73,22 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         };
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        label_usuario = new javax.swing.JLabel();
         txt_usuario = new javax.swing.JLabel();
+        label_matrícula = new javax.swing.JLabel();
+        txt_matrícula = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menu_arquivo = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        menu_aluno = new javax.swing.JMenu();
+        submenu_aluno = new javax.swing.JMenuItem();
+        Aluno_meuCadastro = new javax.swing.JMenuItem();
+        menu_professor = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        menu_propostas = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -70,29 +100,43 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel1.setText("Usuário: ");
+        label_usuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_usuario.setForeground(new java.awt.Color(0, 102, 51));
+        label_usuario.setText("Usuário: ");
 
         txt_usuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txt_usuario.setForeground(new java.awt.Color(0, 102, 0));
         txt_usuario.setText("Alexandre Lima");
+
+        label_matrícula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_matrícula.setForeground(new java.awt.Color(0, 102, 51));
+        label_matrícula.setText("Matrícula:");
+
+        txt_matrícula.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_matrícula.setForeground(new java.awt.Color(0, 102, 0));
+        txt_matrícula.setText("Alexandre Lima");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addComponent(label_matrícula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_matrícula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(label_usuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_usuario)
-                .addContainerGap(738, Short.MAX_VALUE))
+                .addContainerGap(577, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(label_matrícula)
+                .addComponent(txt_matrícula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(label_usuario)
                 .addComponent(txt_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -111,10 +155,10 @@ public class FrmMenu extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jMenu1.setForeground(new java.awt.Color(0, 102, 51));
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/page.png"))); // NOI18N
-        jMenu1.setText("Arquivo");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menu_arquivo.setForeground(new java.awt.Color(0, 102, 51));
+        menu_arquivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/page.png"))); // NOI18N
+        menu_arquivo.setText("Arquivo");
+        menu_arquivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/arrow_refresh.png"))); // NOI18N
@@ -124,7 +168,7 @@ public class FrmMenu extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem5);
+        menu_arquivo.add(jMenuItem5);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -136,33 +180,45 @@ public class FrmMenu extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        menu_arquivo.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menu_arquivo);
 
-        jMenu2.setForeground(new java.awt.Color(0, 102, 51));
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/user.png"))); // NOI18N
-        jMenu2.setText("Alunos");
-        jMenu2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menu_aluno.setForeground(new java.awt.Color(0, 102, 51));
+        menu_aluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/user.png"))); // NOI18N
+        menu_aluno.setText("Aluno");
+        menu_aluno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jMenuItem2.setForeground(new java.awt.Color(0, 102, 51));
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/user_edit.png"))); // NOI18N
-        jMenuItem2.setText("Gerenciar Alunos");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        submenu_aluno.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        submenu_aluno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        submenu_aluno.setForeground(new java.awt.Color(0, 102, 51));
+        submenu_aluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/user_edit.png"))); // NOI18N
+        submenu_aluno.setText("Gerenciar Alunos");
+        submenu_aluno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                submenu_alunoActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        menu_aluno.add(submenu_aluno);
 
-        jMenuBar1.add(jMenu2);
+        Aluno_meuCadastro.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        Aluno_meuCadastro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Aluno_meuCadastro.setForeground(new java.awt.Color(0, 102, 51));
+        Aluno_meuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/user_edit.png"))); // NOI18N
+        Aluno_meuCadastro.setText("Meu Cadastro");
+        Aluno_meuCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Aluno_meuCadastroActionPerformed(evt);
+            }
+        });
+        menu_aluno.add(Aluno_meuCadastro);
 
-        jMenu3.setForeground(new java.awt.Color(0, 102, 51));
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/group.png"))); // NOI18N
-        jMenu3.setText("Professor");
-        jMenu3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuBar1.add(menu_aluno);
+
+        menu_professor.setForeground(new java.awt.Color(0, 102, 51));
+        menu_professor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/group.png"))); // NOI18N
+        menu_professor.setText("Professor");
+        menu_professor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -174,7 +230,7 @@ public class FrmMenu extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        menu_professor.add(jMenuItem3);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -186,7 +242,7 @@ public class FrmMenu extends javax.swing.JFrame {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem6);
+        menu_professor.add(jMenuItem6);
 
         jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -198,14 +254,14 @@ public class FrmMenu extends javax.swing.JFrame {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem7);
+        menu_professor.add(jMenuItem7);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(menu_professor);
 
-        jMenu4.setForeground(new java.awt.Color(0, 102, 51));
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/book.png"))); // NOI18N
-        jMenu4.setText("Propostas");
-        jMenu4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menu_propostas.setForeground(new java.awt.Color(0, 102, 51));
+        menu_propostas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/book.png"))); // NOI18N
+        menu_propostas.setText("Propostas TCC");
+        menu_propostas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -217,9 +273,9 @@ public class FrmMenu extends javax.swing.JFrame {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem4);
+        menu_propostas.add(jMenuItem4);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(menu_propostas);
 
         setJMenuBar(jMenuBar1);
 
@@ -240,38 +296,50 @@ public class FrmMenu extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         this.setExtendedState(this.MAXIMIZED_BOTH);
-        txt_usuario.setText(usuarioLogado);
+
+        if (tipoUsuario.equals("Aluno")) {
+            txt_usuario.setText(nomeUsuario);
+            label_usuario.setText("Aluno(a):");
+            txt_matrícula.setText(idUsuario);
+            label_matrícula.setText("Matrícula:");
+        } else if (tipoUsuario.equals("Professor")) {
+            txt_usuario.setText(nomeUsuario);
+            label_usuario.setText("Professor(a):");
+            txt_matrícula.setText(idUsuario);
+            label_matrícula.setText("ID:");
+        }
+
         this.setVisible(true);
     }//GEN-LAST:event_formWindowActivated
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        
+
         FrmLogin telaLogin = new FrmLogin();
         this.dispose();
         telaLogin.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
+
         int op;
-        
+
         op = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja sai?");
-        
+
         if (op == 0) {
             System.exit(0);
         }
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void submenu_alunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_alunoActionPerformed
         FrmAluno tela = new FrmAluno();
-        tela.setVisible(true); 
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+        tela.setVisible(true);
+    }//GEN-LAST:event_submenu_alunoActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         FrmProfessores tela = new FrmProfessores();
-        tela.setVisible(true); 
+        tela.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -282,7 +350,7 @@ public class FrmMenu extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         FrmMinhasPropostas tela = new FrmMinhasPropostas();
         tela.setVisible(true);
-                
+
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -290,6 +358,14 @@ public class FrmMenu extends javax.swing.JFrame {
         FrmGerenciarPropostas tela = new FrmGerenciarPropostas();
         tela.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void Aluno_meuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Aluno_meuCadastroActionPerformed
+        
+        FrmMeuCadastro tela = new FrmMeuCadastro();
+        tela.setIdUsuario(idUsuario);
+        tela.setVisible(true);
+        
+    }//GEN-LAST:event_Aluno_meuCadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,21 +403,24 @@ public class FrmMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
+    public javax.swing.JMenuItem Aluno_meuCadastro;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel label_matrícula;
+    private javax.swing.JLabel label_usuario;
+    private javax.swing.JMenu menu_aluno;
+    private javax.swing.JMenu menu_arquivo;
+    public javax.swing.JMenu menu_professor;
+    private javax.swing.JMenu menu_propostas;
     private javax.swing.JDesktopPane painel_desk;
+    public javax.swing.JMenuItem submenu_aluno;
+    private javax.swing.JLabel txt_matrícula;
     private javax.swing.JLabel txt_usuario;
     // End of variables declaration//GEN-END:variables
 }

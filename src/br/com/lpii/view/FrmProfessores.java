@@ -90,7 +90,7 @@ public class FrmProfessores extends javax.swing.JFrame {
     }
 
     /**
-     * Método responsável por carregar dados para tabela alunos
+     * Método responsável por carregar dados para tabela professors
      */
     public void toList() {
         // Instancia objeto DAO
@@ -102,7 +102,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         // limpa dados da tabela
         dados.setNumRows(0);
 
-        // cada ocorrência em lista irá para um objeto aluno
+        // cada ocorrência em lista irá para um objeto professor
         for (Professor p : lista) {
             // E agora será adicionado a lista na tabela. Linha a linha
             dados.addRow(new Object[]{
@@ -114,10 +114,7 @@ public class FrmProfessores extends javax.swing.JFrame {
     }
 
     public void ativaInfComplementares() {
-
-        label_orientador.setText("Perfil:");
         label_banca.setText("Situação do Tema do TC: ");
-
     }
 
     /**
@@ -505,17 +502,15 @@ public class FrmProfessores extends javax.swing.JFrame {
         ProfessorDAO dao = new ProfessorDAO();
 
         if (!txt_codigo.getText().equals("") && dao.verificaProfessor(Integer.parseInt(txt_codigo.getText()))) {
-            
 
             /**
-             * Ação responsável por Editar Aluno insere dados no objeto aluno
+             * Ação responsável por Editar Aluno insere dados no objeto professor
              */
             Professor professor = new Professor();
 
             professor.setCodigo(Integer.parseInt(txt_codigo.getText()));
             professor.setNome(txt_nome.getText());
             professor.setEmail(txt_email.getText());
-            professor.setPerfil(txt_orientador.getText());
 
             /**
              * Método que irá salbar o obj Aluno no banco de dados
@@ -523,19 +518,18 @@ public class FrmProfessores extends javax.swing.JFrame {
             dao.alterarProfessor(professor);
 
             /**
-             * Atualiza table aluno após a edição
+             * Atualiza table professor após a edição
              */
             toList();
         } else {
 
             // Ação responsável por salvar no banco de dados
             /**
-             * insere dados no objeto aluno
+             * insere dados no objeto professor
              */
             Professor professor = new Professor();
             professor.setNome(txt_nome.getText());
             professor.setEmail(txt_email.getText());
-            professor.setPerfil("Professor");
             professor.setSenha(String.valueOf(txt_senha.getPassword()));
 
             /**
@@ -543,19 +537,21 @@ public class FrmProfessores extends javax.swing.JFrame {
              */
             dao.cadastrarProfessor(professor);
 
-            /**
-             * Limpa os campos do formulário
-             */
-            gerenciaCampos("clean");
-            gerenciaCampos("block");
-            gerenciaBotoes(true, false, false, false);
-
         }
+
+        /**
+         * Limpa os campos do formulário
+         */
+        gerenciaCampos("clean");
+        // bloqueia campos
+        gerenciaCampos("block");
+        // libera botão para cadastro de um novo professor
+        gerenciaBotoes(true, false, false, false);
 
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
-        // Libera os campos para preenchimento dos dados do aluno
+        // Libera os campos para preenchimento dos dados do professor
         gerenciaCampos("unblock");
         gerenciaCampos("clean");
         // libera o botão salvar e obloqueia os demais
@@ -566,7 +562,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         /**
-         * Evento responsável por carregar os dados para a tabela de aluno. O
+         * Evento responsável por carregar os dados para a tabela de professor. O
          * método é disparado no momento em que o formulário é ativado
          */
 
@@ -609,10 +605,10 @@ public class FrmProfessores extends javax.swing.JFrame {
             gerenciaCampos("unblock");
             gerenciaBotoes(true, true, false, true);
         } else if (jTabbedPane1.getSelectedIndex() == 0 && !txt_nome.isEnabled()) {
-            
+
             // Libera campos e botões
             gerenciaCampos("unblock");
-            gerenciaBotoes(true, true, false , true);
+            gerenciaBotoes(true, true, false, true);
         }
 
     }//GEN-LAST:event_btn_editarActionPerformed
@@ -620,7 +616,7 @@ public class FrmProfessores extends javax.swing.JFrame {
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
 
         /**
-         * Ação responsável por excluir Aluno insere dados no objeto aluno
+         * Ação responsável por excluir Aluno insere dados no objeto professor
          */
         Professor professor = new Professor();
         professor.setCodigo(Integer.parseInt(txt_codigo.getText()));
@@ -637,7 +633,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         dao.excluirProfessor(professor);
 
         /**
-         * Atualiza table aluno após a edição
+         * Atualiza table professor após a edição
          */
         toList();
         gerenciaCampos("clean");
@@ -663,7 +659,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         // limpa dados da tabela
         dados.setNumRows(0);
 
-        // cada ocorrência em lista irá para um objeto aluno
+        // cada ocorrência em lista irá para um objeto professor
         for (Professor p : lista) {
             // E agora será adicionado a lista na tabela. Linha a linha
             dados.addRow(new Object[]{

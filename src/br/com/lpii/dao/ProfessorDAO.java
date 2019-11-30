@@ -8,6 +8,7 @@ package br.com.lpii.dao;
 import br.com.lpii.jdbc.ConnectionFactory;
 import br.com.lpii.model.Aluno;
 import br.com.lpii.model.Professor;
+import br.com.lpii.view.FrmMenu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,8 +33,8 @@ public class ProfessorDAO {
     public void cadastrarProfessor(Professor professor) {
         try {
             // Comando SQL
-            String sql = "INSERT INTO professor (nome, email, count_banca, senha, perfil) "
-                    + "VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO professor (nome, email, count_banca, senha) "
+                    + "VALUES (?, ?, ?, ?)";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
@@ -41,8 +42,7 @@ public class ProfessorDAO {
             stmt.setString(2, professor.getEmail());
             stmt.setInt(3, 0);
             stmt.setString(4, professor.getSenha());
-            stmt.setString(5, "Professor");
-            
+
             //Executa sql
             stmt.execute();
             stmt.close();
@@ -56,10 +56,9 @@ public class ProfessorDAO {
     public void alterarProfessor(Professor professor) {
         try {
             // Comando SQL
-            String sql = "UPDATE professor SET nome = ?, email = ?, count_banca = ?, " +
-                    "senha = ?, perfil = ? WHERE id_professor = ?";
-            
-            
+            String sql = "UPDATE professor SET nome = ?, email = ?, count_banca = ?, "
+                    + "senha = ? WHERE id_professor = ?";
+
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
@@ -67,9 +66,7 @@ public class ProfessorDAO {
             stmt.setString(2, professor.getEmail());
             stmt.setInt(3, professor.getNumBancas());
             stmt.setString(4, professor.getSenha());
-            stmt.setString(5, "Professor");
-            stmt.setInt(6, professor.getCodigo());
-            
+            stmt.setInt(5, professor.getCodigo());
 
             //Executa sql
             stmt.execute();
@@ -84,9 +81,9 @@ public class ProfessorDAO {
     public void excluirProfessor(Professor professor) {
 
         try {
-            
+
             // Comando SQL
-            String sql = "DELETE FROM aluno WHERE id_professor = ?";
+            String sql = "DELETE FROM professor WHERE id_professor = ?";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
@@ -99,7 +96,7 @@ public class ProfessorDAO {
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
         }
-        
+
     }
 
     // Método para listar todos os alunos
@@ -125,7 +122,6 @@ public class ProfessorDAO {
                 professor.setCodigo(rs.getInt("id_professor"));
                 professor.setNome(rs.getString("nome"));
                 professor.setEmail(rs.getString("email"));
-                professor.setPerfil(rs.getString("perfil"));
                 professor.setSenha(rs.getString("senha"));
                 professor.setNumBancas(rs.getInt("count_banca"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
@@ -141,9 +137,8 @@ public class ProfessorDAO {
         }
 
     }
-    
+
     // Método para pesquisar alunos por nome
-    
     public List<Professor> buscaProfessor(String param) {
         // try...catch para tratar eventual erro
         try {
@@ -162,13 +157,12 @@ public class ProfessorDAO {
              * lista
              */
             while (rs.next()) {
-               // Para casda ocorrência de rs é gerado um novo objeto Aluno
+                // Para casda ocorrência de rs é gerado um novo objeto Aluno
                 Professor professor = new Professor();
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
                 professor.setCodigo(rs.getInt("id_professor"));
                 professor.setNome(rs.getString("nome"));
                 professor.setEmail(rs.getString("email"));
-                professor.setPerfil(rs.getString("perfil"));
                 professor.setSenha(rs.getString("senha"));
                 professor.setNumBancas(rs.getInt("count_banca"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
@@ -184,12 +178,11 @@ public class ProfessorDAO {
         }
 
     }
-    
+
     // Método para pesquisar um Professor por id
-    
     public Professor buscaProfessor(int codigo) {
         // cria um professor que será retornado
-           Professor professor = new Professor();
+        Professor professor = new Professor();
         // try...catch para tratar eventual erro
         try {
             // Cria comando sql
@@ -204,15 +197,14 @@ public class ProfessorDAO {
              * lista
              */
             while (rs.next()) {
-               
+
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
                 professor.setCodigo(rs.getInt("id_professor"));
                 professor.setNome(rs.getString("nome"));
                 professor.setEmail(rs.getString("email"));
-                professor.setPerfil(rs.getString("perfil"));
                 professor.setSenha(rs.getString("senha"));
                 professor.setNumBancas(rs.getInt("count_banca"));
-                
+
             }
 
             return professor;
@@ -225,23 +217,39 @@ public class ProfessorDAO {
 
     }
     
-        public boolean verificaProfessor(int id) {
+    // realiza o login professor
+     public boolean loginProfessor(String email, String senha) {
         try {
             // Verifica se existe o usuário no banco
-            String sql = "SELECT * FROM professor WHERE id_professor = ?";
+            String sql = "SELECT * FROM professor WHERE email = ? AND senha = ?";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
-            stmt.setInt(1, id);
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
             
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
             
             // verifica se encontrou
             if (rs.next()) {
-                // Usuário existe
+                // usuário logou
+                // Abre tela principal
+                FrmMenu tela = new FrmMenu();
+                tela.setNomeUsuario(rs.getString("nome"));
+                tela.setIdUsuario(rs.getString("id_professor"));
+                tela.setTipoUsuario("Professor");
+                // Desabilita os menus que não estarão visível para o aluno
+                tela.Aluno_meuCadastro.setVisible(false);
+                //tela.submenu_aluno.setVisible(false);
+                //tela.menu_professor.setVisible(false);
+                tela.setVisible(true);
+                
                 return true;
+                
             } else {
+                // dados incoretos
+                JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos.");
                 return false;
             }
             
@@ -253,5 +261,33 @@ public class ProfessorDAO {
         }
     }
     
-    
+
+    public boolean verificaProfessor(int id) {
+        try {
+            // Verifica se existe o usuário no banco
+            String sql = "SELECT * FROM professor WHERE id_professor = ?";
+            // prepara sql para execução
+            PreparedStatement stmt = con.prepareStatement(sql);
+            // o resultado do select é armazenada em um objeto ResultSet
+            stmt.setInt(1, id);
+
+            // Armazena o resultado
+            ResultSet rs = stmt.executeQuery();
+
+            // verifica se encontrou
+            if (rs.next()) {
+                // Usuário existe
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException error) {
+
+            JOptionPane.showMessageDialog(null, "Erro sql: " + error);
+            return false;
+
+        }
+    }
+
 }
