@@ -23,14 +23,9 @@ public class Professor extends Pessoa{
     }
     
     /**
-     * Contrutores da classe aluno
+     * Contrutores da classe prpfessor
      * Os atributos, nome, email e senha são heradados da super classe Pessoa
      */
-    public Professor (int codigo, String nome, String email, String senha, int numBancas, String perfil) {
-        super(nome, email, senha, perfil);
-        this.codigo = codigo;
-        this.numBancas = numBancas;
-    }
 
     public int getCodigo() {
         return codigo;
@@ -47,11 +42,5 @@ public class Professor extends Pessoa{
     public void setNumBancas(int numBancas) {
         this.numBancas = numBancas;
     }
-
-
-
-    
-    
-    
     
 }

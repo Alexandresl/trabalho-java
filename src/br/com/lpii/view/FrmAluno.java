@@ -577,9 +577,10 @@ public class FrmAluno extends javax.swing.JFrame {
         // Verifica se há algum campo não preenchido
         if (!temCamposVazios()) {
 
-            // Verifica se usuário existe no banco de dados
+            // lógica Verificará se usuário existe no banco de dados
             // Se sim será invocado método para edição
             // caso contrário será realizado novo cadastro
+            
             /**
              * Instancia objeto da classe AlunoDao Já é aberta a conexão a
              * partir do construtor
@@ -599,7 +600,7 @@ public class FrmAluno extends javax.swing.JFrame {
                     if (String.valueOf(txt_senha.getPassword()).equals(String.valueOf(txt_confirmaSenha.getPassword()))) {
 
                         /**
-                         * Ação responsável por Editar Aluno insere dados no
+                         * Ação responsável por Editar Aluno alterar dados no
                          * objeto aluno
                          */
                         Aluno aluno = new Aluno();

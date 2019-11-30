@@ -6,7 +6,11 @@
 package br.com.lpii.view;
 
 import br.com.lpii.dao.AlunoDAO;
+import br.com.lpii.dao.AreaInteresseDAO;
+import br.com.lpii.dao.PropostaDAO;
 import br.com.lpii.model.Aluno;
+import br.com.lpii.model.AreaInteresse;
+import br.com.lpii.model.Proposta;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -18,13 +22,39 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmMinhasPropostas extends javax.swing.JFrame {
 
+    private int idUsuario = 1;
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     /**
      * Método construtor
      */
     public FrmMinhasPropostas() {
         initComponents();
         gerenciaCampos("block");
+        gerenciaCampos("clean");
         gerenciaBotoes(true, false, false, false);
+    }
+
+    // Método responsável de verificar se há algum campo vazio.
+    public boolean temCamposVazios() {
+
+        if (txt_titulo.getText().trim().equals("")
+                || combo_area_interesse.getSelectedIndex() == 0
+                || txt_descricao.getText().trim().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam estar preenchidos");
+            return true;
+
+        }
+
+        return false;
 
     }
 
@@ -35,18 +65,20 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
     public void gerenciaCampos(String action) {
         switch (action) {
             case "block":
-                txt_matricula.setEnabled(false);
-                
-                
+                txt_cod.setEnabled(false);
+                txt_titulo.setEnabled(false);
+                combo_area_interesse.setEnabled(false);
+                txt_descricao.setEnabled(false);
                 break;
             case "unblock":
-                txt_matricula.setEnabled(true);
-                
-                
+                txt_titulo.setEnabled(true);
+                combo_area_interesse.setEnabled(true);
+                txt_descricao.setEnabled(true);
                 break;
             case "clean":
-                txt_matricula.setText("");
-                
+                txt_titulo.setText("");
+                combo_area_interesse.setSelectedIndex(0);
+                txt_descricao.setText("");
                 txt_pesquisar.setText("");
                 break;
         }
@@ -63,45 +95,28 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
     }
 
     /**
-     * Método para garantir que não vá número no campo matrícula
-     */
-    public void ValidaNumero(JTextField matrícula) {
-        long valor;
-        if (matrícula.getText().length() != 0) {
-            try {
-                valor = Long.parseLong(matrícula.getText());
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Campo matrícula só aceita números", "Informação", JOptionPane.INFORMATION_MESSAGE);
-                matrícula.grabFocus();
-                txt_matricula.setText("");
-            }
-        }
-    }
-
-    /**
      * Método responsável por carregar dados para tabela alunos
      */
     public void toList() {
         // Instancia objeto DAO
-        AlunoDAO dao = new AlunoDAO();
+        PropostaDAO dao = new PropostaDAO();
+        // Crio um objeto areaInteresse
+        AreaInteresseDAO daoAI = new AreaInteresseDAO();
         // Armazena em uma lista o retorno do método listarAlunos
-        List<Aluno> lista = dao.listarAlunos();
+        List<Proposta> lista = dao.listarMinhasPropostas(idUsuario);
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
-        DefaultTableModel dados = (DefaultTableModel) tbl_aluno.getModel();
+        DefaultTableModel dados = (DefaultTableModel) tbl_proposta.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
 
-        // cada ocorrência em lista irá para um objeto aluno
-        for (Aluno a : lista) {
+        // cada ocorrência em lista irá para um objeto Proposta
+        for (Proposta a : lista) {
             // E agora será adicionado a lista na tabela. Linha a linha
             dados.addRow(new Object[]{
-                a.getMatricula(),
-                a.getNome(),
-                a.getCpf(),
-                a.getEmail(),
-                a.getTelefone(),
-                a.getProposta(),
-                a.getPerfil()
+                a.getPropostaId(),
+                a.getPropostaTitulo(),
+                daoAI.getAreaInteresse(a.getPropostaAreaInteresse()).getNome(),
+                a.getPropostaStatus()
             });
         }
 
@@ -122,17 +137,19 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txt_matricula = new javax.swing.JTextField();
+        txt_titulo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txt_descricao = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        combo_area_interesse = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        txt_cod = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         txt_pesquisar = new javax.swing.JTextField();
         btn_consulta_pesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_aluno = new javax.swing.JTable();
+        tbl_proposta = new javax.swing.JTable();
         btn_novo = new javax.swing.JButton();
         btn_salvar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
@@ -192,35 +209,32 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
         jLabel2.setText("Título do trabalho:");
 
-        txt_matricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_matricula.setForeground(new java.awt.Color(0, 102, 51));
-        txt_matricula.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_matriculaFocusLost(evt);
-            }
-        });
-        txt_matricula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_matriculaActionPerformed(evt);
-            }
-        });
+        txt_titulo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_titulo.setForeground(new java.awt.Color(0, 102, 51));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 51));
         jLabel3.setText("Descrição:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txt_descricao.setColumns(20);
+        txt_descricao.setRows(5);
+        jScrollPane2.setViewportView(txt_descricao);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 51));
         jLabel4.setText("Área de interesse:");
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(0, 102, 51));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pyton", "JavaScript", "Java", "PHP", "C#", "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS", "WordPress", "Desenvolimento Web", "Machine Learning", "Desenvolvimento de Games", "Data Science", "Banco de dados", "Teste de Software", "Algoritmo", "Estrutura de dados" }));
+        combo_area_interesse.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        combo_area_interesse.setForeground(new java.awt.Color(0, 102, 51));
+        combo_area_interesse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Pyton", "JavaScript", "Java", "PHP", "C#", "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS", "WordPress", "Desenvolimento Web", "Machine Learning", "Desenvolvimento de Games", "Data Science", "Banco de dados", "Teste de Software", "Algoritmo", "Estrutura de dados" }));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel5.setText("Cod.:");
+
+        txt_cod.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_cod.setForeground(new java.awt.Color(0, 102, 51));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -228,34 +242,45 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(89, 89, 89)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(jLabel5)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(207, Short.MAX_VALUE))
+                            .addComponent(combo_area_interesse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_cod, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_cod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                    .addComponent(combo_area_interesse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addContainerGap())
         );
 
@@ -265,7 +290,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
 
         txt_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_pesquisar.setForeground(new java.awt.Color(153, 153, 153));
-        txt_pesquisar.setText("Digite uma matrícula ou nome");
+        txt_pesquisar.setText("Digite um título");
         txt_pesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txt_pesquisarFocusGained(evt);
@@ -285,37 +310,35 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
             }
         });
 
-        tbl_aluno.setForeground(new java.awt.Color(0, 153, 51));
-        tbl_aluno.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_proposta.setForeground(new java.awt.Color(0, 153, 51));
+        tbl_proposta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Matrícula", "Nome", "CPF", "Email", "Telefone", "Proposta", "Perfil"
+                "Cod.", "Título:", "Area de Interesse", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_aluno.setGridColor(new java.awt.Color(153, 153, 153));
-        tbl_aluno.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbl_proposta.setGridColor(new java.awt.Color(153, 153, 153));
+        tbl_proposta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_alunoMouseClicked(evt);
+                tbl_propostaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbl_aluno);
-        if (tbl_aluno.getColumnModel().getColumnCount() > 0) {
-            tbl_aluno.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tbl_aluno.getColumnModel().getColumn(1).setPreferredWidth(140);
-            tbl_aluno.getColumnModel().getColumn(2).setPreferredWidth(40);
-            tbl_aluno.getColumnModel().getColumn(3).setPreferredWidth(140);
-            tbl_aluno.getColumnModel().getColumn(4).setPreferredWidth(60);
-            tbl_aluno.getColumnModel().getColumn(5).setPreferredWidth(60);
+        jScrollPane1.setViewportView(tbl_proposta);
+        if (tbl_proposta.getColumnModel().getColumnCount() > 0) {
+            tbl_proposta.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tbl_proposta.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tbl_proposta.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tbl_proposta.getColumnModel().getColumn(3).setPreferredWidth(60);
         }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -430,33 +453,69 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        // Ação responsável por salvar no banco de dados
-        /**
-         * insere dados no objeto aluno
-         */
-        Aluno aluno = new Aluno();
-        aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
 
-        aluno.setPerfil("Aluno");
-        aluno.setSenha("");
-        aluno.setProposta("Em aberto");
+        // Verifica se há algum campo vazio
+        if (!temCamposVazios()) {
+            // Instancia objeto da classe PropostaDao
+            PropostaDAO dao = new PropostaDAO();
 
-        /**
-         * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
-         * construtor
-         */
-        AlunoDAO dao = new AlunoDAO();
-        /**
-         * Método que irá salbar o obj Aluno no banco de dados
-         */
-        dao.cadastrarAluno(aluno);
+            // Verifica se já existe ID
+            if (!txt_cod.getText().trim().equals("") && dao.verificaProposta(Integer.parseInt(txt_cod.getText()))) {
 
-        /**
-         * Limpa os campos do formulário
-         */
-        gerenciaCampos("clean");
-        gerenciaCampos("block");
-        gerenciaBotoes(true, false, false, false);
+                // Caso já exista id, confirma se usuário quer editar o tema
+                int edita = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja alterar o tema: " + txt_titulo.getText() + "?");
+
+                // Caso cliente confirme a edição
+                if (edita == 0) {
+
+                    /**
+                     * Realiza ação responsável por editar aluno
+                     */
+                    Proposta proposta = dao.getProposta(Integer.parseInt(txt_cod.getText()));
+
+                    proposta.setPropostaAreaInteresse(combo_area_interesse.getSelectedIndex());
+                    proposta.setPropostaTitulo(txt_titulo.getText());
+                    proposta.setPropostaDescricao(txt_descricao.getText());
+
+                    // Invoca método dao responsável pela persistência da alteração
+                    dao.alterarProposta(proposta);
+
+                    // Atualiza lista de propostas
+                    toList();
+
+                    // limpa campos e gerencia botões
+                    gerenciaCampos("block");
+                    gerenciaCampos("clean");
+                    gerenciaBotoes(true, false, false, false);
+
+                }
+
+            } else { // Caso não exista ID
+
+                // Aqui será salvo nova proposta
+                // É criada nova propostas
+                Proposta proposta = new Proposta();
+
+                // Seta todos os dados (pertinentes neste momento) de uma nova proposta
+                proposta.setPropostaAreaInteresse(combo_area_interesse.getSelectedIndex());
+                proposta.setPropostaIdProfessor(idUsuario);
+                proposta.setPropostaTitulo(txt_titulo.getText());
+                proposta.setPropostaDescricao(txt_descricao.getText());
+                proposta.setPropostaStatus("Em aberto");
+
+                dao.cadastrarProposta(proposta);
+
+                /**
+                 * Limpa os campos do formulário
+                 */
+                gerenciaCampos("clean");
+                gerenciaCampos("block");
+                gerenciaBotoes(true, false, false, false);
+
+            }
+
+        }
+
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
@@ -466,7 +525,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         // libera o botão salvar e obloqueia os demais
         gerenciaBotoes(true, true, false, false);
         // Foco no campo matrícula
-        txt_matricula.requestFocus();
+        txt_titulo.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -479,7 +538,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowActivated
 
-    private void tbl_alunoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_alunoMouseClicked
+    private void tbl_propostaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostaMouseClicked
 
         // Libera botões editar e exluir
         gerenciaBotoes(true, false, true, true);
@@ -493,47 +552,24 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         }
 
         // Pega os dados e envia para o formulário de clientes
-        txt_matricula.setText(tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 0).toString());
-        
+        txt_titulo.setText(tbl_proposta.getValueAt(tbl_proposta.getSelectedRow(), 0).toString());
 
-    }//GEN-LAST:event_tbl_alunoMouseClicked
+
+    }//GEN-LAST:event_tbl_propostaMouseClicked
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-
-        // Libera campos e botões
-        gerenciaCampos("unblock");
-        gerenciaBotoes(true, false, true, true);
 
         // Verifica se botão está sendo pressionado na aba dados ou busca
         if (jTabbedPane1.getSelectedIndex() == 1) {
             // se na aba busca apenas direciona para a aba dados
             jTabbedPane1.setSelectedIndex(0);
-        } else {
+            gerenciaCampos("unblock");
+            gerenciaBotoes(true, true, false, true);
+        } else if (jTabbedPane1.getSelectedIndex() == 0 && !txt_titulo.isEnabled()) {
 
-            /**
-             * Ação responsável por Editar Aluno insere dados no objeto aluno
-             */
-            Aluno aluno = new Aluno();
-
-            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
-            
-
-            /**
-             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
-             * partir do construtor
-             */
-            AlunoDAO dao = new AlunoDAO();
-
-            /**
-             * Método que irá salbar o obj Aluno no banco de dados
-             */
-            dao.alterarAluno(aluno);
-
-            /**
-             * Atualiza table aluno após a edição
-             */
-            toList();
-
+            // Libera campos e botões
+            gerenciaCampos("unblock");
+            gerenciaBotoes(true, true, false, true);
         }
 
     }//GEN-LAST:event_btn_editarActionPerformed
@@ -544,7 +580,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
          * Ação responsável por excluir Aluno insere dados no objeto aluno
          */
         Aluno aluno = new Aluno();
-        aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+        aluno.setMatricula(Integer.parseInt(txt_titulo.getText()));
 
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
@@ -566,21 +602,16 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btn_excluirActionPerformed
 
-    private void txt_matriculaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_matriculaFocusLost
-        ValidaNumero(txt_matricula);
-        
-    }//GEN-LAST:event_txt_matriculaFocusLost
-
     private void btn_consulta_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consulta_pesquisarActionPerformed
         // Crio o parâmetro que será utilizado na busca
         String param = "%" + txt_pesquisar.getText() + "%";
-        
+
         // Instancia objeto DAO
         AlunoDAO dao = new AlunoDAO();
         // Armazena em uma lista o retorno do método listarAlunos
         List<Aluno> lista = dao.buscaAlunos(param);
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
-        DefaultTableModel dados = (DefaultTableModel) tbl_aluno.getModel();
+        DefaultTableModel dados = (DefaultTableModel) tbl_proposta.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
 
@@ -596,7 +627,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 a.getProposta(),
                 a.getPerfil()
             });
-        }        
+        }
     }//GEN-LAST:event_btn_consulta_pesquisarActionPerformed
 
     private void txt_pesquisarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_pesquisarFocusGained
@@ -611,10 +642,6 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
             toList();
         }
     }//GEN-LAST:event_txt_pesquisarFocusLost
-
-    private void txt_matriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_matriculaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_matriculaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -660,11 +687,12 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
     private javax.swing.JButton btn_excluir;
     private javax.swing.JButton btn_novo;
     private javax.swing.JButton btn_salvar;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> combo_area_interesse;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -672,9 +700,10 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTable tbl_aluno;
-    private javax.swing.JTextField txt_matricula;
+    private javax.swing.JTable tbl_proposta;
+    private javax.swing.JTextField txt_cod;
+    private javax.swing.JTextArea txt_descricao;
     private javax.swing.JTextField txt_pesquisar;
+    private javax.swing.JTextField txt_titulo;
     // End of variables declaration//GEN-END:variables
 }

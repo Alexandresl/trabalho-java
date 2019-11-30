@@ -151,7 +151,6 @@ public class AlunoDAO {
     }
     
     // Método para pesquisar alunos por nome
-    
     public List<Aluno> buscaAlunos(String param) {
         // try...catch para tratar eventual erro
         try {
@@ -219,6 +218,7 @@ public class AlunoDAO {
                 // Desabilita os menus que não estarão visível para o aluno
                 tela.submenu_aluno.setVisible(false);
                 tela.menu_professor.setVisible(false);
+                tela.menu_prof_gerenciarPropostas.setVisible(false);
                 tela.setVisible(true);
                 
                 return true;
@@ -236,6 +236,7 @@ public class AlunoDAO {
             
         }
     }
+    
     
     public boolean verificaAluno(int matricula) {
         try {
@@ -264,6 +265,7 @@ public class AlunoDAO {
             
         }
     }
+    
     
     public Aluno getAluno(int matricula) {
         

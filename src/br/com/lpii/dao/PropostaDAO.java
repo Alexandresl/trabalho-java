@@ -7,8 +7,7 @@ package br.com.lpii.dao;
 
 import br.com.lpii.jdbc.ConnectionFactory;
 import br.com.lpii.model.Aluno;
-import br.com.lpii.model.Professor;
-import br.com.lpii.view.FrmMenu;
+import br.com.lpii.model.Proposta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,30 +17,35 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
- * ?
- * Classe responsável pela interação com o banco de dados
+ *
+ * @author
  */
-public class ProfessorDAO {
+public class PropostaDAO {
 
+    // Atributo para conexão
     private Connection con;
 
-    public ProfessorDAO() {
+    // Construtor
+    public PropostaDAO() {
         this.con = new ConnectionFactory().getConnection();
     }
 
-    // Método cadastrar aluno
-    public void cadastrarProfessor(Professor professor) {
+    // Método para cadastro de propostas
+    public void cadastrarProposta(Proposta proposta) {
+
         try {
             // Comando SQL
-            String sql = "INSERT INTO professor (nome, email, count_banca, senha) "
-                    + "VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO proposta (id_proposta, id_area_interesse, id_professor, titulo, descricao, status) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
-            stmt.setString(1, professor.getNome());
-            stmt.setString(2, professor.getEmail());
-            stmt.setInt(3, 0);
-            stmt.setString(4, professor.getSenha());
+            stmt.setInt(1, proposta.getPropostaId());
+            stmt.setInt(2, proposta.getPropostaAreaInteresse());
+            stmt.setInt(3, proposta.getPropostaIdProfessor());
+            stmt.setString(4, proposta.getPropostaTitulo());
+            stmt.setString(5, proposta.getPropostaDescricao());
+            stmt.setString(6, proposta.getPropostaStatus());
 
             //Executa sql
             stmt.execute();
@@ -50,63 +54,73 @@ public class ProfessorDAO {
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
         }
+
     }
 
-    // Método alterar aluno
-    public void alterarProfessor(Professor professor) {
+    public void alterarProposta(Proposta proposta) {
+
         try {
+
             // Comando SQL
-            String sql = "UPDATE professor SET nome = ?, email = ?, count_banca = ?, "
-                    + "senha = ? WHERE id_professor = ?";
+            String sql = "UPDATE proposta SET matricula = ?, id_area_interesse = ?, id_professor = ?, titulo = ?, descricao = ?, status = ? "
+                    + "WHERE id_proposta = ?";
 
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
+
             // insere os valores no sql
-            stmt.setString(1, professor.getNome());
-            stmt.setString(2, professor.getEmail());
-            stmt.setInt(3, professor.getNumBancas());
-            stmt.setString(4, professor.getSenha());
-            stmt.setInt(5, professor.getCodigo());
+            stmt.setInt(1, proposta.getPropostaAlunoMatricula());
+            stmt.setInt(2, proposta.getPropostaAreaInteresse());
+            stmt.setInt(3, proposta.getPropostaIdProfessor());
+            stmt.setString(4, proposta.getPropostaTitulo());
+            stmt.setString(5, proposta.getPropostaDescricao());
+            stmt.setString(6, proposta.getPropostaStatus());
+            stmt.setInt(7, proposta.getPropostaId());
 
             //Executa sql
             stmt.execute();
             stmt.close();
+
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
+
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
         }
+
     }
 
-    // Método exluir aluno
-    public void excluirProfessor(Professor professor) {
+    public void excluirAluno(Proposta proposta) {
 
         try {
 
             // Comando SQL
-            String sql = "DELETE FROM professor WHERE id_professor = ?";
+            String sql = "DELETE FROM proposta WHERE id_proposta = ?";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
-            stmt.setInt(1, professor.getCodigo());
+            stmt.setInt(1, proposta.getPropostaId());
 
             //Executa sql
             stmt.execute();
             stmt.close();
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
+
         } catch (SQLException error) {
+
             JOptionPane.showMessageDialog(null, "Erro: " + error);
+
         }
 
     }
 
-    // Método para listar todos os alunos
-    public List<Professor> listarProfessor() {
+    public List<Proposta> listarPropostas() {
+
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
-            List<Professor> lista = new ArrayList<>();
+            List<Proposta> lista = new ArrayList<>();
             // Cria comando sql
-            String sql = "SELECT * FROM professor ORDER BY id_professor";
+            String sql = "SELECT * FROM proposta ORDER BY id_proposta";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
@@ -117,15 +131,17 @@ public class ProfessorDAO {
              */
             while (rs.next()) {
                 // Para casda ocorrência de rs é gerado um novo objeto Aluno
-                Professor professor = new Professor();
+                Proposta proposta = new Proposta();
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
-                professor.setCodigo(rs.getInt("id_professor"));
-                professor.setNome(rs.getString("nome"));
-                professor.setEmail(rs.getString("email"));
-                professor.setSenha(rs.getString("senha"));
-                professor.setNumBancas(rs.getInt("count_banca"));
+                proposta.setPropostaId(rs.getInt("id_proposta"));
+                proposta.setPropostaAlunoMatricula(rs.getInt("matricula"));
+                proposta.setPropostaAreaInteresse(rs.getInt("id_area_interesse"));
+                proposta.setPropostaIdProfessor(rs.getInt("id_professor"));
+                proposta.setPropostaTitulo(rs.getString("titulo"));
+                proposta.setPropostaDescricao(rs.getString("descricao"));
+                proposta.setPropostaStatus(rs.getString("status"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
-                lista.add(professor);
+                lista.add(proposta);
             }
 
             return lista;
@@ -134,139 +150,134 @@ public class ProfessorDAO {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
+
+        }
+
+    }
+    
+    public List<Proposta> listarMinhasPropostas(int id) {
+
+        // try...catch para tratar eventual erro
+        try {
+            // Cria a lista
+            List<Proposta> lista = new ArrayList<>();
+            // Cria comando sql
+            String sql = "SELECT * FROM proposta  WHERE id_professor = ? ORDER BY titulo";
+            // prepara sql para execução
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            // o resultado do select é armazenada em um objeto ResultSet
+            ResultSet rs = stmt.executeQuery();
+            /**
+             * Armazena o resultado da pesquisa que está no ResultSet na nossa
+             * lista
+             */
+            while (rs.next()) {
+                // Para casda ocorrência de rs é gerado um novo objeto Aluno
+                Proposta proposta = new Proposta();
+                // É setado os atributos. Os parâmetros do get são os nomes das colunas
+                proposta.setPropostaId(rs.getInt("id_proposta"));
+                proposta.setPropostaAlunoMatricula(rs.getInt("matricula"));
+                proposta.setPropostaAreaInteresse(rs.getInt("id_area_interesse"));
+                proposta.setPropostaIdProfessor(rs.getInt("id_professor"));
+                proposta.setPropostaTitulo(rs.getString("titulo"));
+                proposta.setPropostaDescricao(rs.getString("descricao"));
+                proposta.setPropostaStatus(rs.getString("status"));
+                // Após setar todos os atributos, o objeto é adicionado à lista
+                lista.add(proposta);
+            }
+
+            return lista;
+
+        } catch (Exception error) {
+
+            JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
+            return null;
+
         }
 
     }
 
-    // Método para pesquisar alunos por nome
-    public List<Professor> buscaProfessor(String param) {
+    public List<Proposta> buscarPropostas(String param) {
+
         // try...catch para tratar eventual erro
         try {
+
             // Cria a lista
-            List<Professor> lista = new ArrayList<>();
+            List<Proposta> lista = new ArrayList<>();
+
             // Cria comando sql
-            String sql = "SELECT * FROM professor WHERE id_professor LIKE ? OR nome LIKE ? ORDER BY id_professor";
+            String sql = "SELECT * FROM proposta WHERE id_proposta LIKE ? OR titulo LIKE ? ORDER BY titulo";
+
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, param);
             stmt.setString(2, param);
+
             // o resultado do select é armazenada em um objeto ResultSet
             ResultSet rs = stmt.executeQuery();
+
             /**
              * Armazena o resultado da pesquisa que está no ResultSet na nossa
              * lista
              */
             while (rs.next()) {
                 // Para casda ocorrência de rs é gerado um novo objeto Aluno
-                Professor professor = new Professor();
+                Proposta proposta = new Proposta();
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
-                professor.setCodigo(rs.getInt("id_professor"));
-                professor.setNome(rs.getString("nome"));
-                professor.setEmail(rs.getString("email"));
-                professor.setSenha(rs.getString("senha"));
-                professor.setNumBancas(rs.getInt("count_banca"));
+                proposta.setPropostaId(rs.getInt("id_proposta"));
+                proposta.setPropostaAlunoMatricula(rs.getInt("matricula"));
+                proposta.setPropostaAreaInteresse(rs.getInt("id_area_interesse"));
+                proposta.setPropostaIdProfessor(rs.getInt("id_professor"));
+                proposta.setPropostaTitulo(rs.getString("titulo"));
+                proposta.setPropostaDescricao(rs.getString("descricao"));
+                proposta.setPropostaStatus(rs.getString("status"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
-                lista.add(professor);
+                lista.add(proposta);
             }
 
             return lista;
 
         } catch (Exception error) {
 
-            JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
+            JOptionPane.showMessageDialog(null, "Erro ao carregar propostas: " + error);
             return null;
         }
 
     }
 
-    // Método para pesquisar um Professor por id
-    public Professor buscaProfessor(int codigo) {
-        // cria um professor que será retornado
-        Professor professor = new Professor();
-        // try...catch para tratar eventual erro
-        try {
-            // Cria comando sql
-            String sql = "SELECT * FROM professor WHERE id_professor LIKE ?";
-            // prepara sql para execução
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, codigo);
-            // o resultado do select é armazenada em um objeto ResultSet
-            ResultSet rs = stmt.executeQuery();
-            /**
-             * Armazena o resultado da pesquisa que está no ResultSet na nossa
-             * lista
-             */
-            while (rs.next()) {
-
-                // É setado os atributos. Os parâmetros do get são os nomes das colunas
-                professor.setCodigo(rs.getInt("id_professor"));
-                professor.setNome(rs.getString("nome"));
-                professor.setEmail(rs.getString("email"));
-                professor.setSenha(rs.getString("senha"));
-                professor.setNumBancas(rs.getInt("count_banca"));
-
-            }
-
-            return professor;
-
-        } catch (Exception error) {
-
-            JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
-            return null;
-        }
-
-    }
-    
-    // realiza o login professor
-     public boolean loginProfessor(String email, String senha) {
+    public boolean verificaProposta(int id) {
+        
         try {
             // Verifica se existe o usuário no banco
-            String sql = "SELECT * FROM professor WHERE email = ? AND senha = ?";
+            String sql = "SELECT * FROM proposta WHERE id_proposta = ?";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
-            stmt.setString(1, email);
-            stmt.setString(2, senha);
-            
+            stmt.setInt(1, id);
+
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
-            
+
             // verifica se encontrou
-            if (rs.next()) {
-                // usuário logou
-                // Abre tela principal
-                FrmMenu tela = new FrmMenu();
-                tela.setNomeUsuario(rs.getString("nome"));
-                tela.setIdUsuario(rs.getString("id_professor"));
-                tela.setTipoUsuario("Professor");
-                // Desabilita os menus que não estarão visível para o aluno
-                tela.Aluno_meuCadastro.setVisible(false);
-                tela.menu_aluno_escolherTema.setVisible(false);
-                //tela.submenu_aluno.setVisible(false);
-                //tela.menu_professor.setVisible(false);
-                tela.setVisible(true);
-                
-                return true;
-                
-            } else {
-                // dados incoretos
-                JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos.");
-                return false;
-            }
-            
+            return rs.next(); // Usuário existe
+
         } catch (SQLException error) {
-            
+
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
-            
-        }
-    }
-    
 
-    public boolean verificaProfessor(int id) {
+        }
+    
+    }
+
+    public Proposta getProposta(int id) {
+
+        Proposta proposta = new Proposta();
+
         try {
             // Verifica se existe o usuário no banco
-            String sql = "SELECT * FROM professor WHERE id_professor = ?";
+            String sql = "SELECT * FROM proposta WHERE matricula = ?";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
@@ -277,18 +288,25 @@ public class ProfessorDAO {
 
             // verifica se encontrou
             if (rs.next()) {
-                // Usuário existe
-                return true;
-            } else {
-                return false;
+                // É setado os atributos. Os parâmetros do get são os nomes das colunas
+                proposta.setPropostaId(rs.getInt("id_proposta"));
+                proposta.setPropostaAlunoMatricula(rs.getInt("matricula"));
+                proposta.setPropostaAreaInteresse(rs.getInt("id_area_interesse"));
+                proposta.setPropostaIdProfessor(rs.getInt("id_professor"));
+                proposta.setPropostaTitulo(rs.getString("titulo"));
+                proposta.setPropostaDescricao(rs.getString("descricao"));
+                proposta.setPropostaStatus(rs.getString("status"));
+
             }
+            return proposta;    
 
         } catch (SQLException error) {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
-            return false;
-
+            return null;
         }
+
     }
 
 }
+

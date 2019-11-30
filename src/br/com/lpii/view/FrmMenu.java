@@ -89,7 +89,8 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         menu_propostas = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        menu_prof_gerenciarPropostas = new javax.swing.JMenuItem();
+        menu_aluno_escolherTema = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Gerenciamento dos TC do Curso de SSI");
@@ -263,17 +264,29 @@ public class FrmMenu extends javax.swing.JFrame {
         menu_propostas.setText("Propostas TCC");
         menu_propostas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jMenuItem4.setForeground(new java.awt.Color(0, 102, 51));
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/book_open.png"))); // NOI18N
-        jMenuItem4.setText("Gerenciar Propostas");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        menu_prof_gerenciarPropostas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        menu_prof_gerenciarPropostas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menu_prof_gerenciarPropostas.setForeground(new java.awt.Color(0, 102, 51));
+        menu_prof_gerenciarPropostas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/book_open.png"))); // NOI18N
+        menu_prof_gerenciarPropostas.setText("Gerenciar Propostas");
+        menu_prof_gerenciarPropostas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                menu_prof_gerenciarPropostasActionPerformed(evt);
             }
         });
-        menu_propostas.add(jMenuItem4);
+        menu_propostas.add(menu_prof_gerenciarPropostas);
+
+        menu_aluno_escolherTema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        menu_aluno_escolherTema.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menu_aluno_escolherTema.setForeground(new java.awt.Color(0, 102, 51));
+        menu_aluno_escolherTema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/book_open.png"))); // NOI18N
+        menu_aluno_escolherTema.setText("Escolher Tema");
+        menu_aluno_escolherTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_aluno_escolherTemaActionPerformed(evt);
+            }
+        });
+        menu_propostas.add(menu_aluno_escolherTema);
 
         jMenuBar1.add(menu_propostas);
 
@@ -353,11 +366,11 @@ public class FrmMenu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void menu_prof_gerenciarPropostasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_prof_gerenciarPropostasActionPerformed
         // Abre formulário para gerenciamento de propostas para o TC
         FrmGerenciarPropostas tela = new FrmGerenciarPropostas();
         tela.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_menu_prof_gerenciarPropostasActionPerformed
 
     private void Aluno_meuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Aluno_meuCadastroActionPerformed
         
@@ -366,6 +379,12 @@ public class FrmMenu extends javax.swing.JFrame {
         tela.setVisible(true);
         
     }//GEN-LAST:event_Aluno_meuCadastroActionPerformed
+
+    private void menu_aluno_escolherTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_aluno_escolherTemaActionPerformed
+        // Abre JFrame para aluno escolher tema
+        FrmEscolherTema tela = new FrmEscolherTema();
+        tela.setVisible(true);
+    }//GEN-LAST:event_menu_aluno_escolherTemaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -407,7 +426,6 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
@@ -415,7 +433,9 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JLabel label_matrícula;
     private javax.swing.JLabel label_usuario;
     private javax.swing.JMenu menu_aluno;
+    public javax.swing.JMenuItem menu_aluno_escolherTema;
     private javax.swing.JMenu menu_arquivo;
+    public javax.swing.JMenuItem menu_prof_gerenciarPropostas;
     public javax.swing.JMenu menu_professor;
     private javax.swing.JMenu menu_propostas;
     private javax.swing.JDesktopPane painel_desk;
