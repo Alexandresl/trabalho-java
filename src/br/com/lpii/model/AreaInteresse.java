@@ -34,7 +34,7 @@ public class AreaInteresse {
         this.professor_id = professor_id;
     }
 
-    // Contrutores
+    // Contrutor
     public AreaInteresse() {
         
     }
