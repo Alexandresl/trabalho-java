@@ -20,6 +20,7 @@ public class AreaInteresse {
     private String nome;
     private int professor_id;
 
+    
     /**
      * Contrutores da classe área de interesse
      *
@@ -27,17 +28,17 @@ public class AreaInteresse {
      * @param nome
      * @param professor_id
      */
-    
-    public AreaInteresse() {
-        
-    }
-    
     public AreaInteresse(int id_area_interesse, String nome, int professor_id) {
         this.id_area_interesse = id_area_interesse;
         this.nome = nome;
         this.professor_id = professor_id;
     }
 
+    // Contrutores
+    public AreaInteresse() {
+        
+    }
+    
     public int getId_area_interesse() {
         return id_area_interesse;
     }
