@@ -358,6 +358,7 @@ public class FrmMenu extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         FrmAreaInteresse tela = new FrmAreaInteresse();
         tela.setVisible(true);
+        tela.setUsuarioId(Integer.parseInt(idUsuario));
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed

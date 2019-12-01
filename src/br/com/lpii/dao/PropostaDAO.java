@@ -277,7 +277,7 @@ public class PropostaDAO {
 
         try {
             // Verifica se existe o usuário no banco
-            String sql = "SELECT * FROM proposta WHERE matricula = ?";
+            String sql = "SELECT * FROM proposta WHERE id_proposta = ?";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet

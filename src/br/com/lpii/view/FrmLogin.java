@@ -200,8 +200,6 @@ public class FrmLogin extends javax.swing.JFrame {
                 
                 if (sucesso) {
                     this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "falha!!");
                 }
 
             } else if (perfil.equals("Professor")) {

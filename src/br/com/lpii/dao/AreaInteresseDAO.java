@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
  * @author Alexandre Lima
  */
 public class AreaInteresseDAO {
+
     // Atributo para conexão
     private Connection con;
 
@@ -29,10 +30,37 @@ public class AreaInteresseDAO {
         this.con = new ConnectionFactory().getConnection();
     }
 
-//    // Método para cadastro de propostas
-//    public void cadastrarProposta(Proposta proposta) {
-//
-//    }
+    public void cadastrarAreaInteresse(List<AreaInteresse> lista) {
+
+        try {
+
+            // Comando SQL
+            String sql = "INSERT INTO professor_area_interesse (professor_id, area_interesse_id) "
+                    + "VALUES (?, ?)";
+            // Percorre a lista para salvar no banco de dados
+            for (AreaInteresse ai : lista) {
+
+                // Conectar o banco de dados e organizar o SQL
+                PreparedStatement stmt = con.prepareStatement(sql);
+
+                stmt.setInt(1, ai.getProfessor_id());
+                stmt.setInt(2, ai.getId_area_interesse());
+
+                //Executa sql
+                stmt.execute();
+                stmt.close();
+                
+            }
+            
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+
+        } catch (SQLException error) {
+
+            JOptionPane.showMessageDialog(null, "Erro: " + error);
+
+        }
+    }
+
 
 //    public void alterarProposta(Proposta proposta) {
 //
@@ -63,9 +91,9 @@ public class AreaInteresseDAO {
 //    }
 //
     public AreaInteresse getAreaInteresse(int id) {
-         
+
         AreaInteresse ai = new AreaInteresse();
-        
+
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM area_interesse WHERE id_area_interesse = ?";
@@ -83,13 +111,13 @@ public class AreaInteresseDAO {
                 ai.setId_area_interesse(id);
                 ai.setNome(rs.getString("nome"));
             }
-            return ai;    
+            return ai;
 
         } catch (SQLException error) {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return null;
         }
-        
+
     }
 }

@@ -5,7 +5,13 @@
  */
 package br.com.lpii.view;
 
-
+import br.com.lpii.dao.AreaInteresseDAO;
+import br.com.lpii.model.AreaInteresse;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,6 +19,16 @@ package br.com.lpii.view;
  */
 public class FrmAreaInteresse extends javax.swing.JFrame {
 
+    private int usuarioId;
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+    
     /**
      * Método construtor
      */
@@ -25,11 +41,6 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
      * Método para gerenciar campos bloquear - block | desbloquear unblock
      * limpar - clean
      */
-
-
-
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,28 +53,24 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        painel_chk = new javax.swing.JPanel();
+        chk_pyton = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
+        chk_js = new javax.swing.JCheckBox();
+        chk_java = new javax.swing.JCheckBox();
+        chk_php = new javax.swing.JCheckBox();
+        chk_cScharp = new javax.swing.JCheckBox();
+        chk_html = new javax.swing.JCheckBox();
+        chk_css = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
-        jCheckBox15 = new javax.swing.JCheckBox();
-        jCheckBox16 = new javax.swing.JCheckBox();
-        jCheckBox17 = new javax.swing.JCheckBox();
-        jCheckBox18 = new javax.swing.JCheckBox();
-        jCheckBox19 = new javax.swing.JCheckBox();
+        chk_desAndroid = new javax.swing.JCheckBox();
+        chk_desIos = new javax.swing.JCheckBox();
+        chk_machineLearning = new javax.swing.JCheckBox();
+        chk_games = new javax.swing.JCheckBox();
+        chk_dataScience = new javax.swing.JCheckBox();
+        data_bancoDados = new javax.swing.JCheckBox();
+        chk_estDeDados = new javax.swing.JCheckBox();
+        chik_c = new javax.swing.JCheckBox();
         btn_salvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -86,9 +93,9 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGap(43, 43, 43)
                 .addComponent(jLabel8)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,110 +110,90 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        painel_chk.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox1.setText("Python");
+        chk_pyton.setBackground(new java.awt.Color(255, 255, 255));
+        chk_pyton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_pyton.setForeground(new java.awt.Color(0, 153, 51));
+        chk_pyton.setText("Python");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 153, 51));
         jLabel2.setText("Linguagens");
 
-        jCheckBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox2.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox2.setText("JavaScript");
+        chk_js.setBackground(new java.awt.Color(255, 255, 255));
+        chk_js.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_js.setForeground(new java.awt.Color(0, 153, 51));
+        chk_js.setText("JavaScript");
 
-        jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox3.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox3.setText("Java");
+        chk_java.setBackground(new java.awt.Color(255, 255, 255));
+        chk_java.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_java.setForeground(new java.awt.Color(0, 153, 51));
+        chk_java.setText("Java");
 
-        jCheckBox4.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox4.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox4.setText("PHP");
+        chk_php.setBackground(new java.awt.Color(255, 255, 255));
+        chk_php.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_php.setForeground(new java.awt.Color(0, 153, 51));
+        chk_php.setText("PHP");
 
-        jCheckBox5.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox5.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox5.setText("C#");
+        chk_cScharp.setBackground(new java.awt.Color(255, 255, 255));
+        chk_cScharp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_cScharp.setForeground(new java.awt.Color(0, 153, 51));
+        chk_cScharp.setText("C#");
 
-        jCheckBox6.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox6.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox6.setText("HTML");
+        chk_html.setBackground(new java.awt.Color(255, 255, 255));
+        chk_html.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_html.setForeground(new java.awt.Color(0, 153, 51));
+        chk_html.setText("HTML");
 
-        jCheckBox7.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox7.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox7.setText("CSS");
+        chk_css.setBackground(new java.awt.Color(255, 255, 255));
+        chk_css.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_css.setForeground(new java.awt.Color(0, 153, 51));
+        chk_css.setText("CSS");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 153, 51));
         jLabel3.setText("Temas");
 
-        jCheckBox8.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox8.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox8.setText("Desenvolvimento Android");
+        chk_desAndroid.setBackground(new java.awt.Color(255, 255, 255));
+        chk_desAndroid.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_desAndroid.setForeground(new java.awt.Color(0, 153, 51));
+        chk_desAndroid.setText("Desenvolvimento Android");
 
-        jCheckBox9.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox9.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox9.setText("Desenvolvimento iOS");
+        chk_desIos.setBackground(new java.awt.Color(255, 255, 255));
+        chk_desIos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_desIos.setForeground(new java.awt.Color(0, 153, 51));
+        chk_desIos.setText("Desenvolvimento iOS");
 
-        jCheckBox10.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox10.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox10.setText("WordPress");
+        chk_machineLearning.setBackground(new java.awt.Color(255, 255, 255));
+        chk_machineLearning.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_machineLearning.setForeground(new java.awt.Color(0, 153, 51));
+        chk_machineLearning.setText("Machine Learning");
 
-        jCheckBox11.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox11.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox11.setText("Desenvolvimento Web");
+        chk_games.setBackground(new java.awt.Color(255, 255, 255));
+        chk_games.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_games.setForeground(new java.awt.Color(0, 153, 51));
+        chk_games.setText("Desenvolvimento de Games");
 
-        jCheckBox12.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox12.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox12.setText("Machine Learning");
+        chk_dataScience.setBackground(new java.awt.Color(255, 255, 255));
+        chk_dataScience.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_dataScience.setForeground(new java.awt.Color(0, 153, 51));
+        chk_dataScience.setText("Data Science");
 
-        jCheckBox13.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox13.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox13.setText("Desenvolvimento de Games");
+        data_bancoDados.setBackground(new java.awt.Color(255, 255, 255));
+        data_bancoDados.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        data_bancoDados.setForeground(new java.awt.Color(0, 153, 51));
+        data_bancoDados.setText("Banco de dados");
 
-        jCheckBox14.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox14.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox14.setText("Data Science");
+        chk_estDeDados.setBackground(new java.awt.Color(255, 255, 255));
+        chk_estDeDados.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chk_estDeDados.setForeground(new java.awt.Color(0, 153, 51));
+        chk_estDeDados.setText("Estruturas de dados");
 
-        jCheckBox15.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox15.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox15.setText("Banco de dados");
-
-        jCheckBox16.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox16.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox16.setText("Teste de Software");
-
-        jCheckBox17.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox17.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox17.setText("Estruturas de dados");
-
-        jCheckBox18.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox18.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox18.setText("Algorítimo");
-
-        jCheckBox19.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jCheckBox19.setForeground(new java.awt.Color(0, 153, 51));
-        jCheckBox19.setText("C");
+        chik_c.setBackground(new java.awt.Color(255, 255, 255));
+        chik_c.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chik_c.setForeground(new java.awt.Color(0, 153, 51));
+        chik_c.setText("C");
 
         btn_salvar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_salvar.setForeground(new java.awt.Color(0, 102, 51));
@@ -218,92 +205,83 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout painel_chkLayout = new javax.swing.GroupLayout(painel_chk);
+        painel_chk.setLayout(painel_chkLayout);
+        painel_chkLayout.setHorizontalGroup(
+            painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel_chkLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox6)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chk_html)
+                    .addGroup(painel_chkLayout.createSequentialGroup()
+                        .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(jCheckBox2))
+                            .addGroup(painel_chkLayout.createSequentialGroup()
+                                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chk_pyton)
+                                    .addComponent(chk_js))
                                 .addGap(42, 42, 42)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox7)
-                                    .addComponent(jCheckBox19)))
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox5))
+                                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chk_css)
+                                    .addComponent(chik_c)))
+                            .addComponent(chk_java)
+                            .addComponent(chk_php)
+                            .addComponent(chk_cScharp))
                         .addGap(46, 46, 46)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btn_salvar)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCheckBox8)
-                                        .addComponent(jCheckBox9)
-                                        .addComponent(jCheckBox10)
-                                        .addComponent(jCheckBox11)
-                                        .addComponent(jCheckBox12))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCheckBox16)
-                                        .addComponent(jCheckBox15)
-                                        .addComponent(jCheckBox14)
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(jCheckBox13)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jCheckBox17))
-                                        .addComponent(jCheckBox18)))))))
+                            .addGroup(painel_chkLayout.createSequentialGroup()
+                                .addGap(464, 464, 464)
+                                .addComponent(btn_salvar))
+                            .addGroup(painel_chkLayout.createSequentialGroup()
+                                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chk_desAndroid)
+                                    .addComponent(chk_desIos)
+                                    .addComponent(chk_machineLearning)
+                                    .addComponent(chk_estDeDados)
+                                    .addComponent(data_bancoDados))
+                                .addGap(18, 18, 18)
+                                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chk_dataScience)
+                                    .addComponent(chk_games))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        painel_chkLayout.setVerticalGroup(
+            painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel_chkLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox7)
-                    .addComponent(jCheckBox8)
-                    .addComponent(jCheckBox13)
-                    .addComponent(jCheckBox17))
+                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chk_pyton)
+                    .addComponent(chk_css)
+                    .addComponent(chk_desAndroid)
+                    .addComponent(chk_games))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox9)
-                    .addComponent(jCheckBox14)
-                    .addComponent(jCheckBox19))
+                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chk_js)
+                    .addComponent(chk_desIos)
+                    .addComponent(chk_dataScience)
+                    .addComponent(chik_c))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox10)
-                    .addComponent(jCheckBox15))
+                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chk_java)
+                    .addComponent(data_bancoDados))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox11)
-                    .addComponent(jCheckBox16))
+                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chk_php)
+                    .addComponent(chk_estDeDados))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox12)
-                    .addComponent(jCheckBox18))
+                .addGroup(painel_chkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chk_cScharp)
+                    .addComponent(chk_machineLearning))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox6)
+                .addComponent(chk_html)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_salvar)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -311,14 +289,14 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(painel_chk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(painel_chk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -327,9 +305,53 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
 
+        // Cria a lista
+        List<AreaInteresse> lista = new ArrayList<>();
+        // Instancia 
+        AreaInteresseDAO daoAI = new AreaInteresseDAO();
+        
+        for (Component c : painel_chk.getComponents()) {
+
+            if (c instanceof JCheckBox) {
+
+                if (((JCheckBox) c).isSelected()) {
+                    
+                    AreaInteresse ai = new AreaInteresse();
+                    ai.setId_area_interesse(getAreaInteresse(((JCheckBox) c).getText()));
+                    ai.setProfessor_id(usuarioId);
+                    lista.add(ai);
+                }
+
+            }
+
+        }
+        
+        if (!lista.isEmpty()) { 
+            daoAI.cadastrarAreaInteresse(lista);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione ao menus uma área de interesse.");
+        }
 
     }//GEN-LAST:event_btn_salvarActionPerformed
 
+    // Método recebe uma String com a área de interese e retorna seu ID
+    public int getAreaInteresse(String areaInteresse) {
+        
+        String[] areas = {"Python", "JavaScript", "Java", "PHP", "C#", 
+                "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS", 
+                "WordPress", "Desenvolimento Web", "Machine Learning", 
+                "Desenvolvimento de Games", "Data Science", "Banco de dados",
+                "Teste de Software", "Algoritmo", "Estrutura de dados"};
+        int i;
+        for (i = 0; i <= areas.length - 1; i++) {
+            if (areas[i] == areaInteresse) {
+                 break;          
+            }
+        }
+        return i;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -368,30 +390,26 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_salvar;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
-    private javax.swing.JCheckBox jCheckBox13;
-    private javax.swing.JCheckBox jCheckBox14;
-    private javax.swing.JCheckBox jCheckBox15;
-    private javax.swing.JCheckBox jCheckBox16;
-    private javax.swing.JCheckBox jCheckBox17;
-    private javax.swing.JCheckBox jCheckBox18;
-    private javax.swing.JCheckBox jCheckBox19;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
+    private javax.swing.JCheckBox chik_c;
+    private javax.swing.JCheckBox chk_cScharp;
+    private javax.swing.JCheckBox chk_css;
+    private javax.swing.JCheckBox chk_dataScience;
+    private javax.swing.JCheckBox chk_desAndroid;
+    private javax.swing.JCheckBox chk_desIos;
+    private javax.swing.JCheckBox chk_estDeDados;
+    private javax.swing.JCheckBox chk_games;
+    private javax.swing.JCheckBox chk_html;
+    private javax.swing.JCheckBox chk_java;
+    private javax.swing.JCheckBox chk_js;
+    private javax.swing.JCheckBox chk_machineLearning;
+    private javax.swing.JCheckBox chk_php;
+    private javax.swing.JCheckBox chk_pyton;
+    private javax.swing.JCheckBox data_bancoDados;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel painel_chk;
     // End of variables declaration//GEN-END:variables
 }

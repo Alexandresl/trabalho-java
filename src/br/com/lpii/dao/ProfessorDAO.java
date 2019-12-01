@@ -6,7 +6,6 @@
 package br.com.lpii.dao;
 
 import br.com.lpii.jdbc.ConnectionFactory;
-import br.com.lpii.model.Aluno;
 import br.com.lpii.model.Professor;
 import br.com.lpii.view.FrmMenu;
 import java.sql.Connection;

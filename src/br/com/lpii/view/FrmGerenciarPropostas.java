@@ -92,7 +92,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        btn_novo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btn_novo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         btn_novo.setForeground(new java.awt.Color(0, 102, 51));
         btn_novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/accept.png"))); // NOI18N
         btn_novo.setText("Aprovar Proposta");
@@ -163,12 +163,12 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
             .addComponent(jScrollPane2)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_novo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addComponent(btn_novo)
+                .addGap(54, 54, 54)
                 .addComponent(btn_novo1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(btn_novo2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(btn_novo3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
