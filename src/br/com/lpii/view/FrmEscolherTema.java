@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmEscolherTema extends javax.swing.JFrame {
 
-    private int usuarioId = 656565;
+    private int usuarioId;
 
     /**
      * Creates new form FrmGerenciarPropostas

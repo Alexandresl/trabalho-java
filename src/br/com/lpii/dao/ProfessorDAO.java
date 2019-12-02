@@ -32,8 +32,8 @@ public class ProfessorDAO {
     public void cadastrarProfessor(Professor professor) {
         try {
             // Comando SQL
-            String sql = "INSERT INTO professor (nome, email, count_banca, senha) "
-                    + "VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO professor (nome, email, conta_banca, senha, conta_orientador) "
+                    + "VALUES (?, ?, ?, ?, ?)";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
@@ -41,6 +41,8 @@ public class ProfessorDAO {
             stmt.setString(2, professor.getEmail());
             stmt.setInt(3, 0);
             stmt.setString(4, professor.getSenha());
+            stmt.setInt(4, 0);
+            
 
             //Executa sql
             stmt.execute();
@@ -55,7 +57,7 @@ public class ProfessorDAO {
     public void alterarProfessor(Professor professor) {
         try {
             // Comando SQL
-            String sql = "UPDATE professor SET nome = ?, email = ?, count_banca = ?, "
+            String sql = "UPDATE professor SET nome = ?, email = ?, conta_banca = ?, conta_orientador, "
                     + "senha = ? WHERE id_professor = ?";
 
             // Conectar o banco de dados e organizar o SQL
@@ -63,9 +65,10 @@ public class ProfessorDAO {
             // insere os valores no sql
             stmt.setString(1, professor.getNome());
             stmt.setString(2, professor.getEmail());
-            stmt.setInt(3, professor.getNumBancas());
-            stmt.setString(4, professor.getSenha());
-            stmt.setInt(5, professor.getCodigo());
+            stmt.setInt(4, professor.getConta_banca());
+            stmt.setInt(5, professor.getConta_orientador());
+            stmt.setString(6, professor.getSenha());
+            stmt.setInt(7, professor.getCodigo());
 
             //Executa sql
             stmt.execute();
@@ -122,7 +125,9 @@ public class ProfessorDAO {
                 professor.setNome(rs.getString("nome"));
                 professor.setEmail(rs.getString("email"));
                 professor.setSenha(rs.getString("senha"));
-                professor.setNumBancas(rs.getInt("count_banca"));
+                professor.setConta_banca(rs.getInt("conta_banca"));
+                professor.setConta_orientador(rs.getInt("conta_orientador"));
+                
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(professor);
             }
@@ -163,7 +168,8 @@ public class ProfessorDAO {
                 professor.setNome(rs.getString("nome"));
                 professor.setEmail(rs.getString("email"));
                 professor.setSenha(rs.getString("senha"));
-                professor.setNumBancas(rs.getInt("count_banca"));
+                professor.setConta_banca(rs.getInt("conta_banca"));
+                professor.setConta_orientador(rs.getInt("conta_orientador"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(professor);
             }
@@ -202,7 +208,8 @@ public class ProfessorDAO {
                 professor.setNome(rs.getString("nome"));
                 professor.setEmail(rs.getString("email"));
                 professor.setSenha(rs.getString("senha"));
-                professor.setNumBancas(rs.getInt("count_banca"));
+                professor.setConta_banca(rs.getInt("conta_banca"));
+                professor.setConta_orientador(rs.getInt("conta_orientador"));
 
             }
 

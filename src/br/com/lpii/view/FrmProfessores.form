@@ -314,7 +314,7 @@
                           <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                           <Component id="label_orientador" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txt_orientador" min="-2" pref="127" max="-2" attributes="0"/>
+                          <Component id="txt_contaOrientador" min="-2" pref="127" max="-2" attributes="0"/>
                           <EmptySpace pref="102" max="32767" attributes="0"/>
                           <Component id="label_banca" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -331,7 +331,7 @@
                               <Component id="label_orientador" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txt_banca" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="label_banca" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_orientador" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_contaOrientador" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="20" max="32767" attributes="0"/>
                       </Group>
@@ -363,7 +363,7 @@
                     <Property name="text" type="java.lang.String" value="Banca:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txt_orientador">
+                <Component class="javax.swing.JTextField" name="txt_contaOrientador">
                 </Component>
               </SubComponents>
             </Container>

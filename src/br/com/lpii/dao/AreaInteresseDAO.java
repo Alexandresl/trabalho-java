@@ -7,6 +7,7 @@ package br.com.lpii.dao;
 
 import br.com.lpii.jdbc.ConnectionFactory;
 import br.com.lpii.model.AreaInteresse;
+import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,9 +50,9 @@ public class AreaInteresseDAO {
                 //Executa sql
                 stmt.execute();
                 stmt.close();
-                
+
             }
-            
+
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
 
         } catch (SQLException error) {
@@ -61,6 +62,86 @@ public class AreaInteresseDAO {
         }
     }
 
+    public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId) {
+        try {
+            System.out.println(areaInteresse);
+            // Cria uma lista com os professorea que possuem a área de interesse
+            List<Professor> lista = new ArrayList<>();
+
+            // Cria a seleção
+            String sql = "SELECT * FROM professor_area_interesse pai "
+                    + "INNER JOIN professor p ON pai.professor_id = p.id_professor  "
+                    + "WHERE pai.area_interesse_id = ? AND pai.professor_id != ? GROUP BY pai.professor_id, pai.area_interesse_id";
+
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, areaInteresse);
+            stmt.setInt(2, usuarioId);
+
+            // Armazena o resultado
+            ResultSet rs = stmt.executeQuery();
+
+            // verifica se encontrou
+            while (rs.next()) {
+                
+                Professor professor = new Professor();
+                professor.setCodigo(rs.getInt("id_professor"));
+                professor.setNome(rs.getString("nome"));
+                professor.setEmail(rs.getString("email"));
+                professor.setConta_banca(rs.getInt("conta_banca"));
+                professor.setConta_orientador(rs.getInt("conta_orientador"));
+                professor.setSenha(rs.getString("senha"));
+                lista.add(professor);
+            }
+
+            // retorna lista de professores
+            return lista;
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Erro: " + error);
+            return null;
+        }
+    }
+    
+    public List<Professor> ListaTodosProfessoresAreaInteresse(int usuarioId) {
+        try {
+            // Cria uma lista com os professorea que possuem a área de interesse
+            List<Professor> lista = new ArrayList<>();
+
+            // Cria a seleção
+            String sql = "SELECT * FROM professor_area_interesse pai "
+                    + "INNER JOIN professor p ON pai.professor_id = p.id_professor "
+                    + "WHERE p.conta_banca <= 5 AND pai.professor_id != 8 "
+                    + "GROUP BY pai.professor_id";
+
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, usuarioId);
+
+            // Armazena o resultado
+            ResultSet rs = stmt.executeQuery();
+
+            // verifica se encontrou
+            while (rs.next()) {
+                
+                Professor professor = new Professor();
+                professor.setCodigo(rs.getInt("id_professor"));
+                professor.setNome(rs.getString("nome"));
+                professor.setEmail(rs.getString("email"));
+                professor.setConta_banca(rs.getInt("conta_banca"));
+                professor.setConta_orientador(rs.getInt("conta_orientador"));
+                professor.setSenha(rs.getString("senha"));
+                lista.add(professor);
+            }
+
+            // retorna lista de professores
+            return lista;
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Erro: " + error);
+            return null;
+        }
+    }
 
 //    public void alterarProposta(Proposta proposta) {
 //

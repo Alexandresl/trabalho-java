@@ -5,17 +5,53 @@
  */
 package br.com.lpii.view;
 
+import br.com.lpii.dao.PropostaDAO;
+import br.com.lpii.model.Proposta;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author Alexandre Lima
+ * @author
  */
 public class FrmGerenciarPropostas extends javax.swing.JFrame {
+
+    private int usuarioId;
+    private int codDaProposta;
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public int getCodDaProposta() {
+        return codDaProposta;
+    }
+
+    public void setCodDaProposta(int codDaProposta) {
+        this.codDaProposta = codDaProposta;
+    }
+
+    /**
+     * Métodos para gerenciar botões
+     */
+    public void gerenciaBotoes(boolean aprovar, boolean rejeitar, boolean detalhes, boolean notas) {
+        btn_aprovar.setEnabled(aprovar);
+        btn_rejeitar.setEnabled(rejeitar);
+        btn_detalhes.setEnabled(detalhes);
+        btn_notas.setEnabled(notas);
+    }
 
     /**
      * Creates new form FrmGerenciarPropostas
      */
     public FrmGerenciarPropostas() {
         initComponents();
+        gerenciaBotoes(false, false, false, false);
     }
 
     /**
@@ -33,12 +69,12 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        btn_novo = new javax.swing.JButton();
+        btn_aprovar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        btn_novo1 = new javax.swing.JButton();
-        btn_novo2 = new javax.swing.JButton();
-        btn_novo3 = new javax.swing.JButton();
+        tbl_propostas = new javax.swing.JTable();
+        btn_rejeitar = new javax.swing.JButton();
+        btn_detalhes = new javax.swing.JButton();
+        btn_notas = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -55,6 +91,11 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Propostas de TC");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -62,7 +103,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 153, 51));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Gerenciar Propostas Por Aluno");
+        jLabel1.setText("Gerenciar Propostas");
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logo-instituto.png"))); // NOI18N
 
@@ -73,7 +114,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addContainerGap())
         );
@@ -92,67 +133,73 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        btn_novo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btn_novo.setForeground(new java.awt.Color(0, 102, 51));
-        btn_novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/accept.png"))); // NOI18N
-        btn_novo.setText("Aprovar Proposta");
-        btn_novo.addActionListener(new java.awt.event.ActionListener() {
+        btn_aprovar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btn_aprovar.setForeground(new java.awt.Color(0, 102, 51));
+        btn_aprovar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/accept.png"))); // NOI18N
+        btn_aprovar.setText("Aprovar Proposta");
+        btn_aprovar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_novoActionPerformed(evt);
+                btn_aprovarActionPerformed(evt);
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_propostas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Matrícula", "Nome", "Tema", "Nota Final"
+                "Matrícula", "Cód. do Tema", "Tema", "Status", "Nota Final"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false
+                false, true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(40);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(50);
-            jTable2.getColumnModel().getColumn(3).setPreferredWidth(50);
+        tbl_propostas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_propostasMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbl_propostas);
+        if (tbl_propostas.getColumnModel().getColumnCount() > 0) {
+            tbl_propostas.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tbl_propostas.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tbl_propostas.getColumnModel().getColumn(2).setPreferredWidth(250);
+            tbl_propostas.getColumnModel().getColumn(3).setPreferredWidth(30);
+            tbl_propostas.getColumnModel().getColumn(4).setPreferredWidth(30);
         }
 
-        btn_novo1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btn_novo1.setForeground(new java.awt.Color(0, 102, 51));
-        btn_novo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cancel.png"))); // NOI18N
-        btn_novo1.setText("Rejaitar Proposta");
-        btn_novo1.addActionListener(new java.awt.event.ActionListener() {
+        btn_rejeitar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btn_rejeitar.setForeground(new java.awt.Color(0, 102, 51));
+        btn_rejeitar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cancel.png"))); // NOI18N
+        btn_rejeitar.setText("Rejaitar Proposta");
+        btn_rejeitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_novo1ActionPerformed(evt);
+                btn_rejeitarActionPerformed(evt);
             }
         });
 
-        btn_novo2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btn_novo2.setForeground(new java.awt.Color(0, 102, 51));
-        btn_novo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
-        btn_novo2.setText("Ver Detalhes");
-        btn_novo2.addActionListener(new java.awt.event.ActionListener() {
+        btn_detalhes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btn_detalhes.setForeground(new java.awt.Color(0, 102, 51));
+        btn_detalhes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
+        btn_detalhes.setText("Ver Detalhes");
+        btn_detalhes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_novo2ActionPerformed(evt);
+                btn_detalhesActionPerformed(evt);
             }
         });
 
-        btn_novo3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btn_novo3.setForeground(new java.awt.Color(0, 102, 51));
-        btn_novo3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/application_form_edit.png"))); // NOI18N
-        btn_novo3.setText("Incluir Notas");
-        btn_novo3.addActionListener(new java.awt.event.ActionListener() {
+        btn_notas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btn_notas.setForeground(new java.awt.Color(0, 102, 51));
+        btn_notas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/application_form_edit.png"))); // NOI18N
+        btn_notas.setText("Incluir Notas");
+        btn_notas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_novo3ActionPerformed(evt);
+                btn_notasActionPerformed(evt);
             }
         });
 
@@ -163,13 +210,13 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
             .addComponent(jScrollPane2)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_novo)
+                .addComponent(btn_aprovar)
                 .addGap(54, 54, 54)
-                .addComponent(btn_novo1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_rejeitar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
-                .addComponent(btn_novo2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_detalhes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
-                .addComponent(btn_novo3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_notas, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -178,14 +225,14 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(btn_novo2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_novo1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_novo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_novo3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_detalhes, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_rejeitar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_aprovar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_notas, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_novo, btn_novo1, btn_novo2});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_aprovar, btn_detalhes, btn_rejeitar});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,21 +253,102 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
-        
-    }//GEN-LAST:event_btn_novoActionPerformed
+    private void btn_aprovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aprovarActionPerformed
 
-    private void btn_novo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novo1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_novo1ActionPerformed
+        // Edita Proposta aprovando projeto para o aluno
+        // Crio uma proposta e uma proposta dao
+        PropostaDAO daoProp = new PropostaDAO();
+        Proposta proposta = daoProp.getProposta(codDaProposta);
+        if (proposta.getPropostaAlunoMatricula() != 0) {
+            proposta.setPropostaStatus("Aprovado");
+            daoProp.alterarProposta(proposta);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ainda não há alunos vinculados");
+        }
 
-    private void btn_novo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novo2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_novo2ActionPerformed
+    }//GEN-LAST:event_btn_aprovarActionPerformed
 
-    private void btn_novo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novo3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_novo3ActionPerformed
+    private void btn_rejeitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rejeitarActionPerformed
+        // Edita Proposta aprovando projeto para o aluno
+        // Crio uma proposta e uma proposta dao
+        PropostaDAO daoProp = new PropostaDAO();
+        Proposta proposta = daoProp.getProposta(codDaProposta);
+        if (proposta.getPropostaStatus().equals("Aguardando aprovação")) {
+            proposta.setPropostaStatus("Em aberto");
+            daoProp.alterarProposta(proposta);
+        } else {
+            JOptionPane.showMessageDialog(null, "Esta proposta não pode ser rejeitada");
+        }
+
+    }//GEN-LAST:event_btn_rejeitarActionPerformed
+
+    private void btn_detalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detalhesActionPerformed
+        // Mostra a tela ver mensagens
+        FrmVerDetalhesTema tela = new FrmVerDetalhesTema();
+        tela.setTemaId(this.codDaProposta);
+        tela.setVisible(true);
+    }//GEN-LAST:event_btn_detalhesActionPerformed
+
+    private void btn_notasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_notasActionPerformed
+        // Abre tela para inclusão das notas
+        FrmIncluirNota tela = new FrmIncluirNota();
+        tela.setPropostaId(codDaProposta);
+        tela.setVisible(true);
+    }//GEN-LAST:event_btn_notasActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // Ao carregar, bloqueia os botões
+        gerenciaBotoes(false, false, false, false);
+        // Lista todoas as propostas do professor
+        toList();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
+
+        // Pega o ID vindo da tabela
+        int codTema = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 1).toString());
+        // Instancia uma classe PropostaDAO
+        PropostaDAO daoP = new PropostaDAO();
+        // Cria um objeto proposta com todos os dados do objeto
+        Proposta proposta = daoP.getProposta(codTema);
+        // seta a proposta em questão como atributo
+        setCodDaProposta(proposta.getPropostaId());
+        // Verifica se o status está aprovado
+        if (proposta.getPropostaStatus().equals("Aprovado")) {
+            // Libera os botões
+            gerenciaBotoes(true, true, true, true);
+
+        } else {
+
+            // Libera os botões
+            gerenciaBotoes(true, true, true, false);
+
+        }
+    }//GEN-LAST:event_tbl_propostasMouseClicked
+
+    public void toList() {
+        // Instancia objeto DAO
+        PropostaDAO dao = new PropostaDAO();
+        // Armazena em uma lista o retorno do método listarAlunos
+        List<Proposta> lista = dao.listarMinhasPropostas(usuarioId);
+        // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
+        DefaultTableModel dados = (DefaultTableModel) tbl_propostas.getModel();
+        // limpa dados da tabela
+        dados.setNumRows(0);
+
+        // cada ocorrência em lista irá para um objeto professor
+        for (Proposta p : lista) {
+            // E agora será adicionado a lista na tabela. Linha a linha
+            dados.addRow(new Object[]{
+                (p.getPropostaAlunoMatricula() == 0) ? "Nenhum aluno vinculado" : p.getPropostaAlunoMatricula(),
+                p.getPropostaId(),
+                p.getPropostaTitulo(),
+                p.getPropostaStatus(),
+                (p.getPropostaAlunoNota() == 0) ? "Não Calculada" : p.getPropostaAlunoNota()
+            });
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -258,10 +386,10 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_novo;
-    private javax.swing.JButton btn_novo1;
-    private javax.swing.JButton btn_novo2;
-    private javax.swing.JButton btn_novo3;
+    private javax.swing.JButton btn_aprovar;
+    private javax.swing.JButton btn_detalhes;
+    private javax.swing.JButton btn_notas;
+    private javax.swing.JButton btn_rejeitar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -269,6 +397,6 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tbl_propostas;
     // End of variables declaration//GEN-END:variables
 }

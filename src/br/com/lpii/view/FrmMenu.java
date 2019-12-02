@@ -91,6 +91,7 @@ public class FrmMenu extends javax.swing.JFrame {
         menu_propostas = new javax.swing.JMenu();
         menu_prof_gerenciarPropostas = new javax.swing.JMenuItem();
         menu_aluno_escolherTema = new javax.swing.JMenuItem();
+        menu_prof_definirBanca = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Gerenciamento dos TC do Curso de SSI");
@@ -288,6 +289,18 @@ public class FrmMenu extends javax.swing.JFrame {
         });
         menu_propostas.add(menu_aluno_escolherTema);
 
+        menu_prof_definirBanca.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK));
+        menu_prof_definirBanca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menu_prof_definirBanca.setForeground(new java.awt.Color(0, 102, 51));
+        menu_prof_definirBanca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/group.png"))); // NOI18N
+        menu_prof_definirBanca.setText("Definir Banca");
+        menu_prof_definirBanca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_prof_definirBancaActionPerformed(evt);
+            }
+        });
+        menu_propostas.add(menu_prof_definirBanca);
+
         jMenuBar1.add(menu_propostas);
 
         setJMenuBar(jMenuBar1);
@@ -363,6 +376,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         FrmMinhasPropostas tela = new FrmMinhasPropostas();
+        tela.setIdUsuario(Integer.parseInt(idUsuario));
         tela.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem7ActionPerformed
@@ -370,6 +384,7 @@ public class FrmMenu extends javax.swing.JFrame {
     private void menu_prof_gerenciarPropostasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_prof_gerenciarPropostasActionPerformed
         // Abre formulário para gerenciamento de propostas para o TC
         FrmGerenciarPropostas tela = new FrmGerenciarPropostas();
+        tela.setUsuarioId(Integer.parseInt(idUsuario));
         tela.setVisible(true);
     }//GEN-LAST:event_menu_prof_gerenciarPropostasActionPerformed
 
@@ -386,6 +401,13 @@ public class FrmMenu extends javax.swing.JFrame {
         FrmEscolherTema tela = new FrmEscolherTema();
         tela.setVisible(true);
     }//GEN-LAST:event_menu_aluno_escolherTemaActionPerformed
+
+    private void menu_prof_definirBancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_prof_definirBancaActionPerformed
+        // Abre tela para definir banca
+        FrmDefinirBanca tela = new FrmDefinirBanca();
+        tela.setUsuarioId(Integer.parseInt(idUsuario));
+        tela.setVisible(true);
+    }//GEN-LAST:event_menu_prof_definirBancaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -436,6 +458,7 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenu menu_aluno;
     public javax.swing.JMenuItem menu_aluno_escolherTema;
     private javax.swing.JMenu menu_arquivo;
+    private javax.swing.JMenuItem menu_prof_definirBanca;
     public javax.swing.JMenuItem menu_prof_gerenciarPropostas;
     public javax.swing.JMenu menu_professor;
     private javax.swing.JMenu menu_propostas;

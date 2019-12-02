@@ -9,11 +9,9 @@ import br.com.lpii.dao.AlunoDAO;
 import br.com.lpii.dao.AreaInteresseDAO;
 import br.com.lpii.dao.PropostaDAO;
 import br.com.lpii.model.Aluno;
-import br.com.lpii.model.AreaInteresse;
 import br.com.lpii.model.Proposta;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmMinhasPropostas extends javax.swing.JFrame {
 
-    private int idUsuario = 1;
+    private int idUsuario;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -110,7 +108,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         dados.setNumRows(0);
 
         // cada ocorrência em lista irá para um objeto Proposta
-        for (Proposta a : lista) {
+        lista.forEach((a) -> {
             // E agora será adicionado a lista na tabela. Linha a linha
             dados.addRow(new Object[]{
                 a.getPropostaId(),
@@ -118,7 +116,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 daoAI.getAreaInteresse(a.getPropostaAreaInteresse()).getNome(),
                 a.getPropostaStatus()
             });
-        }
+        });
 
     }
 
@@ -443,7 +441,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                     .addComponent(btn_salvar)
                     .addComponent(btn_editar)
                     .addComponent(btn_excluir))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_editar, btn_excluir, btn_novo, btn_salvar});
@@ -511,6 +509,9 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 gerenciaCampos("clean");
                 gerenciaCampos("block");
                 gerenciaBotoes(true, false, false, false);
+                
+                // atualiza lista
+                toList();
 
             }
 
@@ -535,7 +536,6 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
          */
 
         toList();
-
     }//GEN-LAST:event_formWindowActivated
 
     private void tbl_propostaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostaMouseClicked

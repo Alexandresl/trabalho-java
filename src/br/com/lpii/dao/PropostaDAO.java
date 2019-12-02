@@ -154,7 +154,7 @@ public class PropostaDAO {
         }
 
     }
-    
+
     public List<Proposta> listarMinhasPropostas(int id) {
 
         // try...catch para tratar eventual erro
@@ -162,7 +162,7 @@ public class PropostaDAO {
             // Cria a lista
             List<Proposta> lista = new ArrayList<>();
             // Cria comando sql
-            String sql = "SELECT * FROM proposta  WHERE id_professor = ? ORDER BY titulo";
+            String sql = "SELECT * FROM proposta WHERE id_professor = ? ORDER BY titulo";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, id);
@@ -189,7 +189,7 @@ public class PropostaDAO {
 
             return lista;
 
-        } catch (Exception error) {
+        } catch (SQLException error) {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
@@ -247,7 +247,7 @@ public class PropostaDAO {
     }
 
     public boolean verificaProposta(int id) {
-        
+
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM proposta WHERE id_proposta = ?";
@@ -268,7 +268,7 @@ public class PropostaDAO {
             return false;
 
         }
-    
+
     }
 
     public Proposta getProposta(int id) {
@@ -298,7 +298,7 @@ public class PropostaDAO {
                 proposta.setPropostaStatus(rs.getString("status"));
 
             }
-            return proposta;    
+            return proposta;
 
         } catch (SQLException error) {
 
@@ -309,4 +309,3 @@ public class PropostaDAO {
     }
 
 }
-

@@ -16,7 +16,8 @@ public class Professor extends Pessoa{
      * Os atributos nome, email e senha serão extendidos da classe Pessoa
      */
     private int codigo;
-    private int numBancas;
+    private int conta_banca;
+    private int conta_orientador;
     
     public Professor () {
         super();
@@ -35,12 +36,22 @@ public class Professor extends Pessoa{
         this.codigo = codigo;
     }
 
-    public int getNumBancas() {
-        return numBancas;
+    public int getConta_banca() {
+        return conta_banca;
     }
 
-    public void setNumBancas(int numBancas) {
-        this.numBancas = numBancas;
+    public void setConta_banca(int conta_banca) {
+        this.conta_banca = conta_banca;
     }
+
+    public int getConta_orientador() {
+        return conta_orientador;
+    }
+
+    public void setConta_orientador(int conta_orientador) {
+        this.conta_orientador = conta_orientador;
+    }
+
+    
     
 }

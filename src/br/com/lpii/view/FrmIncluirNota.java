@@ -5,17 +5,41 @@
  */
 package br.com.lpii.view;
 
+import br.com.lpii.dao.AlunoDAO;
+import br.com.lpii.dao.PropostaDAO;
+import br.com.lpii.model.Proposta;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Alexandre Lima
  */
 public class FrmIncluirNota extends javax.swing.JFrame {
-
+    
+    private int propostaId;
+    Proposta proposta;
+    
     /**
      * Creates new form FrmIncluirNota
      */
     public FrmIncluirNota() {
         initComponents();
+        txt_matricula.setEnabled(false);
+        txt_aluno.setEnabled(false);
+        txt_tema.setEnabled(false);
+        txt_nota_orientador.setEnabled(false);
+        txt_nota_banca1.setEnabled(false);
+        txt_nota_banca2.setEnabled(false);
+        btn_calcular.setEnabled(false);
+    }
+
+    public int getPropostaId() {
+        return propostaId;
+    }
+
+    public void setPropostaId(int propostaId) {
+        this.propostaId = propostaId;
     }
 
     /**
@@ -31,21 +55,26 @@ public class FrmIncluirNota extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_matricula = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txt_aluno = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txt_tema = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txt_nota_orientador = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        txt_nota_banca1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txt_nota_banca2 = new javax.swing.JTextField();
+        btn_calcular = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Incluir notas");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -64,7 +93,7 @@ public class FrmIncluirNota extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 282, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addContainerGap())
         );
@@ -85,48 +114,83 @@ public class FrmIncluirNota extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 153, 51));
         jLabel2.setText("Matrícula:");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 153, 51));
+        txt_matricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_matricula.setForeground(new java.awt.Color(0, 153, 51));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 153, 51));
         jLabel3.setText("Aluno:");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(0, 153, 51));
+        txt_aluno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_aluno.setForeground(new java.awt.Color(0, 153, 51));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 153, 51));
         jLabel4.setText("Tema:");
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(0, 153, 51));
+        txt_tema.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_tema.setForeground(new java.awt.Color(0, 153, 51));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 153, 51));
         jLabel5.setText("Nota Orientador");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(0, 153, 51));
+        txt_nota_orientador.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_nota_orientador.setForeground(new java.awt.Color(0, 153, 51));
+        txt_nota_orientador.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_nota_orientadorFocusLost(evt);
+            }
+        });
+        txt_nota_orientador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nota_orientadorKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 153, 51));
         jLabel9.setText("Nota banca 1");
 
-        jTextField7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField7.setForeground(new java.awt.Color(0, 153, 51));
+        txt_nota_banca1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_nota_banca1.setForeground(new java.awt.Color(0, 153, 51));
+        txt_nota_banca1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_nota_banca1FocusLost(evt);
+            }
+        });
+        txt_nota_banca1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nota_banca1KeyTyped(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 153, 51));
         jLabel10.setText("Nota Banca 2");
 
-        jTextField8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField8.setForeground(new java.awt.Color(0, 153, 51));
+        txt_nota_banca2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_nota_banca2.setForeground(new java.awt.Color(0, 153, 51));
+        txt_nota_banca2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_nota_banca2FocusLost(evt);
+            }
+        });
+        txt_nota_banca2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nota_banca2KeyTyped(evt);
+            }
+        });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 153, 51));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calculator_add.png"))); // NOI18N
-        jButton1.setText("Calcular e Salvar");
+        btn_calcular.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_calcular.setForeground(new java.awt.Color(0, 153, 51));
+        btn_calcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calculator_add.png"))); // NOI18N
+        btn_calcular.setText("Calcular e Salvar");
+        btn_calcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_calcularActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,22 +198,22 @@ public class FrmIncluirNota extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(115, 115, 115)
+                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_nota_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(53, 53, 53)
                             .addComponent(jLabel9)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_nota_banca1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(54, 54, 54)
                             .addComponent(jLabel10)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_nota_banca2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -157,43 +221,133 @@ public class FrmIncluirNota extends javax.swing.JFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField2)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txt_aluno)
+                                .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_tema, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_aluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_tema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nota_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nota_banca1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nota_banca2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addGap(32, 32, 32)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(btn_calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // Carrega dados da proposta
+        PropostaDAO dao = new PropostaDAO();
+        proposta = dao.getProposta(propostaId);
+        
+        // Preenche os campos apenas como leitura
+        txt_matricula.setText(String.valueOf(proposta.getPropostaId()));
+        txt_matricula.setEditable(false);
+        txt_aluno.setText(proposta.getPropostaAlunoNome());
+        txt_aluno.setEditable(false);
+        txt_tema.setText(proposta.getPropostaTitulo());
+        txt_tema.setEditable(false);
+        txt_nota_orientador.setEnabled(true);
+        txt_nota_banca1.setEnabled(true);
+        txt_nota_banca2.setEnabled(true);
+        btn_calcular.setEnabled(true);
+                
+    }//GEN-LAST:event_formWindowActivated
+
+    private void txt_nota_orientadorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nota_orientadorKeyTyped
+        // Valida para verificar se não há letras
+        ValidaNumero(txt_nota_orientador);
+    }//GEN-LAST:event_txt_nota_orientadorKeyTyped
+
+    private void txt_nota_banca1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nota_banca1KeyTyped
+        // Valida para verificar se não há letras
+        ValidaNumero(txt_nota_banca1);
+    }//GEN-LAST:event_txt_nota_banca1KeyTyped
+
+    private void txt_nota_banca2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nota_banca2KeyTyped
+       // Valida para verificar se não há letras
+        ValidaNumero(txt_nota_banca2);
+    }//GEN-LAST:event_txt_nota_banca2KeyTyped
+
+    private void txt_nota_banca2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nota_banca2FocusLost
+        /// Valida para verificar se não há letras
+        ValidaNumero(txt_nota_banca2);
+    }//GEN-LAST:event_txt_nota_banca2FocusLost
+
+    private void txt_nota_banca1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nota_banca1FocusLost
+       // Valida para verificar se não há letras
+        ValidaNumero(txt_nota_banca1);
+    }//GEN-LAST:event_txt_nota_banca1FocusLost
+
+    private void txt_nota_orientadorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nota_orientadorFocusLost
+        /// Valida para verificar se não há letras
+        ValidaNumero(txt_nota_orientador);
+    }//GEN-LAST:event_txt_nota_orientadorFocusLost
+
+    private void btn_calcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calcularActionPerformed
+        // Salva nota do aluno
+        // Se alguma das notas estiverem em branco
+        if (txt_nota_orientador.getText().equals("") || txt_nota_banca1.getText().equals("") || txt_nota_banca2.getText().equals("")) {
+            // Informa que todas devem estar preenchidas
+            JOptionPane.showMessageDialog(null, "Todas as notas devem estar preenchidas");
+        } else {
+            
+            // Calcula a média final
+            double notaFinal = (Integer.parseInt(txt_nota_orientador.getText()) + 
+                    Integer.parseInt(txt_nota_banca1.getText()) +
+                    Integer.parseInt(txt_nota_banca2.getText())) / 3;
+            
+            // inclui a nota final
+            AlunoDAO dao = new AlunoDAO();
+            
+            dao.incluirNotaFinal(notaFinal, proposta.getPropostaAlunoMatricula());
+            
+            this.dispose();
+            
+        }
+        
+    }//GEN-LAST:event_btn_calcularActionPerformed
+
+    /**
+     * Método para garantir que não vá número no campo matrícula
+     */
+    public void ValidaNumero(JTextField txt) {
+        long valor;
+        if (txt.getText().length() != 0) {
+            try {
+                valor = Long.parseLong(txt.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Campo matrícula só aceita números", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                txt.grabFocus();
+                txt_matricula.setText("");
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -205,7 +359,7 @@ public class FrmIncluirNota extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -230,7 +384,7 @@ public class FrmIncluirNota extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_calcular;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -240,11 +394,11 @@ public class FrmIncluirNota extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField txt_aluno;
+    private javax.swing.JTextField txt_matricula;
+    private javax.swing.JTextField txt_nota_banca1;
+    private javax.swing.JTextField txt_nota_banca2;
+    private javax.swing.JTextField txt_nota_orientador;
+    private javax.swing.JTextField txt_tema;
     // End of variables declaration//GEN-END:variables
 }

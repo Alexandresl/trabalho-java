@@ -305,6 +305,33 @@ public class AlunoDAO {
         return aluno; 
     }
     
+    public void incluirNotaFinal (double notaFinal, int matricula) {
+        
+        try {
+            
+            // Comando SQL
+            String sql = "UPDATE aluno SET nota = ? " +
+                    "WHERE matricula = ?";
+            
+            
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+            // insere os valores no sql
+            stmt.setDouble(1, notaFinal);
+            stmt.setInt(2, matricula);
+
+            //Executa sql
+            stmt.execute();
+            stmt.close();
+            
+            JOptionPane.showMessageDialog(null, "Nota Cadastrada com Sucesso!");
+            
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Erro: " + error);
+        }
+        
+    }
+    
 }
 
     

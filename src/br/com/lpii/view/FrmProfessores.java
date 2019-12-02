@@ -28,7 +28,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         u.inserirIcone(this);
         label_orientador.setEnabled(false);
         label_banca.setEnabled(false);
-        txt_orientador.setEnabled(false);
+        txt_contaOrientador.setEnabled(false);
         txt_banca.setEnabled(false);
         txt_codigo.setEnabled(false);
         gerenciaCampos("block");
@@ -142,7 +142,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         label_orientador = new javax.swing.JLabel();
         txt_banca = new javax.swing.JTextField();
         label_banca = new javax.swing.JLabel();
-        txt_orientador = new javax.swing.JTextField();
+        txt_contaOrientador = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txt_senha = new javax.swing.JPasswordField();
         jPanel4 = new javax.swing.JPanel();
@@ -252,7 +252,7 @@ public class FrmProfessores extends javax.swing.JFrame {
                 .addGap(61, 61, 61)
                 .addComponent(label_orientador)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_contaOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addComponent(label_banca)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -267,7 +267,7 @@ public class FrmProfessores extends javax.swing.JFrame {
                     .addComponent(label_orientador)
                     .addComponent(txt_banca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label_banca)
-                    .addComponent(txt_orientador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_contaOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -591,8 +591,8 @@ public class FrmProfessores extends javax.swing.JFrame {
         txt_nome.setText(professor.getNome());
         txt_email.setText(professor.getEmail());
         txt_senha.setText(professor.getSenha());
-        txt_orientador.setText("0");
-        txt_banca.setText(String.valueOf(professor.getNumBancas()));
+        txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
+        txt_banca.setText(String.valueOf(professor.getConta_banca()));
 
     }//GEN-LAST:event_tbl_professorMouseClicked
 
@@ -743,9 +743,9 @@ public class FrmProfessores extends javax.swing.JFrame {
     private javax.swing.JTable tbl_professor;
     private javax.swing.JTextField txt_banca;
     private javax.swing.JTextField txt_codigo;
+    private javax.swing.JTextField txt_contaOrientador;
     private javax.swing.JTextField txt_email;
     private javax.swing.JTextField txt_nome;
-    private javax.swing.JTextField txt_orientador;
     private javax.swing.JTextField txt_pesquisar;
     private javax.swing.JPasswordField txt_senha;
     // End of variables declaration//GEN-END:variables

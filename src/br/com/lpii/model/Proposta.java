@@ -18,6 +18,8 @@ public class Proposta {
     private String propostaTitulo;
     private String propostaDescricao;
     private String propostaStatus;
+    private String PropostaAlunoNome;
+    private int PropostaAlunoNota;
 
     public int getPropostaId() {
         return propostaId;
@@ -73,6 +75,22 @@ public class Proposta {
 
     public void setPropostaStatus(String propostaStatus) {
         this.propostaStatus = propostaStatus;
+    }
+
+    public String getPropostaAlunoNome() {
+        return PropostaAlunoNome;
+    }
+
+    public void setPropostaAlunoNome(String PropostaAlunoNome) {
+        this.PropostaAlunoNome = PropostaAlunoNome;
+    }
+
+    public int getPropostaAlunoNota() {
+        return PropostaAlunoNota;
+    }
+
+    public void setPropostaAlunoNota(int PropostaAlunoNota) {
+        this.PropostaAlunoNota = PropostaAlunoNota;
     }
     
         
