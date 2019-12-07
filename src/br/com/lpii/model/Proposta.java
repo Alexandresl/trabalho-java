@@ -13,12 +13,17 @@ public class Proposta {
     
     private int propostaId;
     private int propostaAlunoMatricula;
-    private int propostaAreaInteresse;
+    private int propostaCodAreaInteresse;
+    private String propostaNomeAreaInteresse;
     private int propostaIdProfessor;
+    private String propostaNomeProfessor;
+    private String propostaProfEmail;
     private String propostaTitulo;
     private String propostaDescricao;
     private String propostaStatus;
     private String PropostaAlunoNome;
+    private String banca1;
+    private String banca2;
     private int PropostaAlunoNota;
 
     public int getPropostaId() {
@@ -37,12 +42,36 @@ public class Proposta {
         this.propostaAlunoMatricula = propostaAlunoMatricula;
     }
 
-    public int getPropostaAreaInteresse() {
-        return propostaAreaInteresse;
+    public int getPropostaCodAreaInteresse() {
+        return propostaCodAreaInteresse;
     }
 
-    public void setPropostaAreaInteresse(int propostaAreaInteresse) {
-        this.propostaAreaInteresse = propostaAreaInteresse;
+    public void setPropostaCodAreaInteresse(int propostaCodAreaInteresse) {
+        this.propostaCodAreaInteresse = propostaCodAreaInteresse;
+    }
+
+    public String getPropostaNomeAreaInteresse() {
+        return propostaNomeAreaInteresse;
+    }
+
+    public void setPropostaNomeAreaInteresse(String propostaNomeAreaInteresse) {
+        this.propostaNomeAreaInteresse = propostaNomeAreaInteresse;
+    }
+
+    public String getPropostaNomeProfessor() {
+        return propostaNomeProfessor;
+    }
+
+    public void setPropostaNomeProfessor(String propostaNomeProfessor) {
+        this.propostaNomeProfessor = propostaNomeProfessor;
+    }
+
+    public String getPropostaProfEmail() {
+        return propostaProfEmail;
+    }
+
+    public void setPropostaProfEmail(String propostaProfEmail) {
+        this.propostaProfEmail = propostaProfEmail;
     }
 
     public int getPropostaIdProfessor() {
@@ -92,7 +121,21 @@ public class Proposta {
     public void setPropostaAlunoNota(int PropostaAlunoNota) {
         this.PropostaAlunoNota = PropostaAlunoNota;
     }
-    
-        
+
+    public String getBanca1() {
+        return banca1;
+    }
+
+    public void setBanca1(String banca1) {
+        this.banca1 = banca1;
+    }
+
+    public String getBanca2() {
+        return banca2;
+    }
+
+    public void setBanca2(String banca2) {
+        this.banca2 = banca2;
+    }    
     
 }

@@ -6,7 +6,9 @@
 package br.com.lpii.view;
 
 import br.com.lpii.dao.AlunoDAO;
+import br.com.lpii.dao.PropostaDAO;
 import br.com.lpii.model.Aluno;
+import br.com.lpii.model.Proposta;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -16,28 +18,29 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author
  */
-public class FrmMeuCadastro extends javax.swing.JFrame {
+public class FrmMeuCadastroAluno extends javax.swing.JFrame {
 
-    private String idUsuario;
-
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    private Aluno aluno;
+    private Proposta proposta;
 
     /**
      * Método construtor
      */
-    public FrmMeuCadastro() {
+    public FrmMeuCadastroAluno() {
         initComponents();
         label_proposta.setEnabled(false);
         txt_proposta.setEnabled(false);
         gerenciaCampos("block");
         gerenciaBotoes(false, false);
 
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
     /**
@@ -57,7 +60,6 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
 
                 break;
             case "unblock":
-                txt_matricula.setEnabled(true);
                 txt_nome.setEnabled(true);
                 txt_cpf.setEnabled(true);
                 txt_email.setEnabled(true);
@@ -101,10 +103,6 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
         }
     }
 
-    public void ativaInfComplementares() {
-        label_proposta.setText("Situação do Tema do TC: ");
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -137,6 +135,7 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
         txt_proposta = new javax.swing.JTextField();
         label_proposta = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
         btn_salvar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
 
@@ -209,18 +208,18 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("Nome:");
+        jLabel3.setText("Nome (*):");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setText("Email:");
+        jLabel4.setText("Email (*):");
 
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_email.setForeground(new java.awt.Color(0, 102, 51));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel5.setText("Celular:");
+        jLabel5.setText("Celular (*):");
 
         txt_celular.setForeground(new java.awt.Color(0, 102, 51));
         try {
@@ -232,7 +231,7 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel6.setText("CPF:");
+        jLabel6.setText("CPF (*):");
 
         txt_cpf.setForeground(new java.awt.Color(0, 102, 51));
         try {
@@ -244,14 +243,14 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel9.setText("Senha:");
+        jLabel9.setText("Senha (*):");
 
         txt_senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_senha.setForeground(new java.awt.Color(0, 102, 51));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel10.setText("Confirmar senha:");
+        jLabel10.setText("Confirmar senha (*):");
 
         txt_confirmaSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_confirmaSenha.setForeground(new java.awt.Color(0, 102, 51));
@@ -265,50 +264,53 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         jButton1.setText("Escolher tema");
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel11.setText("* Campos obrigatórios");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel11)
+                .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(label_proposta))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_senha)
+                    .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_confirmaSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(label_proposta))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_senha)
-                            .addComponent(txt_confirmaSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txt_proposta, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(318, Short.MAX_VALUE))
+                        .addComponent(txt_proposta, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(291, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_confirmaSenha, txt_senha});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -341,12 +343,12 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
                     .addComponent(txt_proposta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label_proposta)
                     .addComponent(jButton1))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txt_confirmaSenha, txt_senha});
 
-        jTabbedPane1.addTab("Editar Cadastro", jPanel2);
+        jTabbedPane1.addTab("Editar Cadastro*", jPanel2);
 
         btn_salvar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_salvar.setForeground(new java.awt.Color(0, 102, 51));
@@ -409,44 +411,39 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
         // Verifica se senhas conferem
         if (String.valueOf(txt_senha.getPassword()).equals(String.valueOf(txt_confirmaSenha.getPassword()))) {
             // Verifica se usuário existe no banco de dados
-        // Se sim será invocado método para edição
-        // caso contrário será realizado novo cadastro
-        /**
-         * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
-         * construtor
-         */
-        AlunoDAO dao = new AlunoDAO();
+            // Se sim será invocado método para edição
+            // caso contrário será realizado novo cadastro
+            /**
+             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
+             * partir do construtor
+             */
+            AlunoDAO dao = new AlunoDAO();
 
-        /**
-         * Ação responsável por Editar Aluno insere dados no objeto aluno
-         */
-        Aluno aluno = new Aluno();
+            /**
+             * Ação responsável por Editar Aluno insere dados no objeto aluno
+             */
+            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+            aluno.setNome(txt_nome.getText());
+            aluno.setCpf(txt_cpf.getText());
+            aluno.setEmail(txt_email.getText());
+            aluno.setTelefone(txt_celular.getText());
+            aluno.setSenha(String.valueOf(txt_senha.getPassword()));
 
-        aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
-        aluno.setNome(txt_nome.getText());
-        aluno.setCpf(txt_cpf.getText());
-        aluno.setEmail(txt_email.getText());
-        aluno.setTelefone(txt_celular.getText());
-        aluno.setSenha(String.valueOf(txt_senha.getPassword()));
-        aluno.setProposta(txt_proposta.getText());
+            /**
+             * Método que irá salbar o obj Aluno no banco de dados
+             */
+            dao.alterarAluno(aluno);
 
-        /**
-         * Método que irá salbar o obj Aluno no banco de dados
-         */
-        dao.alterarAluno(aluno);
+            // limpa campos e gerencia botões
+            gerenciaCampos("block");
+            gerenciaCampos("clean");
+            gerenciaBotoes(false, false);
 
-        // limpa campos e gerencia botões
-        gerenciaCampos("block");
-        gerenciaCampos("clean");
-        gerenciaBotoes(false, false);
-        
         } else {
-            
+
             JOptionPane.showMessageDialog(null, "Senhas não conferem!");
-            
+
         }
-        
-        
 
 
     }//GEN-LAST:event_btn_salvarActionPerformed
@@ -474,9 +471,12 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         gerenciaBotoes(false, true);
-        AlunoDAO dao = new AlunoDAO();
 
-        Aluno aluno = dao.getAluno(Integer.parseInt(getIdUsuario()));
+        // Verifica se há uma proposta relacionada
+        PropostaDAO dao = new PropostaDAO();
+        
+        proposta = dao.getPropostaAluno(aluno);
+        aluno.setProposta(proposta);
 
         // Pega os dados e envia para o formulário de clientes
         txt_matricula.setText(String.valueOf(aluno.getMatricula()));
@@ -484,10 +484,11 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
         txt_cpf.setText(aluno.getCpf());
         txt_email.setText(aluno.getEmail());
         txt_celular.setText(aluno.getTelefone());
-        txt_proposta.setText(aluno.getProposta());
         txt_senha.setText(String.valueOf(aluno.getSenha()));
         txt_confirmaSenha.setText(String.valueOf(aluno.getSenha()));
-
+        txt_proposta.setText(
+                (aluno.getProposta() != null) ? "Não definido" : aluno.getProposta().getPropostaTitulo()
+        );
     }//GEN-LAST:event_formWindowActivated
 
     /**
@@ -507,14 +508,18 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMeuCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMeuCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMeuCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMeuCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMeuCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMeuCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMeuCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMeuCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -523,7 +528,7 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmMeuCadastro().setVisible(true);
+                new FrmMeuCadastroAluno().setVisible(true);
             }
         });
     }
@@ -534,6 +539,7 @@ public class FrmMeuCadastro extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author
  */
 public class FrmAluno extends javax.swing.JFrame {
-
+    
     /**
      * Método construtor
      */
@@ -610,7 +610,6 @@ public class FrmAluno extends javax.swing.JFrame {
                         aluno.setCpf(txt_cpf.getText());
                         aluno.setEmail(txt_email.getText());
                         aluno.setTelefone(txt_celular.getText());
-                        aluno.setProposta(txt_proposta.getText());
                         aluno.setSenha(String.valueOf(txt_senha.getPassword()));
 
                         /**
@@ -652,8 +651,6 @@ public class FrmAluno extends javax.swing.JFrame {
                     aluno.setTelefone(txt_celular.getText());
                     aluno.setSenha(String.valueOf(txt_senha.getPassword()));
                     aluno.setSenha("");
-                    aluno.setProposta("Em aberto");
-
                     /**
                      * Método que irá salbar o obj Aluno no banco de dados
                      */
@@ -717,7 +714,6 @@ public class FrmAluno extends javax.swing.JFrame {
         txt_cpf.setText(aluno.getCpf());
         txt_email.setText(aluno.getEmail());
         txt_celular.setText(aluno.getTelefone());
-        txt_proposta.setText(aluno.getProposta());
         txt_senha.setText(aluno.getSenha());
         txt_confirmaSenha.setText(aluno.getSenha());
         gerenciaBotoes(true, false, true, true);

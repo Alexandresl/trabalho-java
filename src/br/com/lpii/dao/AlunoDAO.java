@@ -43,7 +43,6 @@ public class AlunoDAO {
             stmt.setString(4, aluno.getEmail());
             stmt.setString(5, aluno.getTelefone());
             stmt.setString(6, aluno.getSenha());
-            stmt.setString(7, aluno.getProposta());
 
             //Executa sql
             stmt.execute();
@@ -59,7 +58,7 @@ public class AlunoDAO {
         try {
             
             // Comando SQL
-            String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, senha = ? " +
+            String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, senha = ?, nota = ? " +
                     "WHERE matricula = ?";
             
             
@@ -71,7 +70,8 @@ public class AlunoDAO {
             stmt.setString(3, aluno.getEmail());
             stmt.setString(4, aluno.getTelefone());
             stmt.setString(5, aluno.getSenha());
-            stmt.setInt(6, aluno.getMatricula());
+            stmt.setString(6, aluno.getNota());
+            stmt.setInt(7, aluno.getMatricula());
 
             //Executa sql
             stmt.execute();
@@ -135,7 +135,6 @@ public class AlunoDAO {
                 aluno.setEmail(rs.getString("email"));
                 aluno.setTelefone(rs.getString("telefone"));
                 aluno.setSenha(rs.getString("senha"));
-                aluno.setProposta(rs.getString("proposta"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(aluno);
             }
@@ -178,7 +177,6 @@ public class AlunoDAO {
                 aluno.setEmail(rs.getString("email"));
                 aluno.setTelefone(rs.getString("telefone"));
                 aluno.setSenha(rs.getString("senha"));
-                aluno.setProposta(rs.getString("proposta"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(aluno);
             }
@@ -210,15 +208,26 @@ public class AlunoDAO {
             // verifica se encontrou
             if (rs.next()) {
                 // usuário logou
+                Aluno aluno = new Aluno();
+                
+                // pega os dados do usuário logado e armazena em um objeto do tipo usuário
+                aluno.setMatricula(rs.getInt("matricula"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setEmail(rs.getString("email"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setSenha(rs.getString("senha"));
+                                
                 // Abre tela principal
                 FrmMenu tela = new FrmMenu();
-                tela.setNomeUsuario(rs.getString("nome"));
-                tela.setIdUsuario(rs.getString("matricula"));
-                tela.setTipoUsuario("Aluno");
+                tela.setAluno(aluno);
+                tela.setPerfil("Aluno");
+                
                 // Desabilita os menus que não estarão visível para o aluno
-                tela.submenu_aluno.setVisible(false);
+                tela.submenu_prof_gerenciarAlunos.setVisible(false);
                 tela.menu_professor.setVisible(false);
-                tela.menu_prof_gerenciarPropostas.setVisible(false);
+                tela.submenu_prof_gerenciarPropostas.setVisible(false);
+                tela.submenu_prof_definirBanca.setVisible(false);
                 tela.setVisible(true);
                 
                 return true;
@@ -292,7 +301,6 @@ public class AlunoDAO {
                 aluno.setEmail(rs.getString("email"));
                 aluno.setTelefone(rs.getString("telefone"));
                 aluno.setSenha(rs.getString("senha"));
-                aluno.setProposta(rs.getString("proposta"));
                 
             }
             

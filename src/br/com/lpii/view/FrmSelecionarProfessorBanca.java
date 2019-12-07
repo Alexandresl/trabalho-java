@@ -9,6 +9,7 @@ import br.com.lpii.dao.AreaInteresseDAO;
 import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,8 +17,9 @@ import java.util.List;
  */
 public class FrmSelecionarProfessorBanca extends javax.swing.JFrame {
 
-    int usuarioId;
-    Proposta proposta;
+    private int usuarioId;
+    private Proposta proposta;
+    private int banca;
 
     /**
      * Creates new form FrmSelecionarProfessorBanca
@@ -41,8 +43,14 @@ public class FrmSelecionarProfessorBanca extends javax.swing.JFrame {
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
     }
-    
-    
+
+    public int getBanca() {
+        return banca;
+    }
+
+    public void setBanca(int banca) {
+        this.banca = banca;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,6 +88,11 @@ public class FrmSelecionarProfessorBanca extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(0, 153, 51));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/accept.png"))); // NOI18N
         jButton1.setText("Selecionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 153, 51));
@@ -142,7 +155,7 @@ public class FrmSelecionarProfessorBanca extends javax.swing.JFrame {
 
         AreaInteresseDAO daoAI = new AreaInteresseDAO();
 
-        List<Professor> lista = daoAI.ListaProfessorAreaInteresse(proposta.getPropostaAreaInteresse(), usuarioId);
+        List<Professor> lista = daoAI.ListaProfessorAreaInteresse(proposta.getPropostaCodAreaInteresse(), usuarioId);
         
 
         System.out.println(lista.size());
@@ -160,6 +173,12 @@ public class FrmSelecionarProfessorBanca extends javax.swing.JFrame {
         tela.setUsuarioId(usuarioId);
         tela.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Salva professor escolhido
+        String professor = (String) c_professores.getSelectedItem();
+        JOptionPane.showMessageDialog(null, c_professores);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

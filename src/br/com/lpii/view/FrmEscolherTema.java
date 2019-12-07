@@ -7,6 +7,7 @@ package br.com.lpii.view;
 
 import br.com.lpii.dao.ProfessorDAO;
 import br.com.lpii.dao.PropostaDAO;
+import br.com.lpii.model.Aluno;
 import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
 import java.util.List;
@@ -19,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmEscolherTema extends javax.swing.JFrame {
 
-    private int usuarioId;
+    private Aluno aluno;
+    private Proposta proposta;
 
     /**
      * Creates new form FrmGerenciarPropostas
@@ -29,12 +31,12 @@ public class FrmEscolherTema extends javax.swing.JFrame {
         gerenciaBotoes(false, false, false, false);
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Aluno getAluno() {
+        return aluno;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
     public void gerenciaCampos(String action) {
@@ -93,8 +95,8 @@ public class FrmEscolherTema extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Propostas de TC");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -254,36 +256,48 @@ public class FrmEscolherTema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_escolherTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_escolherTemaActionPerformed
-        // Atualiza proposta incluindo o id do aluno que irá realizar o trabalho
+        if (aluno.getProposta() == null) {
 
-        // Crio objeto PropostaDAO
-        PropostaDAO dao = new PropostaDAO();
-        // identifica qual o id da linha selecionada
-        int temaId = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 0).toString());
-        // obtém o objeto selecionado
-        Proposta proposta = dao.getProposta(temaId);
-        if (proposta.getPropostaStatus().equals("em aberto")) {
-            // incluo o número de matrícula
-            proposta.setPropostaAlunoMatricula(usuarioId);
-            // Altero status para aguardando aprovação do orientador
-            proposta.setPropostaStatus("Aguardando aprovação");
-            // Realiza o update do objeto
-            dao.alterarProposta(proposta);
-            // Mensagem
-            JOptionPane.showMessageDialog(null, "Prezado(a) aluno:\n"
-                    + "Sua escolha de tema será enviada para o professor orientador.\n"
-                    + "Este deverá realizar a aprovação, momento em que não mais será\n"
-                    + "possível realizar a alteração de tema"
-            );
-            
-            // Atualizo a lista
-            toList();
-            
+            // Atualiza proposta incluindo o id do aluno que irá realizar o trabalho
+            PropostaDAO dao = new PropostaDAO();
+            // identifica qual o id da linha selecionada
+            if (proposta.getPropostaStatus().equals("Em aberto")) {
+                // incluo o número de matrícula
+                proposta.setPropostaAlunoMatricula(aluno.getMatricula());
+                // Altero status para aguardando aprovação do orientador
+                proposta.setPropostaStatus("Aguardando aprovação");
+                // Realiza o update do objeto
+                dao.alterarProposta(proposta);
+                // Mensagem
+                JOptionPane.showMessageDialog(null, "Prezado(a) aluno(a):\n"
+                        + "Sua escolha de tema será enviada para o professor orientador.\n"
+                        + "Este deverá realizar a aprovação, momento em que não mais será\n"
+                        + "possível realizar a alteração de tema"
+                );
+
+                FrmLoading loading = new FrmLoading();
+                loading.setLabel("Salvando sua escolha...");
+                loading.setVisible(true);
+
+                Thread t = new Thread() {
+                    public void run() {
+                        // Atualizo a lista
+                        toList();
+                        loading.dispose();
+                    }
+                    
+                };
+                
+                t.start();
+            } else {
+                JOptionPane.showMessageDialog(null, "Este tema não pode mais ser escolhido.");
+            }
+
         } else {
-            JOptionPane.showMessageDialog(null, "Este tema não pode mais ser escolhido.");
+            JOptionPane.showMessageDialog(null, "Não é possível selecionar o tema. Você já possui um tema escolhido.\n Caso deseje trocar"
+                    + ", entre em contato com o professor orientador.");
         }
 
-        
 
     }//GEN-LAST:event_btn_escolherTemaActionPerformed
 
@@ -295,50 +309,76 @@ public class FrmEscolherTema extends javax.swing.JFrame {
         // Ação para abrir detalhes da proposta
         FrmVerDetalhesTema tela = new FrmVerDetalhesTema();
         tela.setVisible(true);
-        tela.setUsuarioId(usuarioId);
-
-        // identifica qual o id da linha selecionada
-        int temaId = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 0).toString());
-        // Seta atributo no FrmVerDetalhesTema
-        tela.setTemaId(temaId);
+        tela.setAluno(aluno);
+        tela.setProposta(proposta);
     }//GEN-LAST:event_btn_verDetalhesActionPerformed
 
     private void btn_verMinhaNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verMinhaNotaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_verMinhaNotaActionPerformed
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
+
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando dados da proposta.");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+
+            public void run() {
+
+                // Ao clicar com o mouse em alguma ocorrência da tabela
+                // Crio objeto PropostaDAO
+                PropostaDAO dao = new PropostaDAO();
+
+                // identifica qual o id da linha selecionada
+                int temaId = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 0).toString());
+
+                // obtém o objeto selecionado
+                proposta = dao.getProposta(temaId);
+
+                if (proposta.getPropostaStatus().equals("Em aberto")) {
+                    // Libera botões para escolher o tema ou ver detalhes
+                    gerenciaBotoes(true, false, true, false);
+                } else {
+                    // Libera botões para escolher o tema ou ver detalhes
+                    gerenciaBotoes(false, false, true, false);
+                }
+
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
+
+    }//GEN-LAST:event_tbl_propostasMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Carrega dados na tabela ao abrir a janela
         /**
          * Evento responsável por carregar os dados para a tabela. O método é
          * disparado no momento em que o JFrame é aberto
          */
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando propostas.");
 
-        toList();
+        loading.setVisible(true);
 
+        Thread t = new Thread() {
 
-    }//GEN-LAST:event_formWindowActivated
+            public void run() {
+                // Carregamento dos projeto
+                toList();
 
-    private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
-        // Ao clicar com o mouse em alguma ocorrência da tabela
+                loading.dispose();
+            }
 
-        // Crio objeto PropostaDAO
-        PropostaDAO dao = new PropostaDAO();
-        // identifica qual o id da linha selecionada
-        int temaId = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 0).toString());
-        // obtém o objeto selecionado
-        Proposta proposta = dao.getProposta(temaId);
+        };
 
-        if (proposta.getPropostaStatus().equals("Em aberto")) {
-            // Libera botões para escolher o tema ou ver detalhes
-            gerenciaBotoes(true, false, true, false);
-        } else {
-            // Libera botões para escolher o tema ou ver detalhes
-            gerenciaBotoes(false, false, true, false);
-        }
-
-
-    }//GEN-LAST:event_tbl_propostasMouseClicked
+        t.start();
+    }//GEN-LAST:event_formWindowOpened
 
     // Método responável por carregar dados para a tabela de propostas
     public void toList() {
@@ -358,6 +398,12 @@ public class FrmEscolherTema extends javax.swing.JFrame {
         // cada ocorrência em lista irá para um objeto professor
         for (Proposta p : lista) {
 
+            if (p.getPropostaAlunoMatricula() == aluno.getMatricula()) {
+                aluno.setProposta(p);
+                btn_escolherTema.setEnabled(false);
+                btn_verMeuTema.setEnabled(true);
+            }
+
             ProfessorDAO daoProf = new ProfessorDAO();
             Professor professor = daoProf.buscaProfessor(p.getPropostaIdProfessor());
 
@@ -368,6 +414,7 @@ public class FrmEscolherTema extends javax.swing.JFrame {
                 professor.getNome(),
                 p.getPropostaStatus()
             });
+
         }
 
     }

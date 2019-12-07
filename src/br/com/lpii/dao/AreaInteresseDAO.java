@@ -71,7 +71,8 @@ public class AreaInteresseDAO {
             // Cria a seleção
             String sql = "SELECT * FROM professor_area_interesse pai "
                     + "INNER JOIN professor p ON pai.professor_id = p.id_professor  "
-                    + "WHERE pai.area_interesse_id = ? AND pai.professor_id != ? GROUP BY pai.professor_id, pai.area_interesse_id";
+                    + "WHERE pai.area_interesse_id = ? AND pai.professor_id != ? "
+                    + "GROUP BY pai.professor_id, pai.area_interesse_id";
 
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -103,7 +104,7 @@ public class AreaInteresseDAO {
         }
     }
     
-    public List<Professor> ListaTodosProfessoresAreaInteresse(int usuarioId) {
+    public List<Professor> ListaTodosProfessores(int usuarioId) {
         try {
             // Cria uma lista com os professorea que possuem a área de interesse
             List<Professor> lista = new ArrayList<>();
@@ -111,7 +112,7 @@ public class AreaInteresseDAO {
             // Cria a seleção
             String sql = "SELECT * FROM professor_area_interesse pai "
                     + "INNER JOIN professor p ON pai.professor_id = p.id_professor "
-                    + "WHERE p.conta_banca <= 5 AND pai.professor_id != 8 "
+                    + "WHERE p.conta_banca <= 5 AND pai.professor_id != ? "
                     + "GROUP BY pai.professor_id";
 
             // Conectar o banco de dados e organizar o SQL
@@ -132,6 +133,7 @@ public class AreaInteresseDAO {
                 professor.setConta_orientador(rs.getInt("conta_orientador"));
                 professor.setSenha(rs.getString("senha"));
                 lista.add(professor);
+                
             }
 
             // retorna lista de professores

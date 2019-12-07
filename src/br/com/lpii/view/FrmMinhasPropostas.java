@@ -113,7 +113,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
             dados.addRow(new Object[]{
                 a.getPropostaId(),
                 a.getPropostaTitulo(),
-                daoAI.getAreaInteresse(a.getPropostaAreaInteresse()).getNome(),
+                a.getPropostaNomeAreaInteresse(),
                 a.getPropostaStatus()
             });
         });
@@ -471,7 +471,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                      */
                     Proposta proposta = dao.getProposta(Integer.parseInt(txt_cod.getText()));
 
-                    proposta.setPropostaAreaInteresse(combo_area_interesse.getSelectedIndex());
+                    proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
                     proposta.setPropostaTitulo(txt_titulo.getText());
                     proposta.setPropostaDescricao(txt_descricao.getText());
 
@@ -495,7 +495,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 Proposta proposta = new Proposta();
 
                 // Seta todos os dados (pertinentes neste momento) de uma nova proposta
-                proposta.setPropostaAreaInteresse(combo_area_interesse.getSelectedIndex());
+                proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
                 proposta.setPropostaIdProfessor(idUsuario);
                 proposta.setPropostaTitulo(txt_titulo.getText());
                 proposta.setPropostaDescricao(txt_descricao.getText());

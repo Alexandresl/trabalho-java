@@ -240,14 +240,23 @@ public class ProfessorDAO {
             // verifica se encontrou
             if (rs.next()) {
                 // usuário logou
+                // Pega os dados do professor
+                Professor professor = new Professor();
+                // É setado os atributos. Os parâmetros do get são os nomes das colunas
+                professor.setCodigo(rs.getInt("id_professor"));
+                professor.setNome(rs.getString("nome"));
+                professor.setEmail(rs.getString("email"));
+                professor.setSenha(rs.getString("senha"));
+                professor.setConta_banca(rs.getInt("conta_banca"));
+                professor.setConta_orientador(rs.getInt("conta_orientador"));
+                
                 // Abre tela principal
                 FrmMenu tela = new FrmMenu();
-                tela.setNomeUsuario(rs.getString("nome"));
-                tela.setIdUsuario(rs.getString("id_professor"));
-                tela.setTipoUsuario("Professor");
+                tela.setProfesso(professor);
+                tela.setPerfil("Professor");
                 // Desabilita os menus que não estarão visível para o aluno
-                tela.Aluno_meuCadastro.setVisible(false);
-                tela.menu_aluno_escolherTema.setVisible(false);
+                tela.submenu_aluno_meuCadastro.setVisible(false);
+                tela.submenu_aluno_escolherTema.setVisible(false);
                 //tela.submenu_aluno.setVisible(false);
                 //tela.menu_professor.setVisible(false);
                 tela.setVisible(true);

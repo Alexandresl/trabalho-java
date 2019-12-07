@@ -8,6 +8,7 @@ package br.com.lpii.view;
 import br.com.lpii.dao.AreaInteresseDAO;
 import br.com.lpii.dao.ProfessorDAO;
 import br.com.lpii.dao.PropostaDAO;
+import br.com.lpii.model.Aluno;
 import br.com.lpii.model.AreaInteresse;
 import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
@@ -22,8 +23,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmVerDetalhesTema extends javax.swing.JFrame {
 
-    private int usuarioId;
-    private int temaId;
+    private Aluno aluno;
+    private Professor professor;
+    private Proposta proposta;
 
     /**
      * Creates new form FrmGerenciarPropostas
@@ -35,24 +37,22 @@ public class FrmVerDetalhesTema extends javax.swing.JFrame {
         txt_detalhes.setEditable(false);
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Aluno getAluno() {
+        return aluno;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
-    public int getTemaId() {
-        return temaId;
+    public Proposta getProposta() {
+        return proposta;
     }
 
-    public void setTemaId(int temaId) {
-        this.temaId = temaId;
+    public void setProposta(Proposta proposta) {
+        this.proposta = proposta;
     }
-    
-    
-    
+
     public void gerenciaCampos(String action) {
         switch (action) {
             case "block":
@@ -112,8 +112,8 @@ public class FrmVerDetalhesTema extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Detalhes do Tema");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -279,34 +279,23 @@ public class FrmVerDetalhesTema extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btn_VoltarActionPerformed
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Carrega dados na tabela ao abrir a janela
         /**
          * Evento responsável por carregar os dados para a tabela. O
          * método é disparado no momento em que o JFrame é aberto
          */
-        carregaDados(temaId);
+        carregaDados(proposta);
         
         gerenciaBotoes(true);
-        
-    }//GEN-LAST:event_formWindowActivated
+    }//GEN-LAST:event_formWindowOpened
 
-    public void carregaDados(int temaId) {
-        
-        // Cria um objeto do tipo propostaDAO
-        PropostaDAO dao = new PropostaDAO();
-        
-        // Armazena os dados da proposta
-        Proposta proposta = dao.getProposta(temaId);
-        
+    public void carregaDados(Proposta proposta) {
+                
         txt_codigo.setText(String.valueOf(proposta.getPropostaId()));
-        ProfessorDAO daoProf = new ProfessorDAO();
-        Professor professor = daoProf.buscaProfessor(proposta.getPropostaIdProfessor());
-        txt_orientador.setText(professor.getNome());
-        txt_email_orientador.setText(professor.getEmail());
-        AreaInteresseDAO daoAI = new AreaInteresseDAO();
-        AreaInteresse ai = daoAI.getAreaInteresse(proposta.getPropostaAreaInteresse());
-        txt_area_interesse.setText(ai.getNome());
+        txt_orientador.setText(proposta.getPropostaNomeProfessor());
+        txt_email_orientador.setText(proposta.getPropostaProfEmail());
+        txt_area_interesse.setText(proposta.getPropostaNomeAreaInteresse());
         txt_detalhes.setText(proposta.getPropostaDescricao());
         
     }

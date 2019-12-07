@@ -18,7 +18,8 @@ public class Aluno extends Pessoa{
     private int matricula;
     private String cpf;
     private String telefone;
-    private String proposta;
+    private String nota;
+    private Proposta proposta;
     
 
     
@@ -54,12 +55,20 @@ public class Aluno extends Pessoa{
         this.telefone = telefone;
     }
 
-    public String getProposta() {
+    public Proposta getProposta() {
         return proposta;
     }
 
-    public void setProposta(String proposta) {
+    public void setProposta(Proposta proposta) {
         this.proposta = proposta;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
     }
     
     

@@ -284,9 +284,9 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
     private void btn_detalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detalhesActionPerformed
         // Mostra a tela ver mensagens
-        FrmVerDetalhesTema tela = new FrmVerDetalhesTema();
-        tela.setTemaId(this.codDaProposta);
-        tela.setVisible(true);
+        //FrmVerDetalhesTema tela = new FrmVerDetalhesTema();
+        //tela.setTemaId(this.codDaProposta);
+        //tela.setVisible(true);
     }//GEN-LAST:event_btn_detalhesActionPerformed
 
     private void btn_notasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_notasActionPerformed
