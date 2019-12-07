@@ -132,6 +132,7 @@ public class AreaInteresseDAO {
                 professor.setConta_orientador(rs.getInt("conta_orientador"));
                 professor.setSenha(rs.getString("senha"));
                 lista.add(professor);
+                
             }
 
             // retorna lista de professores

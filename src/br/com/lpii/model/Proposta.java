@@ -19,6 +19,8 @@ public class Proposta {
     private String propostaDescricao;
     private String propostaStatus;
     private String PropostaAlunoNome;
+    private String banca1;
+    private String banca2;
     private int PropostaAlunoNota;
 
     public int getPropostaId() {
@@ -92,7 +94,21 @@ public class Proposta {
     public void setPropostaAlunoNota(int PropostaAlunoNota) {
         this.PropostaAlunoNota = PropostaAlunoNota;
     }
-    
-        
+
+    public String getBanca1() {
+        return banca1;
+    }
+
+    public void setBanca1(String banca1) {
+        this.banca1 = banca1;
+    }
+
+    public String getBanca2() {
+        return banca2;
+    }
+
+    public void setBanca2(String banca2) {
+        this.banca2 = banca2;
+    }    
     
 }
