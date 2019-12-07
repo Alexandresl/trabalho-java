@@ -183,6 +183,8 @@ public class PropostaDAO {
                 proposta.setPropostaTitulo(rs.getString("titulo"));
                 proposta.setPropostaDescricao(rs.getString("descricao"));
                 proposta.setPropostaStatus(rs.getString("status"));
+                proposta.setBanca1((rs.getString("banca1").equals("undefined")) ? "Não definida" : rs.getString("banca1"));
+                proposta.setBanca2((rs.getString("banca2").isEmpty()) ? "Não definida" : rs.getString("banca2"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(proposta);
             }

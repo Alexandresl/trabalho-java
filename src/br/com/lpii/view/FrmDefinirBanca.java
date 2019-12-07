@@ -394,7 +394,12 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
         }
         
         
+<<<<<<< HEAD
         
+=======
+        txt_banca1.setText(proposta.getBanca1());
+        txt_banca2.setText(proposta.getBanca2());
+>>>>>>> 2191a15d9ecab175374f4e5ae69f2bb016b98107
 
     }
 
