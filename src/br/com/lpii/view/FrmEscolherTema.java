@@ -302,7 +302,11 @@ public class FrmEscolherTema extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_escolherTemaActionPerformed
 
     private void btn_verMeuTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verMeuTemaActionPerformed
-        // TODO add your handling code here:
+        // Ação para abrir detalhes do tema escolhido pelo aluno
+        FrmVerDetalhesTema tela = new FrmVerDetalhesTema();
+        tela.setVisible(true);
+        tela.setAluno(aluno);
+        tela.setProposta(proposta);
     }//GEN-LAST:event_btn_verMeuTemaActionPerformed
 
     private void btn_verDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verDetalhesActionPerformed
@@ -400,6 +404,7 @@ public class FrmEscolherTema extends javax.swing.JFrame {
 
             if (p.getPropostaAlunoMatricula() == aluno.getMatricula()) {
                 aluno.setProposta(p);
+                proposta = p;
                 btn_escolherTema.setEnabled(false);
                 btn_verMeuTema.setEnabled(true);
             }

@@ -263,6 +263,11 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(0, 102, 51));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         jButton1.setText("Escolher tema");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(102, 102, 102));
@@ -490,6 +495,13 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
                 (aluno.getProposta() != null) ? "Não definido" : aluno.getProposta().getPropostaTitulo()
         );
     }//GEN-LAST:event_formWindowActivated
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FrmEscolherTema tela = new FrmEscolherTema();
+        tela.setAluno(aluno);
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
