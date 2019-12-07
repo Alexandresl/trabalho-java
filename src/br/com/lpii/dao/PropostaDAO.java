@@ -120,7 +120,11 @@ public class PropostaDAO {
             // Cria a lista
             List<Proposta> lista = new ArrayList<>();
             // Cria comando sql
-            String sql = "SELECT * FROM proposta ORDER BY id_proposta";
+            
+            String sql = "SELECT * FROM proposta p "
+                    + "INNER JOIN area_interesse ai ON p.id_area_interesse = ai.id_area_interesse "
+                    + "INNER JOIN professor prof ON p.id_professor = prof.id_professor "
+                    + "ORDER BY id_proposta";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
@@ -133,10 +137,14 @@ public class PropostaDAO {
                 // Para casda ocorrência de rs é gerado um novo objeto Aluno
                 Proposta proposta = new Proposta();
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
+                // É setado os atributos. Os parâmetros do get são os nomes das colunas
                 proposta.setPropostaId(rs.getInt("id_proposta"));
                 proposta.setPropostaAlunoMatricula(rs.getInt("matricula"));
                 proposta.setPropostaCodAreaInteresse(rs.getInt("id_area_interesse"));
+                proposta.setPropostaNomeAreaInteresse(rs.getString("ai.nome"));
                 proposta.setPropostaIdProfessor(rs.getInt("id_professor"));
+                proposta.setPropostaNomeProfessor(rs.getString("prof.nome"));
+                proposta.setPropostaProfEmail(rs.getString("prof.email"));
                 proposta.setPropostaTitulo(rs.getString("titulo"));
                 proposta.setPropostaDescricao(rs.getString("descricao"));
                 proposta.setPropostaStatus(rs.getString("status"));
