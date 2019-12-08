@@ -6,7 +6,9 @@
 package br.com.lpii.view;
 
 import br.com.lpii.dao.AlunoDAO;
+import br.com.lpii.dao.PropostaDAO;
 import br.com.lpii.model.Aluno;
+import br.com.lpii.model.Proposta;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -17,6 +19,9 @@ import javax.swing.table.DefaultTableModel;
  * @author
  */
 public class FrmAluno extends javax.swing.JFrame {
+
+    private Aluno aluno;
+    private Proposta proposta;
     
     /**
      * Método construtor
@@ -177,6 +182,7 @@ public class FrmAluno extends javax.swing.JFrame {
         txt_confirmaSenha = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         txt_pesquisar = new javax.swing.JTextField();
         btn_consulta_pesquisar = new javax.swing.JButton();
@@ -241,7 +247,7 @@ public class FrmAluno extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setText("Matrícula:");
+        jLabel2.setText("Matrícula*:");
 
         txt_matricula.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_matricula.setForeground(new java.awt.Color(0, 102, 51));
@@ -256,18 +262,18 @@ public class FrmAluno extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("Nome:");
+        jLabel3.setText("Nome*:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setText("Email:");
+        jLabel4.setText("Email*:");
 
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_email.setForeground(new java.awt.Color(0, 102, 51));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel5.setText("Celular:");
+        jLabel5.setText("Celular*:");
 
         txt_celular.setForeground(new java.awt.Color(0, 102, 51));
         try {
@@ -279,7 +285,7 @@ public class FrmAluno extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel6.setText("CPF:");
+        jLabel6.setText("CPF*:");
 
         txt_cpf.setForeground(new java.awt.Color(0, 102, 51));
         try {
@@ -325,11 +331,15 @@ public class FrmAluno extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel9.setText("Senha:");
+        jLabel9.setText("Senha*:");
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel10.setText("Confirmar senha:");
+        jLabel10.setText("Confirmar senha*:");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel11.setText("* Campos obrigatórios");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -338,41 +348,45 @@ public class FrmAluno extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_confirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel11))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_confirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 300, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(84, 84, 84)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txt_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -580,7 +594,6 @@ public class FrmAluno extends javax.swing.JFrame {
             // lógica Verificará se usuário existe no banco de dados
             // Se sim será invocado método para edição
             // caso contrário será realizado novo cadastro
-            
             /**
              * Instancia objeto da classe AlunoDao Já é aberta a conexão a
              * partir do construtor
@@ -684,29 +697,55 @@ public class FrmAluno extends javax.swing.JFrame {
 
     private void tbl_alunoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_alunoMouseClicked
 
-        // Verifica se foi disparado duplo click sobre uma linha da tabela
-        if (evt.getClickCount() == 2) {
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando Aluno...");
+        loading.setVisible(true);
 
-            // Comando para carregar para outra aba
-            jTabbedPane1.setSelectedIndex(0);
+        Thread t = new Thread() {
+            public void run() {
+                // Verifica se foi disparado duplo click sobre uma linha da tabela
+                if (evt.getClickCount() == 2) {
 
-        }
+                    // Comando para carregar para outra aba
+                    jTabbedPane1.setSelectedIndex(0);
 
-        // Pega os dados e envia para o formulário de clientes
-        String matricula = tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 0).toString();
+                }
 
-        AlunoDAO dao = new AlunoDAO();
+                // Pega os dados e envia para o formulário de clientes
+                String matricula = tbl_aluno.getValueAt(tbl_aluno.getSelectedRow(), 0).toString();
 
-        Aluno aluno = dao.getAluno(Integer.parseInt(matricula));
+                AlunoDAO dao = new AlunoDAO();
 
-        txt_matricula.setText(String.valueOf(aluno.getMatricula()));
-        txt_nome.setText(aluno.getNome());
-        txt_cpf.setText(aluno.getCpf());
-        txt_email.setText(aluno.getEmail());
-        txt_celular.setText(aluno.getTelefone());
-        txt_senha.setText(aluno.getSenha());
-        txt_confirmaSenha.setText(aluno.getSenha());
-        gerenciaBotoes(true, false, true, true);
+                Aluno aluno = dao.getAluno(Integer.parseInt(matricula));
+                PropostaDAO daoP = new PropostaDAO();
+                proposta = daoP.getPropostaAluno(aluno);
+                
+                aluno.setProposta(proposta);
+
+                txt_matricula.setText(String.valueOf(aluno.getMatricula()));
+                txt_nome.setText(aluno.getNome());
+                txt_cpf.setText(aluno.getCpf());
+                txt_email.setText(aluno.getEmail());
+                txt_celular.setText(aluno.getTelefone());
+                txt_senha.setText(aluno.getSenha());
+                txt_confirmaSenha.setText(aluno.getSenha());
+                txt_proposta.setText(
+                        (aluno.getProposta().getPropostaStatus() == null) ? "Não selecionado" : aluno.getProposta().getPropostaStatus()
+                );
+                
+                
+                gerenciaBotoes(true, false, true, true);
+                loading.dispose();
+
+                // Comando para carregar para outra aba
+                jTabbedPane1.setSelectedIndex(0);
+
+            }
+
+        };
+
+        t.start();
+
 
     }//GEN-LAST:event_tbl_alunoMouseClicked
 
@@ -852,6 +891,7 @@ public class FrmAluno extends javax.swing.JFrame {
     private javax.swing.JButton btn_salvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
