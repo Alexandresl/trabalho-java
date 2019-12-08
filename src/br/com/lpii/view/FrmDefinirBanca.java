@@ -5,6 +5,7 @@
  */
 package br.com.lpii.view;
 
+import br.com.lpii.dao.ProfessorDAO;
 import br.com.lpii.dao.PropostaDAO;
 import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
@@ -36,8 +37,6 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
     public void setProposta(Proposta proposta) {
         this.proposta = proposta;
     }
-
-    
 
     /**
      * Métodos para gerenciar botões
@@ -105,6 +104,9 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -337,39 +339,100 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // Lista todoas as propostas do professor
-        toList();
-    }//GEN-LAST:event_formWindowActivated
-
     private void btn_definirBanca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_definirBanca1ActionPerformed
         FrmSelecionarProfessorBanca tela = new FrmSelecionarProfessorBanca();
         tela.setProposta(proposta);
-        tela.setUsuarioId(professor.getCodigo());
+        tela.setProfessor(professor);
         tela.setBanca(1);
         tela.setVisible(true);
     }//GEN-LAST:event_btn_definirBanca1ActionPerformed
 
     private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
 
-        // Pega o ID vindo da tabela
-        int codTema = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 1).toString());
-        // Instancia uma classe PropostaDAO
-        PropostaDAO daoP = new PropostaDAO();
-        // Cria um objeto proposta com todos os dados do objeto
-        this.proposta = daoP.getProposta(codTema);
-        // Libera os botões
-        gerenciaBotoes(true, true);
-        
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando dados da proposta...");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+            public void run() {
+                
+// Pega o ID vindo da tabela
+                int codTema = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 1).toString());
+                // Instancia uma classe PropostaDAO
+                PropostaDAO daoP = new PropostaDAO();
+                // Cria um objeto proposta com todos os dados do objeto
+                proposta = daoP.getProposta(codTema);
+                
+                // Preenche dados da banca, se houver
+                mostraBanca();
+                
+                // Libera os botões
+                gerenciaBotoes(true, true);
+                
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
 
     }//GEN-LAST:event_tbl_propostasMouseClicked
 
+    public void mostraBanca() {
+        
+        ProfessorDAO dao = new ProfessorDAO();
+        Professor prof = new Professor();
+        
+        if (proposta.getBanca1() != 0 ) {
+            prof = dao.buscaProfessor(proposta.getBanca1());
+            txt_banca1.setText(prof.getNome());
+        } else {
+            txt_banca1.setText("Não definido");
+        }
+        if (proposta.getBanca2() != 0 ) {
+            prof = dao.buscaProfessor(proposta.getBanca2());
+            txt_banca2.setText(prof.getNome());
+        } else {
+            txt_banca2.setText("Não definido");
+        }
+            
+    }
+    
     private void btn_definirBanca2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_definirBanca2ActionPerformed
         FrmSelecionarProfessorBanca tela = new FrmSelecionarProfessorBanca();
         tela.setProposta(proposta);
-        tela.setUsuarioId(professor.getCodigo());
+        tela.setProfessor(professor);
+        tela.setBanca(2);
         tela.setVisible(true);
+        
     }//GEN-LAST:event_btn_definirBanca2ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando propostas...");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+            public void run() {
+                // Lista todoas as propostas do professor
+                toList();
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        if (proposta != null) {
+            mostraBanca();
+        }
+        
+    }//GEN-LAST:event_formWindowActivated
 
     public void toList() {
         // Instancia objeto DAO

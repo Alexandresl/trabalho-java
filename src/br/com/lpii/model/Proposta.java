@@ -22,8 +22,10 @@ public class Proposta {
     private String propostaDescricao;
     private String propostaStatus;
     private String PropostaAlunoNome;
-    private String banca1;
-    private String banca2;
+    private int banca1;
+    private String banca1Nome;
+    private int banca2;
+    private String banca2Nome;
     private int PropostaAlunoNota;
 
     public int getPropostaId() {
@@ -122,20 +124,38 @@ public class Proposta {
         this.PropostaAlunoNota = PropostaAlunoNota;
     }
 
-    public String getBanca1() {
+    public int getBanca1() {
         return banca1;
     }
 
-    public void setBanca1(String banca1) {
+    public void setBanca1(int banca1) {
         this.banca1 = banca1;
     }
 
-    public String getBanca2() {
+    public int getBanca2() {
         return banca2;
     }
 
-    public void setBanca2(String banca2) {
+    public void setBanca2(int banca2) {
         this.banca2 = banca2;
-    }    
+    }
+
+    public String getBanca1Nome() {
+        return banca1Nome;
+    }
+
+    public void setBanca1Nome(String banca1Nome) {
+        this.banca1Nome = banca1Nome;
+    }
+
+    public String getBanca2Nome() {
+        return banca2Nome;
+    }
+
+    public void setBanca2Nome(String banca2Nome) {
+        this.banca2Nome = banca2Nome;
+    }
+    
+    
     
 }

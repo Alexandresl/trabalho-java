@@ -52,6 +52,9 @@ public class Professor extends Pessoa{
         this.conta_orientador = conta_orientador;
     }
 
-    
+    @Override
+    public String toString() {
+        return nome;
+    }
     
 }

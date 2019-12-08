@@ -192,8 +192,8 @@ public class FrmAluno extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Aluno");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -682,16 +682,6 @@ public class FrmAluno extends javax.swing.JFrame {
         txt_matricula.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        /**
-         * Evento responsável por carregar os dados para a tabela de aluno. O
-         * método é disparado no momento em que o formulário é ativado
-         */
-
-        toList();
-
-    }//GEN-LAST:event_formWindowActivated
-
     private void tbl_alunoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_alunoMouseClicked
 
         // Verifica se foi disparado duplo click sobre uma linha da tabela
@@ -809,6 +799,15 @@ public class FrmAluno extends javax.swing.JFrame {
             toList();
         }
     }//GEN-LAST:event_txt_pesquisarFocusLost
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        /**
+         * Evento responsável por carregar os dados para a tabela de aluno. O
+         * método é disparado no momento em que o formulário é ativado
+         */
+
+        toList();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

@@ -12,7 +12,7 @@ package br.com.lpii.model;
 public class Pessoa {
     
     // Atributos
-    private String nome;
+    protected String nome;
     private String email;
     private String senha;
     private String perfil;

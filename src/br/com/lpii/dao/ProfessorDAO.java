@@ -305,5 +305,25 @@ public class ProfessorDAO {
 
         }
     }
+    
+    public void addBanca(int professorId, int contaBanca) {
+        try {
+            // Comando SQL
+            String sql = "UPDATE professor SET conta_banca = ? "
+                    + "WHERE id_professor = ?";
+
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+            // insere os valores no sql
+            stmt.setInt(1, contaBanca + 1);
+            stmt.setInt(2, professorId);
+
+            //Executa sql
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 
 }

@@ -12,7 +12,7 @@ package br.com.lpii.view;
 public class FrmLoading extends javax.swing.JFrame {
     
     // Frase para cada painel
-    private String label;
+    private String label = "Carregando";
 
     /**
      * Contrutores
@@ -46,7 +46,7 @@ public class FrmLoading extends javax.swing.JFrame {
         jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Aguarde.");
+        setTitle("Aguarde...");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -58,7 +58,7 @@ public class FrmLoading extends javax.swing.JFrame {
         txt_fraseCarregamento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txt_fraseCarregamento.setForeground(new java.awt.Color(255, 255, 255));
         txt_fraseCarregamento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_fraseCarregamento.setText("xxx");
+        txt_fraseCarregamento.setText("Carregando");
 
         jProgressBar1.setIndeterminate(true);
 

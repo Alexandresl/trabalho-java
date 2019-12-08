@@ -89,6 +89,34 @@ public class PropostaDAO {
 
     }
 
+    public void alterarPropostaIncluirBanca(Proposta proposta) { // Método para inclur professores das bancas
+
+        try {
+
+            // Comando SQL
+            String sql = "UPDATE proposta SET banca1 = ?, banca2 = ? "
+                    + "WHERE id_proposta = ?";
+
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            // insere os valores no sql
+            stmt.setInt(1, proposta.getBanca1());
+            stmt.setInt(2, proposta.getBanca2());
+            stmt.setInt(3, proposta.getPropostaId());
+
+            //Executa sql
+            stmt.execute();
+            stmt.close();
+
+            JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Erro: " + error);
+        }
+
+    }
+    
     public void excluirAluno(Proposta proposta) {
 
         try {
@@ -191,8 +219,8 @@ public class PropostaDAO {
                 proposta.setPropostaTitulo(rs.getString("titulo"));
                 proposta.setPropostaDescricao(rs.getString("descricao"));
                 proposta.setPropostaStatus(rs.getString("status"));
-                proposta.setBanca1((rs.getString("banca1").equals("undefined")) ? "Não definida" : rs.getString("banca1"));
-                proposta.setBanca2((rs.getString("banca2").isEmpty()) ? "Não definida" : rs.getString("banca2"));
+                proposta.setBanca1((rs.getInt("banca1") != 0) ? 0 : rs.getInt("banca1"));
+                proposta.setBanca2((rs.getInt("banca2") != 0) ? 0 : rs.getInt("banca2"));
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(proposta);
             }
@@ -289,7 +317,7 @@ public class PropostaDAO {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM proposta p "
                     + "INNER JOIN area_interesse ai ON p.id_area_interesse = ai.id_area_interesse "
-                    + "INNER JOIN professor prof ON p.id_professor = prof.id_professor "
+                    + "INNER JOIN professor profO ON p.id_professor = profO.id_professor "
                     + "WHERE id_proposta = ?";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -307,12 +335,14 @@ public class PropostaDAO {
                 proposta.setPropostaCodAreaInteresse(rs.getInt("id_area_interesse"));
                 proposta.setPropostaNomeAreaInteresse(rs.getString("ai.nome"));
                 proposta.setPropostaIdProfessor(rs.getInt("id_professor"));
-                proposta.setPropostaNomeProfessor(rs.getString("prof.nome"));
-                proposta.setPropostaProfEmail(rs.getString("prof.email"));
+                proposta.setPropostaNomeProfessor(rs.getString("profO.nome"));
+                proposta.setPropostaProfEmail(rs.getString("profO.email"));
                 proposta.setPropostaTitulo(rs.getString("titulo"));
                 proposta.setPropostaDescricao(rs.getString("descricao"));
                 proposta.setPropostaStatus(rs.getString("status"));
-
+                proposta.setBanca1(rs.getInt("banca1"));
+                proposta.setBanca2(rs.getInt("banca2"));
+                
             }
             return proposta;
 

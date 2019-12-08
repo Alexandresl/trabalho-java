@@ -62,7 +62,7 @@ public class AreaInteresseDAO {
         }
     }
 
-    public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId) {
+    public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId, int banca1, int banca2) {
         try {
             System.out.println(areaInteresse);
             // Cria uma lista com os professorea que possuem a área de interesse
@@ -72,12 +72,15 @@ public class AreaInteresseDAO {
             String sql = "SELECT * FROM professor_area_interesse pai "
                     + "INNER JOIN professor p ON pai.professor_id = p.id_professor  "
                     + "WHERE pai.area_interesse_id = ? AND pai.professor_id != ? "
+                    + "AND p.id_professor != ? AND p.id_professor != ? "
                     + "GROUP BY pai.professor_id, pai.area_interesse_id";
 
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, areaInteresse);
             stmt.setInt(2, usuarioId);
+            stmt.setInt(3, banca1);
+            stmt.setInt(4, banca2);
 
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();

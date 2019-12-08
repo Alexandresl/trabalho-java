@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
 
-    int usuarioId;
-    Proposta proposta;
+    private Professor professor;
+    private Proposta proposta;
 
     /**
      * Creates new form FrmSelecionarProfessorBanca
@@ -34,14 +34,14 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
         this.proposta = proposta;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
-    
+
     
 
     /**
@@ -126,8 +126,8 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
 
         AreaInteresseDAO daoAI = new AreaInteresseDAO();
 
-        List<Professor> lista = daoAI.ListaTodosProfessores(usuarioId);
-                
+        List<Professor> lista = daoAI.ListaTodosProfessores(professor.getCodigo());
+
         for (Professor item : lista) {
             c_professores.addItem(item.getNome());
         }

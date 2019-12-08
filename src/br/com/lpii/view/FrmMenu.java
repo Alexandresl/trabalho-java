@@ -408,9 +408,9 @@ public class FrmMenu extends javax.swing.JFrame {
 
     private void submenu_prof_definirBancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_prof_definirBancaActionPerformed
         // Abre tela para definir banca
-        FrmDefinirBanca tela = new FrmDefinirBanca();
-        tela.setProfessor(professor);
-        tela.setVisible(true);
+        FrmDefinirBanca telaDB = new FrmDefinirBanca();
+        telaDB.setProfessor(professor);
+        telaDB.setVisible(true);
     }//GEN-LAST:event_submenu_prof_definirBancaActionPerformed
 
     /**

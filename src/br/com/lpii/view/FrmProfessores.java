@@ -43,7 +43,6 @@ public class FrmProfessores extends javax.swing.JFrame {
     public void gerenciaCampos(String action) {
         switch (action) {
             case "block":
-
                 txt_nome.setEnabled(false);
                 txt_email.setEnabled(false);
                 txt_senha.setEnabled(false);
@@ -113,10 +112,6 @@ public class FrmProfessores extends javax.swing.JFrame {
 
     }
 
-    public void ativaInfComplementares() {
-        label_banca.setText("Situação do Tema do TC: ");
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -131,6 +126,11 @@ public class FrmProfessores extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
+        txt_pesquisar = new javax.swing.JTextField();
+        btn_consulta_pesquisar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_professor = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_codigo = new javax.swing.JTextField();
@@ -145,11 +145,6 @@ public class FrmProfessores extends javax.swing.JFrame {
         txt_contaOrientador = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txt_senha = new javax.swing.JPasswordField();
-        jPanel4 = new javax.swing.JPanel();
-        txt_pesquisar = new javax.swing.JTextField();
-        btn_consulta_pesquisar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_professor = new javax.swing.JTable();
         btn_novo = new javax.swing.JButton();
         btn_salvar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
@@ -158,10 +153,10 @@ public class FrmProfessores extends javax.swing.JFrame {
         jLabel7.setText("jLabel7");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Aluno");
+        setTitle("Cadastro de Professores");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -203,6 +198,88 @@ public class FrmProfessores extends javax.swing.JFrame {
         jTabbedPane1.setForeground(new java.awt.Color(0, 102, 51));
         jTabbedPane1.setFocusable(false);
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        txt_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_pesquisar.setForeground(new java.awt.Color(153, 153, 153));
+        txt_pesquisar.setText("Digite o nome do professor");
+        txt_pesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_pesquisarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_pesquisarFocusLost(evt);
+            }
+        });
+
+        btn_consulta_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_consulta_pesquisar.setForeground(new java.awt.Color(0, 102, 51));
+        btn_consulta_pesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
+        btn_consulta_pesquisar.setText("Pesquisar");
+        btn_consulta_pesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_consulta_pesquisarActionPerformed(evt);
+            }
+        });
+
+        tbl_professor.setForeground(new java.awt.Color(0, 153, 51));
+        tbl_professor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Nome", "Email"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_professor.setGridColor(new java.awt.Color(153, 153, 153));
+        tbl_professor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_professorMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_professor);
+        if (tbl_professor.getColumnModel().getColumnCount() > 0) {
+            tbl_professor.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tbl_professor.getColumnModel().getColumn(1).setPreferredWidth(140);
+            tbl_professor.getColumnModel().getColumn(2).setPreferredWidth(140);
+        }
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(txt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_consulta_pesquisar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_consulta_pesquisar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(273, 273, 273))
+        );
+
+        jTabbedPane1.addTab("Consulta de Professores", jPanel4);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setEnabled(false);
@@ -328,88 +405,6 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Dados do professor", jPanel2);
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-
-        txt_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_pesquisar.setForeground(new java.awt.Color(153, 153, 153));
-        txt_pesquisar.setText("Digite o nome do professor");
-        txt_pesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txt_pesquisarFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_pesquisarFocusLost(evt);
-            }
-        });
-
-        btn_consulta_pesquisar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btn_consulta_pesquisar.setForeground(new java.awt.Color(0, 102, 51));
-        btn_consulta_pesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
-        btn_consulta_pesquisar.setText("Pesquisar");
-        btn_consulta_pesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_consulta_pesquisarActionPerformed(evt);
-            }
-        });
-
-        tbl_professor.setForeground(new java.awt.Color(0, 153, 51));
-        tbl_professor.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Código", "Nome", "Email"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_professor.setGridColor(new java.awt.Color(153, 153, 153));
-        tbl_professor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_professorMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbl_professor);
-        if (tbl_professor.getColumnModel().getColumnCount() > 0) {
-            tbl_professor.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tbl_professor.getColumnModel().getColumn(1).setPreferredWidth(140);
-            tbl_professor.getColumnModel().getColumn(2).setPreferredWidth(140);
-        }
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(txt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_consulta_pesquisar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_consulta_pesquisar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(273, 273, 273))
-        );
-
-        jTabbedPane1.addTab("Consulta de Professores", jPanel4);
-
         btn_novo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_novo.setForeground(new java.awt.Color(0, 102, 51));
         btn_novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add.png"))); // NOI18N
@@ -504,7 +499,8 @@ public class FrmProfessores extends javax.swing.JFrame {
         if (!txt_codigo.getText().equals("") && dao.verificaProfessor(Integer.parseInt(txt_codigo.getText()))) {
 
             /**
-             * Ação responsável por Editar Aluno insere dados no objeto professor
+             * Ação responsável por Editar Aluno insere dados no objeto
+             * professor
              */
             Professor professor = new Professor();
 
@@ -551,6 +547,8 @@ public class FrmProfessores extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
+        // Muda para a aba do formulário
+        jTabbedPane1.setSelectedIndex(1);
         // Libera os campos para preenchimento dos dados do professor
         gerenciaCampos("unblock");
         gerenciaCampos("clean");
@@ -560,40 +558,47 @@ public class FrmProfessores extends javax.swing.JFrame {
         txt_codigo.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        /**
-         * Evento responsável por carregar os dados para a tabela de professor. O
-         * método é disparado no momento em que o formulário é ativado
-         */
-
-        toList();
-
-    }//GEN-LAST:event_formWindowActivated
-
     private void tbl_professorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_professorMouseClicked
 
-        // Libera botões editar e exluir
-        gerenciaBotoes(true, false, true, true);
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando dados do Professor...");
+        loading.setVisible(true);
 
-        // Verifica se foi disparado duplo click sobre uma linha da tabela
-        if (evt.getClickCount() == 2) {
-            // Comando para carregar para outra aba
-            jTabbedPane1.setSelectedIndex(0);
-        }
-        // Pega o ID vindo da tabela
-        int codProfessor = Integer.parseInt(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 0).toString());
-        // Busca os dados na tabela
-        ProfessorDAO dao = new ProfessorDAO();
-        Professor professor = dao.buscaProfessor(codProfessor);
+        Thread t = new Thread() {
+            public void run() {
 
-        // Pega os dados e envia para o formulário de clientes
-        txt_codigo.setText(String.valueOf(professor.getCodigo()));
-        txt_nome.setText(professor.getNome());
-        txt_email.setText(professor.getEmail());
-        txt_senha.setText(professor.getSenha());
-        txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
-        txt_banca.setText(String.valueOf(professor.getConta_banca()));
+                // Libera botões editar e exluir
+                gerenciaBotoes(true, false, true, true);
 
+                // Verifica se foi disparado duplo click sobre uma linha da tabela
+                if (evt.getClickCount() == 2) {
+                    // Comando para carregar para outra aba
+                    jTabbedPane1.setSelectedIndex(1);
+                }
+                // Pega o ID vindo da tabela
+                int codProfessor = Integer.parseInt(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 0).toString());
+                // Busca os dados na tabela
+                ProfessorDAO dao = new ProfessorDAO();
+                Professor professor = dao.buscaProfessor(codProfessor);
+
+                // Pega os dados e envia para o formulário de clientes
+                txt_codigo.setText(String.valueOf(professor.getCodigo()));
+                txt_nome.setText(professor.getNome());
+                txt_email.setText(professor.getEmail());
+                txt_senha.setText(professor.getSenha());
+                txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
+                txt_banca.setText(String.valueOf(professor.getConta_banca()));
+                txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
+
+                jTabbedPane1.setSelectedIndex(1);
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
+        
     }//GEN-LAST:event_tbl_professorMouseClicked
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
@@ -601,7 +606,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         // Verifica se botão está sendo pressionado na aba dados ou busca
         if (jTabbedPane1.getSelectedIndex() == 1) {
             // se na aba busca apenas direciona para a aba dados
-            jTabbedPane1.setSelectedIndex(0);
+            jTabbedPane1.setSelectedIndex(1);
             gerenciaCampos("unblock");
             gerenciaBotoes(true, true, false, true);
         } else if (jTabbedPane1.getSelectedIndex() == 0 && !txt_nome.isEnabled()) {
@@ -638,12 +643,11 @@ public class FrmProfessores extends javax.swing.JFrame {
         toList();
         gerenciaCampos("clean");
         // Comando para carregar para outra aba
-        jTabbedPane1.setSelectedIndex(1);
+        jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_btn_excluirActionPerformed
 
     private void txt_codigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_codigoFocusLost
         ValidaNumero(txt_codigo);
-
     }//GEN-LAST:event_txt_codigoFocusLost
 
     private void btn_consulta_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consulta_pesquisarActionPerformed
@@ -682,6 +686,30 @@ public class FrmProfessores extends javax.swing.JFrame {
             toList();
         }
     }//GEN-LAST:event_txt_pesquisarFocusLost
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando professores...");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+            public void run() {
+                /**
+                 * Evento responsável por carregar os dados para a tabela de
+                 * professor. O método é disparado no momento em que o
+                 * formulário é aberto
+                 */
+                toList();
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
+
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * Método main do FrmProfessores
