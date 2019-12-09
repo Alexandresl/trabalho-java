@@ -61,10 +61,30 @@ public class AreaInteresseDAO {
 
         }
     }
+    
+    public void deletarAreaInteresse(Professor professor) {
+        try {
+            
+            // Comando SQL
+            String sql = "DELETE FROM professor_area_interesse WHERE professor_id = ?";
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+            // insere os valores no sql
+            stmt.setInt(1, professor.getCodigo());
+
+            //Executa sql
+            stmt.execute();
+            stmt.close();
+            
+        } catch (SQLException error) {
+            
+            JOptionPane.showMessageDialog(null, "Erro: " + error);
+            
+        }
+    }
 
     public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId, int banca1, int banca2) {
         try {
-            System.out.println(areaInteresse);
             // Cria uma lista com os professorea que possuem a área de interesse
             List<Professor> lista = new ArrayList<>();
 
@@ -148,34 +168,6 @@ public class AreaInteresseDAO {
         }
     }
 
-//    public void alterarProposta(Proposta proposta) {
-//
-//      
-//    }
-//
-//    public void excluirAluno(Proposta proposta) {
-//
-//    }
-//
-//    public List<Proposta> listarPropostas() {
-//
-//
-//    }
-//    
-//    public List<Proposta> listarMinhasPropostas(int id) {
-//
-//    }
-//
-//    public List<Proposta> buscarPropostas(String param) {
-//
-//
-//    }
-//
-//    public boolean verificaProposta(int id) {
-//  
-//    
-//    }
-//
     public AreaInteresse getAreaInteresse(int id) {
 
         AreaInteresse ai = new AreaInteresse();
@@ -205,5 +197,47 @@ public class AreaInteresseDAO {
             return null;
         }
 
+    }
+    
+    public List<AreaInteresse> PegaAreaInteresseProfessor(Professor professor) {
+        
+        try {
+            // Cria uma lista com os professorea que possuem a área de interesse
+            List<AreaInteresse> lista = new ArrayList<>();
+
+            // Cria a seleção
+            String sql = "SELECT * FROM professor_area_interesse pai "
+                    + "INNER JOIN professor p ON pai.professor_id = p.id_professor  "
+                    + "INNER JOIN area_interesse ai ON ai.id_area_interesse = pai.area_interesse_id  "
+                    + "WHERE p.id_professor = ?";
+
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, professor.getCodigo());
+
+            // Armazena o resultado
+            ResultSet rs = stmt.executeQuery();
+
+            // verifica se encontrou
+            while (rs.next()) {
+                
+                AreaInteresse ai = new AreaInteresse();
+                ai.setId_area_interesse(rs.getInt("pai.area_interesse_id"));
+                ai.setNome(rs.getString("ai.nome"));
+                ai.setProfessor_id(rs.getInt("pai.professor_id"));
+                
+                professor.setConta_orientador(rs.getInt("conta_orientador"));
+                professor.setSenha(rs.getString("senha"));
+                lista.add(ai);
+            }
+
+            // retorna lista de professores
+            return lista;
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Erro: " + error);
+            return null;
+        }
+        
     }
 }

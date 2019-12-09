@@ -374,7 +374,7 @@ public class FrmMenu extends javax.swing.JFrame {
     private void submenu_prof_areaInteresseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_prof_areaInteresseActionPerformed
         FrmAreaInteresse tela = new FrmAreaInteresse();
         tela.setVisible(true);
-        tela.setUsuarioId(professor.getCodigo());
+        tela.setProfessor(professor);
     }//GEN-LAST:event_submenu_prof_areaInteresseActionPerformed
 
     private void submentu_prof_cadastrarMinhasPropostasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submentu_prof_cadastrarMinhasPropostasActionPerformed
