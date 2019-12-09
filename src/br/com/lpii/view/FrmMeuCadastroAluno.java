@@ -78,6 +78,25 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
                 break;
         }
     }
+    
+    // Função para verificar se todos os campos estão preenchidos
+    public boolean temCamposVazios() {
+
+        if (txt_nome.getText().trim().equals("")
+                || txt_cpf.getText().equals("    .     .     -   ")
+                || txt_email.getText().trim().equals("")
+                || txt_celular.getText().equals("(    )       -     ")
+                || String.valueOf(txt_senha.getPassword()).trim().equals("")
+                || String.valueOf(txt_confirmaSenha.getPassword()).trim().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam estar preenchidos");
+            return true;
+
+        }
+
+        return false;
+
+    }
 
     /**
      * Métodos para gerenciar botões
@@ -413,41 +432,49 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        // Verifica se senhas conferem
-        if (String.valueOf(txt_senha.getPassword()).equals(String.valueOf(txt_confirmaSenha.getPassword()))) {
-            // Verifica se usuário existe no banco de dados
-            // Se sim será invocado método para edição
-            // caso contrário será realizado novo cadastro
-            /**
-             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
-             * partir do construtor
-             */
-            AlunoDAO dao = new AlunoDAO();
+        if (!temCamposVazios()) {
+            // Se o ID existe, confirme que o usuário quer alterar o cliente
+            int edita = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja alterar o cliente " + txt_matricula.getText() + "?");
 
-            /**
-             * Ação responsável por Editar Aluno insere dados no objeto aluno
-             */
-            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
-            aluno.setNome(txt_nome.getText());
-            aluno.setCpf(txt_cpf.getText());
-            aluno.setEmail(txt_email.getText());
-            aluno.setTelefone(txt_celular.getText());
-            aluno.setSenha(String.valueOf(txt_senha.getPassword()));
+            // Se sim realiza a edição
+            if (edita == 0) {
+                // Verifica se senhas conferem
+                if (String.valueOf(txt_senha.getPassword()).equals(String.valueOf(txt_confirmaSenha.getPassword()))) {
+                    // Verifica se usuário existe no banco de dados
+                    // Se sim será invocado método para edição
+                    // caso contrário será realizado novo cadastro
+                    /**
+                     * Instancia objeto da classe AlunoDao Já é aberta a conexão a
+                     * partir do construtor
+                     */
+                    AlunoDAO dao = new AlunoDAO();
 
-            /**
-             * Método que irá salbar o obj Aluno no banco de dados
-             */
-            dao.alterarAluno(aluno);
+                    /**
+                     * Ação responsável por Editar Aluno insere dados no objeto aluno
+                     */
+                    aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+                    aluno.setNome(txt_nome.getText());
+                    aluno.setCpf(txt_cpf.getText());
+                    aluno.setEmail(txt_email.getText());
+                    aluno.setTelefone(txt_celular.getText());
+                    aluno.setSenha(String.valueOf(txt_senha.getPassword()));
 
-            // limpa campos e gerencia botões
-            gerenciaCampos("block");
-            gerenciaCampos("clean");
-            gerenciaBotoes(false, false);
+                    /**
+                     * Método que irá salvar o obj Aluno no banco de dados
+                     */
+                    dao.alterarAluno(aluno);
 
-        } else {
+                    // limpa campos e gerencia botões
+                    gerenciaCampos("block");
+                    gerenciaCampos("clean");
+                    gerenciaBotoes(false, false);
 
-            JOptionPane.showMessageDialog(null, "Senhas não conferem!");
+                } else {
 
+                    JOptionPane.showMessageDialog(null, "Senhas não conferem!");
+
+                }
+            }
         }
 
 
