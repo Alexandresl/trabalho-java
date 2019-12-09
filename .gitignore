@@ -1,2 +1,8 @@
 /build/
 /dist/
+manifest.mf
+derby.log
+build.xml
+/test/
+/nbproject/
+

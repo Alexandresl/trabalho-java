@@ -77,9 +77,9 @@ public class FrmAluno extends javax.swing.JFrame {
 
         if (txt_matricula.getText().trim().equals("")
                 || txt_nome.getText().trim().equals("")
-                || txt_cpf.getText().trim().equals("")
+                || txt_cpf.getText().equals("    .     .     -   ")
                 || txt_email.getText().trim().equals("")
-                || txt_celular.getText().trim().equals("")
+                || txt_celular.getText().equals("(    )       -     ")
                 || String.valueOf(txt_senha.getPassword()).trim().equals("")
                 || String.valueOf(txt_confirmaSenha.getPassword()).trim().equals("")) {
 
