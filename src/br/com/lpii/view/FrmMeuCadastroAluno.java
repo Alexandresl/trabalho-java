@@ -166,6 +166,9 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
@@ -324,7 +327,7 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
                     .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(291, Short.MAX_VALUE))
+                .addContainerGap(288, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_confirmaSenha, txt_senha});
@@ -466,8 +469,8 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
 
                     // limpa campos e gerencia botões
                     gerenciaCampos("block");
-                    gerenciaCampos("clean");
-                    gerenciaBotoes(false, false);
+                    //gerenciaCampos("clean");
+                    gerenciaBotoes(false, true);
 
                 } else {
 
@@ -502,6 +505,17 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_matriculaFocusLost
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FrmEscolherTema tela = new FrmEscolherTema();
+        tela.setAluno(aluno);
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         gerenciaBotoes(false, true);
 
         // Verifica se há uma proposta relacionada
@@ -521,14 +535,7 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
         txt_proposta.setText(
                 (aluno.getProposta() != null) ? "Não definido" : aluno.getProposta().getPropostaTitulo()
         );
-    }//GEN-LAST:event_formWindowActivated
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrmEscolherTema tela = new FrmEscolherTema();
-        tela.setAluno(aluno);
-        tela.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
