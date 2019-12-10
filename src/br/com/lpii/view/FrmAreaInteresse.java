@@ -401,7 +401,7 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
                 break;
             }
         }
-        return i+21;
+        return i+1;
     }
 
     /**
