@@ -7,6 +7,7 @@ package br.com.lpii.view;
 
 import br.com.lpii.dao.AreaInteresseDAO;
 import br.com.lpii.model.AreaInteresse;
+import br.com.lpii.model.Professor;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +20,16 @@ import javax.swing.JOptionPane;
  */
 public class FrmAreaInteresse extends javax.swing.JFrame {
 
-    private int usuarioId;
+    private Professor professor;
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
-    
+
     /**
      * Método construtor
      */
@@ -75,6 +76,11 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Áreas de Interesse");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -309,49 +315,95 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
         List<AreaInteresse> lista = new ArrayList<>();
         // Instancia 
         AreaInteresseDAO daoAI = new AreaInteresseDAO();
-        
+
         for (Component c : painel_chk.getComponents()) {
 
             if (c instanceof JCheckBox) {
 
                 if (((JCheckBox) c).isSelected()) {
-                    
+
                     AreaInteresse ai = new AreaInteresse();
                     ai.setId_area_interesse(getAreaInteresse(((JCheckBox) c).getText()));
-                    ai.setProfessor_id(usuarioId);
+                    ai.setProfessor_id(professor.getCodigo());
                     lista.add(ai);
                 }
 
             }
 
         }
-        
-        if (!lista.isEmpty()) { 
+
+        if (!lista.isEmpty()) {
+            daoAI.deletarAreaInteresse(professor);
             daoAI.cadastrarAreaInteresse(lista);
+            atualizarCkbox();
         } else {
             JOptionPane.showMessageDialog(null, "Selecione ao menus uma área de interesse.");
         }
 
     }//GEN-LAST:event_btn_salvarActionPerformed
 
+    
+    public void atualizarCkbox() {
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando Áreas de interesse...");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+            public void run() {
+                // Carrega área de interesse do professor
+
+                AreaInteresseDAO dao = new AreaInteresseDAO();
+
+                List<AreaInteresse> lista = dao.PegaAreaInteresseProfessor(professor);
+
+                for (AreaInteresse ai : lista) {
+
+                    for (Component c : painel_chk.getComponents()) {
+
+                        if (c instanceof JCheckBox) {
+
+                            if (((JCheckBox) c).getText().equals(ai.getNome())) {
+
+                                ((JCheckBox) c).setSelected(true);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+    }
+    
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+        atualizarCkbox();
+
+
+    }//GEN-LAST:event_formWindowOpened
+
     // Método recebe uma String com a área de interese e retorna seu ID
     public int getAreaInteresse(String areaInteresse) {
-        
-        String[] areas = {"Python", "JavaScript", "Java", "PHP", "C#", 
-                "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS", 
-                "WordPress", "Desenvolimento Web", "Machine Learning", 
-                "Desenvolvimento de Games", "Data Science", "Banco de dados",
-                "Teste de Software", "Algoritmo", "Estrutura de dados"};
+
+        String[] areas = {"Python", "JavaScript", "Java", "PHP", "C#",
+            "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS",
+            "Banco de dados", "Estrutura de dados", "Machine Learning",
+            "Desenvolvimento de Games", "Data Science"};
         int i;
         for (i = 0; i <= areas.length - 1; i++) {
             if (areas[i] == areaInteresse) {
-                 break;          
+                break;
             }
         }
-        return i;
+        return i+21;
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
