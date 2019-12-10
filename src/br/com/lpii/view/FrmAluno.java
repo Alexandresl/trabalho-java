@@ -626,7 +626,7 @@ public class FrmAluno extends javax.swing.JFrame {
                         aluno.setSenha(String.valueOf(txt_senha.getPassword()));
 
                         /**
-                         * Método que irá salbar o obj Aluno no banco de dados
+                         * Método que irá salvar o obj Aluno no banco de dados
                          */
                         dao.alterarAluno(aluno);
 

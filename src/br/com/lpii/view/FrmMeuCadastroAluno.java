@@ -78,6 +78,25 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
                 break;
         }
     }
+    
+    // Função para verificar se todos os campos estão preenchidos
+    public boolean temCamposVazios() {
+
+        if (txt_nome.getText().trim().equals("")
+                || txt_cpf.getText().equals("    .     .     -   ")
+                || txt_email.getText().trim().equals("")
+                || txt_celular.getText().equals("(    )       -     ")
+                || String.valueOf(txt_senha.getPassword()).trim().equals("")
+                || String.valueOf(txt_confirmaSenha.getPassword()).trim().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam estar preenchidos");
+            return true;
+
+        }
+
+        return false;
+
+    }
 
     /**
      * Métodos para gerenciar botões
@@ -146,6 +165,9 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -305,7 +327,7 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
                     .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(291, Short.MAX_VALUE))
+                .addContainerGap(288, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_confirmaSenha, txt_senha});
@@ -413,41 +435,49 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        // Verifica se senhas conferem
-        if (String.valueOf(txt_senha.getPassword()).equals(String.valueOf(txt_confirmaSenha.getPassword()))) {
-            // Verifica se usuário existe no banco de dados
-            // Se sim será invocado método para edição
-            // caso contrário será realizado novo cadastro
-            /**
-             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
-             * partir do construtor
-             */
-            AlunoDAO dao = new AlunoDAO();
+        if (!temCamposVazios()) {
+            // Se o ID existe, confirme que o usuário quer alterar o cliente
+            int edita = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja alterar o cliente " + txt_matricula.getText() + "?");
 
-            /**
-             * Ação responsável por Editar Aluno insere dados no objeto aluno
-             */
-            aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
-            aluno.setNome(txt_nome.getText());
-            aluno.setCpf(txt_cpf.getText());
-            aluno.setEmail(txt_email.getText());
-            aluno.setTelefone(txt_celular.getText());
-            aluno.setSenha(String.valueOf(txt_senha.getPassword()));
+            // Se sim realiza a edição
+            if (edita == 0) {
+                // Verifica se senhas conferem
+                if (String.valueOf(txt_senha.getPassword()).equals(String.valueOf(txt_confirmaSenha.getPassword()))) {
+                    // Verifica se usuário existe no banco de dados
+                    // Se sim será invocado método para edição
+                    // caso contrário será realizado novo cadastro
+                    /**
+                     * Instancia objeto da classe AlunoDao Já é aberta a conexão a
+                     * partir do construtor
+                     */
+                    AlunoDAO dao = new AlunoDAO();
 
-            /**
-             * Método que irá salbar o obj Aluno no banco de dados
-             */
-            dao.alterarAluno(aluno);
+                    /**
+                     * Ação responsável por Editar Aluno insere dados no objeto aluno
+                     */
+                    aluno.setMatricula(Integer.parseInt(txt_matricula.getText()));
+                    aluno.setNome(txt_nome.getText());
+                    aluno.setCpf(txt_cpf.getText());
+                    aluno.setEmail(txt_email.getText());
+                    aluno.setTelefone(txt_celular.getText());
+                    aluno.setSenha(String.valueOf(txt_senha.getPassword()));
 
-            // limpa campos e gerencia botões
-            gerenciaCampos("block");
-            gerenciaCampos("clean");
-            gerenciaBotoes(false, false);
+                    /**
+                     * Método que irá salvar o obj Aluno no banco de dados
+                     */
+                    dao.alterarAluno(aluno);
 
-        } else {
+                    // limpa campos e gerencia botões
+                    gerenciaCampos("block");
+                    //gerenciaCampos("clean");
+                    gerenciaBotoes(false, true);
 
-            JOptionPane.showMessageDialog(null, "Senhas não conferem!");
+                } else {
 
+                    JOptionPane.showMessageDialog(null, "Senhas não conferem!");
+
+                }
+            }
         }
 
 
@@ -475,6 +505,17 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_matriculaFocusLost
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FrmEscolherTema tela = new FrmEscolherTema();
+        tela.setAluno(aluno);
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         gerenciaBotoes(false, true);
 
         // Verifica se há uma proposta relacionada
@@ -494,14 +535,7 @@ public class FrmMeuCadastroAluno extends javax.swing.JFrame {
         txt_proposta.setText(
                 (aluno.getProposta() != null) ? "Não definido" : aluno.getProposta().getPropostaTitulo()
         );
-    }//GEN-LAST:event_formWindowActivated
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrmEscolherTema tela = new FrmEscolherTema();
-        tela.setAluno(aluno);
-        tela.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
