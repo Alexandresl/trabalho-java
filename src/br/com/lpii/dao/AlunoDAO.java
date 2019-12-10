@@ -32,7 +32,7 @@ public class AlunoDAO {
     public void cadastrarAluno(Aluno aluno) {
         try {
             // Comando SQL
-            String sql = "INSERT INTO aluno (matricula, nome, cpf, email, telefone, senha, proposta) "
+            String sql = "INSERT INTO aluno (matricula, nome, cpf, email, telefone, senha, nota) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?)";
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -43,6 +43,7 @@ public class AlunoDAO {
             stmt.setString(4, aluno.getEmail());
             stmt.setString(5, aluno.getTelefone());
             stmt.setString(6, aluno.getSenha());
+            stmt.setString(7, aluno.getNota());
 
             //Executa sql
             stmt.execute();

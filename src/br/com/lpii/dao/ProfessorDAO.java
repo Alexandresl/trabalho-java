@@ -41,7 +41,7 @@ public class ProfessorDAO {
             stmt.setString(2, professor.getEmail());
             stmt.setInt(3, 0);
             stmt.setString(4, professor.getSenha());
-            stmt.setInt(4, 0);
+            stmt.setInt(5, 0);
             
 
             //Executa sql
