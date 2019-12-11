@@ -485,7 +485,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 if (edita == 0) {
 
                     FrmLoading loading = new FrmLoading();
-                    loading.setLabel("Carregando propostas...");
+                    loading.setLabel("Editando proposta...");
                     loading.setVisible(true);
 
                     Thread t = new Thread() {
@@ -523,7 +523,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 if (professor.getConta_orientador() < 5) {
 
                     FrmLoading loading = new FrmLoading();
-                    loading.setLabel("Carregando propostas...");
+                    loading.setLabel("Salvando proposta...");
                     loading.setVisible(true);
 
                     Thread t = new Thread() {
