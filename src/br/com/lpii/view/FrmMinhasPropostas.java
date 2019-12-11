@@ -77,6 +77,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 txt_descricao.setEnabled(true);
                 break;
             case "clean":
+                txt_cod.setText("");
                 txt_titulo.setText("");
                 combo_area_interesse.setSelectedIndex(0);
                 txt_descricao.setText("");
