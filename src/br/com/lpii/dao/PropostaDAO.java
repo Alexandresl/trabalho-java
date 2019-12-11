@@ -57,25 +57,26 @@ public class PropostaDAO {
 
     }
 
+    
+    // Este método não atualiza a matricula do aluno que estará vinculado a proposta
     public void alterarProposta(Proposta proposta) {
 
         try {
 
             // Comando SQL
-            String sql = "UPDATE proposta SET matricula = ?, id_area_interesse = ?, id_professor = ?, titulo = ?, descricao = ?, status = ? "
+            String sql = "UPDATE proposta SET id_area_interesse = ?, id_professor = ?, titulo = ?, descricao = ?, status = ? "
                     + "WHERE id_proposta = ?";
 
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
 
             // insere os valores no sql
-            stmt.setInt(1, proposta.getPropostaAlunoMatricula());
-            stmt.setInt(2, proposta.getPropostaCodAreaInteresse());
-            stmt.setInt(3, proposta.getPropostaIdProfessor());
-            stmt.setString(4, proposta.getPropostaTitulo());
-            stmt.setString(5, proposta.getPropostaDescricao());
-            stmt.setString(6, proposta.getPropostaStatus());
-            stmt.setInt(7, proposta.getPropostaId());
+            stmt.setInt(1, proposta.getPropostaCodAreaInteresse());
+            stmt.setInt(2, proposta.getPropostaIdProfessor());
+            stmt.setString(3, proposta.getPropostaTitulo());
+            stmt.setString(4, proposta.getPropostaDescricao());
+            stmt.setString(5, proposta.getPropostaStatus());
+            stmt.setInt(6, proposta.getPropostaId());
 
             //Executa sql
             stmt.execute();
@@ -117,7 +118,7 @@ public class PropostaDAO {
 
     }
     
-    public void excluirAluno(Proposta proposta) {
+    public void excluirProposta(Proposta proposta) {
 
         try {
 
@@ -198,7 +199,9 @@ public class PropostaDAO {
             // Cria a lista
             List<Proposta> lista = new ArrayList<>();
             // Cria comando sql
-            String sql = "SELECT * FROM proposta WHERE id_professor = ? ORDER BY titulo";
+            String sql = "SELECT * FROM proposta p "
+                    + "INNER JOIN area_interesse ai ON ai.id_area_interesse = p.id_area_interesse "
+                    + "WHERE id_professor = ? ORDER BY titulo";
             // prepara sql para execução
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, id);
@@ -215,6 +218,7 @@ public class PropostaDAO {
                 proposta.setPropostaId(rs.getInt("id_proposta"));
                 proposta.setPropostaAlunoMatricula(rs.getInt("matricula"));
                 proposta.setPropostaCodAreaInteresse(rs.getInt("id_area_interesse"));
+                proposta.setPropostaNomeAreaInteresse(rs.getString("ai.nome"));
                 proposta.setPropostaIdProfessor(rs.getInt("id_professor"));
                 proposta.setPropostaTitulo(rs.getString("titulo"));
                 proposta.setPropostaDescricao(rs.getString("descricao"));

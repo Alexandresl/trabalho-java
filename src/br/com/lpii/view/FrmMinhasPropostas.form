@@ -10,7 +10,7 @@
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <Events>
-    <EventHandler event="windowActivated" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowActivated"/>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -163,40 +163,43 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="89" pref="89" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="combo_area_interesse" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txt_titulo" alignment="0" min="-2" pref="447" max="-2" attributes="0"/>
+                                  <Component id="combo_area_interesse" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jScrollPane2" alignment="0" min="-2" pref="447" max="-2" attributes="0"/>
                                   <Component id="txt_cod" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace min="0" pref="211" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txt_titulo" min="-2" pref="447" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="txt_qtdPropostas" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="229" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="50" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txt_cod" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" pref="17" max="-2" attributes="0"/>
@@ -216,6 +219,8 @@
                           <Component id="jScrollPane2" min="-2" pref="163" max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="txt_qtdPropostas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -230,7 +235,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="66" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="T&#xed;tulo do trabalho:"/>
+                <Property name="text" type="java.lang.String" value="T&#xed;tulo do trabalho*:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txt_titulo">
@@ -254,7 +259,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="66" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o:"/>
+                <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o*:"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -280,7 +285,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="66" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="&#xc1;rea de interesse:"/>
+                <Property name="text" type="java.lang.String" value="&#xc1;rea de interesse*:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="combo_area_interesse">
@@ -292,9 +297,9 @@
                   <Color blue="33" green="66" red="0" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="20">
+                  <StringArray count="17">
                     <StringItem index="0" value="Selecione"/>
-                    <StringItem index="1" value="Pyton"/>
+                    <StringItem index="1" value="Python"/>
                     <StringItem index="2" value="JavaScript"/>
                     <StringItem index="3" value="Java"/>
                     <StringItem index="4" value="PHP"/>
@@ -304,15 +309,12 @@
                     <StringItem index="8" value="C"/>
                     <StringItem index="9" value="Desenvolvimento Android"/>
                     <StringItem index="10" value="Desenvolvimento iOS"/>
-                    <StringItem index="11" value="WordPress"/>
-                    <StringItem index="12" value="Desenvolimento Web"/>
+                    <StringItem index="11" value="Banco de dados"/>
+                    <StringItem index="12" value="Estrutura de dados"/>
                     <StringItem index="13" value="Machine Learning"/>
                     <StringItem index="14" value="Desenvolvimento de Games"/>
                     <StringItem index="15" value="Data Science"/>
-                    <StringItem index="16" value="Banco de dados"/>
-                    <StringItem index="17" value="Teste de Software"/>
-                    <StringItem index="18" value="Algoritmo"/>
-                    <StringItem index="19" value="Estrutura de dados"/>
+                    <StringItem index="16" value=" "/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -339,6 +341,22 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="66" red="0" type="rgb"/>
                 </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel6">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="99" red="0" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="* Campos obrigat&#xf3;rios"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="txt_qtdPropostas">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="99" red="0" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Carregando..."/>
               </Properties>
             </Component>
           </SubComponents>

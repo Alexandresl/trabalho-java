@@ -39,9 +39,9 @@ public class ProfessorDAO {
             // insere os valores no sql
             stmt.setString(1, professor.getNome());
             stmt.setString(2, professor.getEmail());
-            stmt.setInt(3, 0);
+            stmt.setInt(3, professor.getConta_banca());
             stmt.setString(4, professor.getSenha());
-            stmt.setInt(5, 0);
+            stmt.setInt(5, professor.getConta_orientador());
             
 
             //Executa sql
@@ -57,7 +57,7 @@ public class ProfessorDAO {
     public void alterarProfessor(Professor professor) {
         try {
             // Comando SQL
-            String sql = "UPDATE professor SET nome = ?, email = ?, conta_banca = ?, conta_orientador, "
+            String sql = "UPDATE professor SET nome = ?, email = ?, conta_banca = ?, conta_orientador = ?, "
                     + "senha = ? WHERE id_professor = ?";
 
             // Conectar o banco de dados e organizar o SQL
@@ -65,15 +65,15 @@ public class ProfessorDAO {
             // insere os valores no sql
             stmt.setString(1, professor.getNome());
             stmt.setString(2, professor.getEmail());
-            stmt.setInt(4, professor.getConta_banca());
-            stmt.setInt(5, professor.getConta_orientador());
-            stmt.setString(6, professor.getSenha());
-            stmt.setInt(7, professor.getCodigo());
+            stmt.setInt(3, professor.getConta_banca());
+            stmt.setInt(4, professor.getConta_orientador());
+            stmt.setString(5, professor.getSenha());
+            stmt.setInt(6, professor.getCodigo());
 
             //Executa sql
             stmt.execute();
             stmt.close();
-            JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Professor alterado com sucesso!");
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
         }

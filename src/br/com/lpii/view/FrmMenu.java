@@ -379,7 +379,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
     private void submentu_prof_cadastrarMinhasPropostasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submentu_prof_cadastrarMinhasPropostasActionPerformed
         FrmMinhasPropostas tela = new FrmMinhasPropostas();
-        tela.setIdUsuario(professor.getCodigo());
+        tela.setProfessor(professor);
         tela.setVisible(true);
 
     }//GEN-LAST:event_submentu_prof_cadastrarMinhasPropostasActionPerformed

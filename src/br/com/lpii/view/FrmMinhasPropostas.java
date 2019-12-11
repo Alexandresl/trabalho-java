@@ -7,8 +7,10 @@ package br.com.lpii.view;
 
 import br.com.lpii.dao.AlunoDAO;
 import br.com.lpii.dao.AreaInteresseDAO;
+import br.com.lpii.dao.ProfessorDAO;
 import br.com.lpii.dao.PropostaDAO;
 import br.com.lpii.model.Aluno;
+import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,14 +22,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmMinhasPropostas extends javax.swing.JFrame {
 
-    private int idUsuario;
+    private Professor professor;
+    private Proposta proposta;
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 
     /**
@@ -101,7 +104,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         // Crio um objeto areaInteresse
         AreaInteresseDAO daoAI = new AreaInteresseDAO();
         // Armazena em uma lista o retorno do método listarAlunos
-        List<Proposta> lista = dao.listarMinhasPropostas(idUsuario);
+        List<Proposta> lista = dao.listarMinhasPropostas(professor.getCodigo());
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
         DefaultTableModel dados = (DefaultTableModel) tbl_proposta.getModel();
         // limpa dados da tabela
@@ -143,6 +146,8 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         combo_area_interesse = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         txt_cod = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txt_qtdPropostas = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         txt_pesquisar = new javax.swing.JTextField();
         btn_consulta_pesquisar = new javax.swing.JButton();
@@ -156,8 +161,8 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Propostas para TCC");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -205,7 +210,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setText("Título do trabalho:");
+        jLabel2.setText("Título do trabalho*:");
 
         txt_titulo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_titulo.setForeground(new java.awt.Color(0, 102, 51));
@@ -213,7 +218,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("Descrição:");
+        jLabel3.setText("Descrição*:");
 
         txt_descricao.setColumns(20);
         txt_descricao.setRows(5);
@@ -221,11 +226,11 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setText("Área de interesse:");
+        jLabel4.setText("Área de interesse*:");
 
         combo_area_interesse.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         combo_area_interesse.setForeground(new java.awt.Color(0, 102, 51));
-        combo_area_interesse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Pyton", "JavaScript", "Java", "PHP", "C#", "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS", "WordPress", "Desenvolimento Web", "Machine Learning", "Desenvolvimento de Games", "Data Science", "Banco de dados", "Teste de Software", "Algoritmo", "Estrutura de dados" }));
+        combo_area_interesse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Python", "JavaScript", "Java", "PHP", "C#", "HTML", "CSS", "C", "Desenvolvimento Android", "Desenvolvimento iOS", "Banco de dados", "Estrutura de dados", "Machine Learning", "Desenvolvimento de Games", "Data Science", " " }));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 51));
@@ -234,36 +239,46 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         txt_cod.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_cod.setForeground(new java.awt.Color(0, 102, 51));
 
+        jLabel6.setForeground(new java.awt.Color(0, 153, 51));
+        jLabel6.setText("* Campos obrigatórios");
+
+        txt_qtdPropostas.setForeground(new java.awt.Color(0, 153, 51));
+        txt_qtdPropostas.setText("Carregando...");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(89, 89, 89)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addComponent(jLabel5)))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(combo_area_interesse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_cod, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(229, Short.MAX_VALUE))
+                            .addComponent(txt_cod, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 211, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txt_qtdPropostas)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_cod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -279,6 +294,8 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txt_qtdPropostas)
                 .addContainerGap())
         );
 
@@ -490,28 +507,44 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
 
             } else { // Caso não exista ID
 
-                // Aqui será salvo nova proposta
-                // É criada nova propostas
-                Proposta proposta = new Proposta();
+                if (professor.getConta_orientador() < 5) {
 
-                // Seta todos os dados (pertinentes neste momento) de uma nova proposta
-                proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
-                proposta.setPropostaIdProfessor(idUsuario);
-                proposta.setPropostaTitulo(txt_titulo.getText());
-                proposta.setPropostaDescricao(txt_descricao.getText());
-                proposta.setPropostaStatus("Em aberto");
+                    professor.setConta_orientador(professor.getConta_orientador() + 1);
 
-                dao.cadastrarProposta(proposta);
+                    atualizaQtdPropostas();
 
-                /**
-                 * Limpa os campos do formulário
-                 */
-                gerenciaCampos("clean");
-                gerenciaCampos("block");
-                gerenciaBotoes(true, false, false, false);
-                
-                // atualiza lista
-                toList();
+                    ProfessorDAO daoProf = new ProfessorDAO();
+
+                    daoProf.alterarProfessor(professor);
+
+                    // Aqui será salvo nova proposta
+                    // É criada nova propostas
+                    Proposta proposta = new Proposta();
+
+                    // Seta todos os dados (pertinentes neste momento) de uma nova proposta
+                    proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
+                    proposta.setPropostaIdProfessor(professor.getCodigo());
+                    proposta.setPropostaTitulo(txt_titulo.getText());
+                    proposta.setPropostaDescricao(txt_descricao.getText());
+                    proposta.setPropostaStatus("Em aberto");
+
+                    dao.cadastrarProposta(proposta);
+
+                    /**
+                     * Limpa os campos do formulário
+                     */
+                    gerenciaCampos("clean");
+                    gerenciaCampos("block");
+                    gerenciaBotoes(true, false, false, false);
+
+                    // atualiza lista
+                    toList();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Não é possível realizar novo cadastro.\nVocê já atingiu o número máximo de propostas cadastradas.");
+
+                }
 
             }
 
@@ -529,30 +562,45 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         txt_titulo.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        /**
-         * Evento responsável por carregar os dados para a tabela de aluno. O
-         * método é disparado no momento em que o formulário é ativado
-         */
-
-        toList();
-    }//GEN-LAST:event_formWindowActivated
-
     private void tbl_propostaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostaMouseClicked
 
-        // Libera botões editar e exluir
-        gerenciaBotoes(true, false, true, true);
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando Proposta...");
+        loading.setVisible(true);
 
-        // Verifica se foi disparado duplo click sobre uma linha da tabela
-        if (evt.getClickCount() == 2) {
+        Thread t = new Thread() {
+            public void run() {
+                // Verifica se foi disparado duplo click sobre uma linha da tabela
+                if (evt.getClickCount() == 2) {
 
-            // Comando para carregar para outra aba
-            jTabbedPane1.setSelectedIndex(0);
+                    // Comando para carregar para outra aba
+                    jTabbedPane1.setSelectedIndex(0);
 
-        }
+                }
 
-        // Pega os dados e envia para o formulário de clientes
-        txt_titulo.setText(tbl_proposta.getValueAt(tbl_proposta.getSelectedRow(), 0).toString());
+                // Pega os dados e envia para o formulário de propostas
+                int propostaId = (int) tbl_proposta.getValueAt(tbl_proposta.getSelectedRow(), 0);
+
+                PropostaDAO dao = new PropostaDAO();
+
+                proposta = dao.getProposta(propostaId);
+
+                txt_cod.setText(String.valueOf(propostaId));
+                txt_titulo.setText(proposta.getPropostaTitulo());
+                combo_area_interesse.setSelectedItem(proposta.getPropostaNomeAreaInteresse());
+                txt_descricao.setText(proposta.getPropostaDescricao());
+
+                gerenciaBotoes(true, false, true, true);
+                loading.dispose();
+
+                // Comando para carregar para outra aba
+                jTabbedPane1.setSelectedIndex(0);
+
+            }
+
+        };
+
+        t.start();
 
 
     }//GEN-LAST:event_tbl_propostaMouseClicked
@@ -576,30 +624,44 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
 
-        /**
-         * Ação responsável por excluir Aluno insere dados no objeto aluno
-         */
-        Aluno aluno = new Aluno();
-        aluno.setMatricula(Integer.parseInt(txt_titulo.getText()));
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Excluindo, aguarde...");
+        loading.setVisible(true);
 
-        /**
-         * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
-         * construtor
-         */
-        AlunoDAO dao = new AlunoDAO();
+        // Cria uma Thread
+        Thread t = new Thread() {
+            // Implementa o método run()
+            public void run() {
+                /**
+                 * Ação responsável por excluir Proposta
+                 */
+                // Cria um objeto da classe PropostaDAO
+                PropostaDAO dao = new PropostaDAO();
 
-        /**
-         * Método que irá salbar o obj Aluno no banco de dados
-         */
-        dao.excluirAluno(aluno);
+                /**
+                 * Método que irá salbar o obj Aluno no banco de dados
+                 */
+                dao.excluirProposta(proposta);
 
-        /**
-         * Atualiza table aluno após a edição
-         */
-        toList();
-        gerenciaCampos("clean");
-        // Comando para carregar para outra aba
-        jTabbedPane1.setSelectedIndex(1);
+                professor.setConta_orientador(professor.getConta_orientador() - 1);
+
+                atualizaQtdPropostas();
+
+                /**
+                 * Atualiza table aluno após a edição
+                 */
+                toList();
+                gerenciaCampos("clean");
+                // Comando para carregar para outra aba
+                jTabbedPane1.setSelectedIndex(1);
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
+
     }//GEN-LAST:event_btn_excluirActionPerformed
 
     private void btn_consulta_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consulta_pesquisarActionPerformed
@@ -642,6 +704,39 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
             toList();
         }
     }//GEN-LAST:event_txt_pesquisarFocusLost
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando propostas...");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+            public void run() {
+                /**
+                 * Evento responsável por carregar os dados para a tabela de
+                 * aluno. O método é disparado no momento em que o formulário é
+                 * ativado
+                 */
+
+                toList();
+                // Método para atualizar label da qtd de propostas restantes
+                atualizaQtdPropostas();
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+    }//GEN-LAST:event_formWindowOpened
+
+    public void atualizaQtdPropostas() {
+        if (professor.getConta_orientador() < 5) {
+            txt_qtdPropostas.setText("Você ainda pode cadastrar " + (5 - professor.getConta_orientador()) + " projetos");
+        } else if (professor.getConta_orientador() >= 5) {
+            txt_qtdPropostas.setText("Você atingiu o número máximo de propostas cadastradas.");
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -693,6 +788,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -704,6 +800,7 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
     private javax.swing.JTextField txt_cod;
     private javax.swing.JTextArea txt_descricao;
     private javax.swing.JTextField txt_pesquisar;
+    private javax.swing.JLabel txt_qtdPropostas;
     private javax.swing.JTextField txt_titulo;
     // End of variables declaration//GEN-END:variables
 }

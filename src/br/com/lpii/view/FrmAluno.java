@@ -22,7 +22,7 @@ public class FrmAluno extends javax.swing.JFrame {
 
     private Aluno aluno;
     private Proposta proposta;
-    
+
     /**
      * Método construtor
      */
@@ -449,11 +449,11 @@ public class FrmAluno extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Matrícula", "Nome", "CPF", "Email", "Telefone", "Proposta"
+                "Matrícula", "Nome", "CPF", "Email", "Telefone"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -470,10 +470,9 @@ public class FrmAluno extends javax.swing.JFrame {
         if (tbl_aluno.getColumnModel().getColumnCount() > 0) {
             tbl_aluno.getColumnModel().getColumn(0).setPreferredWidth(30);
             tbl_aluno.getColumnModel().getColumn(1).setPreferredWidth(140);
-            tbl_aluno.getColumnModel().getColumn(2).setPreferredWidth(40);
+            tbl_aluno.getColumnModel().getColumn(2).setPreferredWidth(60);
             tbl_aluno.getColumnModel().getColumn(3).setPreferredWidth(140);
             tbl_aluno.getColumnModel().getColumn(4).setPreferredWidth(60);
-            tbl_aluno.getColumnModel().getColumn(5).setPreferredWidth(60);
         }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -604,7 +603,7 @@ public class FrmAluno extends javax.swing.JFrame {
             if (dao.verificaAluno(Integer.parseInt(txt_matricula.getText()))) {
 
                 // Se o ID existe, confirme que o usuário quer alterar o cliente
-                int edita = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja alterar o cliente " + txt_matricula.getText() + "?");
+                int edita = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja alterar o aluno " + txt_matricula.getText() + "?");
 
                 // Se sim realiza a edição
                 if (edita == 0) {
@@ -663,7 +662,6 @@ public class FrmAluno extends javax.swing.JFrame {
                     aluno.setEmail(txt_email.getText());
                     aluno.setTelefone(txt_celular.getText());
                     aluno.setSenha(String.valueOf(txt_senha.getPassword()));
-                    aluno.setSenha("");
                     /**
                      * Método que irá salbar o obj Aluno no banco de dados
                      */
@@ -682,10 +680,30 @@ public class FrmAluno extends javax.swing.JFrame {
                 }
 
             }
+
+            FrmLoading loading = new FrmLoading();
+            loading.setLabel("Carregando propostas...");
+            loading.setVisible(true);
+
+            Thread t = new Thread() {
+                public void run() {
+                    // Lista todoas as propostas do professor
+                    toList();
+                    loading.dispose();
+                    // direciona para a lista de alunos após atualizar
+                    jTabbedPane1.setSelectedIndex(1);
+                }
+
+            };
+
+            t.start();
+
         }
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
+        // Caso esteja na aba da lista, direciona para aba do formulário
+        if (jTabbedPane1.getSelectedIndex() == 1) jTabbedPane1.setSelectedIndex(0);
         // Libera os campos para preenchimento dos dados do aluno
         gerenciaCampos("unblock");
         gerenciaCampos("clean");
@@ -719,7 +737,7 @@ public class FrmAluno extends javax.swing.JFrame {
                 Aluno aluno = dao.getAluno(Integer.parseInt(matricula));
                 PropostaDAO daoP = new PropostaDAO();
                 proposta = daoP.getPropostaAluno(aluno);
-                
+
                 aluno.setProposta(proposta);
 
                 txt_matricula.setText(String.valueOf(aluno.getMatricula()));
@@ -732,8 +750,7 @@ public class FrmAluno extends javax.swing.JFrame {
                 txt_proposta.setText(
                         (aluno.getProposta().getPropostaStatus() == null) ? "Não selecionado" : aluno.getProposta().getPropostaStatus()
                 );
-                
-                
+
                 gerenciaBotoes(true, false, true, true);
                 loading.dispose();
 
