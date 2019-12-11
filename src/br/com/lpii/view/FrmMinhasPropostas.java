@@ -674,8 +674,14 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                  */
                 dao.excluirProposta(proposta);
 
+                // Seta o atributo que controla o número de propostas do professor decrementando 1
                 professor.setConta_orientador(professor.getConta_orientador() - 1);
 
+                // Instancia um obj do tipo professordao
+                ProfessorDAO daoProf = new ProfessorDAO();
+                // Atualiza no banco de dados o número de projetos
+                daoProf.alterarProfessor(professor);
+                // Atualiza na tela o número de propostas
                 atualizaQtdPropostas();
 
                 /**
