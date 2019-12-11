@@ -483,25 +483,37 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
                 // Caso cliente confirme a edição
                 if (edita == 0) {
 
-                    /**
-                     * Realiza ação responsável por editar aluno
-                     */
-                    Proposta proposta = dao.getProposta(Integer.parseInt(txt_cod.getText()));
+                    FrmLoading loading = new FrmLoading();
+                    loading.setLabel("Carregando propostas...");
+                    loading.setVisible(true);
 
-                    proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
-                    proposta.setPropostaTitulo(txt_titulo.getText());
-                    proposta.setPropostaDescricao(txt_descricao.getText());
+                    Thread t = new Thread() {
+                        public void run() {
+                            /**
+                             * Realiza ação responsável por editar aluno
+                             */
+                            Proposta proposta = dao.getProposta(Integer.parseInt(txt_cod.getText()));
 
-                    // Invoca método dao responsável pela persistência da alteração
-                    dao.alterarProposta(proposta);
+                            proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
+                            proposta.setPropostaTitulo(txt_titulo.getText());
+                            proposta.setPropostaDescricao(txt_descricao.getText());
 
-                    // Atualiza lista de propostas
-                    toList();
+                            // Invoca método dao responsável pela persistência da alteração
+                            dao.alterarProposta(proposta);
 
-                    // limpa campos e gerencia botões
-                    gerenciaCampos("block");
-                    gerenciaCampos("clean");
-                    gerenciaBotoes(true, false, false, false);
+                            // Atualiza lista de propostas
+                            toList();
+
+                            // limpa campos e gerencia botões
+                            gerenciaCampos("block");
+                            gerenciaCampos("clean");
+                            gerenciaBotoes(true, false, false, false);
+                            loading.dispose();
+                        }
+
+                    };
+
+                    t.start();
 
                 }
 
@@ -509,40 +521,56 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
 
                 if (professor.getConta_orientador() < 5) {
 
-                    professor.setConta_orientador(professor.getConta_orientador() + 1);
+                    FrmLoading loading = new FrmLoading();
+                    loading.setLabel("Carregando propostas...");
+                    loading.setVisible(true);
 
-                    atualizaQtdPropostas();
+                    Thread t = new Thread() {
+                        public void run() {
+                            professor.setConta_orientador(professor.getConta_orientador() + 1);
 
-                    ProfessorDAO daoProf = new ProfessorDAO();
+                            atualizaQtdPropostas();
 
-                    daoProf.alterarProfessor(professor);
+                            ProfessorDAO daoProf = new ProfessorDAO();
 
-                    // Aqui será salvo nova proposta
-                    // É criada nova propostas
-                    Proposta proposta = new Proposta();
+                            daoProf.alterarProfessor(professor);
 
-                    // Seta todos os dados (pertinentes neste momento) de uma nova proposta
-                    proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
-                    proposta.setPropostaIdProfessor(professor.getCodigo());
-                    proposta.setPropostaTitulo(txt_titulo.getText());
-                    proposta.setPropostaDescricao(txt_descricao.getText());
-                    proposta.setPropostaStatus("Em aberto");
+                            // Aqui será salvo nova proposta
+                            // É criada nova propostas
+                            Proposta proposta = new Proposta();
 
-                    dao.cadastrarProposta(proposta);
+                            // Seta todos os dados (pertinentes neste momento) de uma nova proposta
+                            proposta.setPropostaCodAreaInteresse(combo_area_interesse.getSelectedIndex());
+                            proposta.setPropostaIdProfessor(professor.getCodigo());
+                            proposta.setPropostaTitulo(txt_titulo.getText());
+                            proposta.setPropostaDescricao(txt_descricao.getText());
+                            proposta.setPropostaStatus("Em aberto");
 
-                    /**
-                     * Limpa os campos do formulário
-                     */
-                    gerenciaCampos("clean");
-                    gerenciaCampos("block");
-                    gerenciaBotoes(true, false, false, false);
+                            dao.cadastrarProposta(proposta);
 
-                    // atualiza lista
-                    toList();
+                            /**
+                             * Limpa os campos do formulário
+                             */
+                            gerenciaCampos("clean");
+                            gerenciaCampos("block");
+                            gerenciaBotoes(true, false, false, false);
+
+                            // atualiza lista
+                            toList();
+                            jTabbedPane1.setSelectedIndex(1);
+                            loading.dispose();
+                        }
+
+                    };
+
+                    t.start();
 
                 } else {
 
                     JOptionPane.showMessageDialog(null, "Não é possível realizar novo cadastro.\nVocê já atingiu o número máximo de propostas cadastradas.");
+                    gerenciaCampos("clean");
+                    gerenciaCampos("block");
+                    gerenciaBotoes(true, false, false, false);
 
                 }
 
@@ -558,6 +586,8 @@ public class FrmMinhasPropostas extends javax.swing.JFrame {
         gerenciaCampos("clean");
         // libera o botão salvar e obloqueia os demais
         gerenciaBotoes(true, true, false, false);
+        // Vai para a aba de cadstro
+        jTabbedPane1.setSelectedIndex(0);
         // Foco no campo matrícula
         txt_titulo.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
