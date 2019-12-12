@@ -8,8 +8,10 @@ package br.com.lpii.view;
 import br.com.lpii.model.Aluno;
 import br.com.lpii.model.Professor;
 import br.com.lpii.model.Utilitarios;
+import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -93,6 +95,8 @@ public class FrmMenu extends javax.swing.JFrame {
         submenu_prof_gerenciarPropostas = new javax.swing.JMenuItem();
         submenu_aluno_escolherTema = new javax.swing.JMenuItem();
         submenu_prof_definirBanca = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Gerenciamento dos TC do Curso de SSI");
@@ -306,6 +310,23 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(menu_propostas);
 
+        jMenu1.setForeground(new java.awt.Color(0, 102, 51));
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/help.png"))); // NOI18N
+        jMenu1.setText("Ajuda");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/page_white_acrobat.png"))); // NOI18N
+        jMenuItem1.setText("Manual");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -413,6 +434,19 @@ public class FrmMenu extends javax.swing.JFrame {
         telaDB.setVisible(true);
     }//GEN-LAST:event_submenu_prof_definirBancaActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // Método para abrir o manual do programa
+        String caminho = "src/manual.pdf";
+        File arquivo = new File(caminho);
+        try {
+            Desktop.getDesktop().open(arquivo);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex,  "ERRO",JOptionPane.ERROR_MESSAGE);
+ 
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -449,7 +483,9 @@ public class FrmMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label_matrícula;
     private javax.swing.JLabel label_usuario;
