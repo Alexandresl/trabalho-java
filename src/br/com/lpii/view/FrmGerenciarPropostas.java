@@ -5,7 +5,10 @@
  */
 package br.com.lpii.view;
 
+import br.com.lpii.dao.AlunoDAO;
 import br.com.lpii.dao.PropostaDAO;
+import br.com.lpii.model.Aluno;
+import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -17,23 +20,24 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
-    private int usuarioId;
-    private int codDaProposta;
+    private Proposta proposta;
+    private Professor professor;
+    private Aluno aluno;
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Proposta getPropostas() {
+        return proposta;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setPropostas(Proposta propostas) {
+        this.proposta = propostas;
     }
 
-    public int getCodDaProposta() {
-        return codDaProposta;
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public void setCodDaProposta(int codDaProposta) {
-        this.codDaProposta = codDaProposta;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 
     /**
@@ -92,8 +96,8 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Propostas de TC");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -258,7 +262,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         // Edita Proposta aprovando projeto para o aluno
         // Crio uma proposta e uma proposta dao
         PropostaDAO daoProp = new PropostaDAO();
-        Proposta proposta = daoProp.getProposta(codDaProposta);
+        Proposta proposta = daoProp.getProposta(this.proposta.getPropostaId());
         if (proposta.getPropostaAlunoMatricula() != 0) {
             proposta.setPropostaStatus("Aprovado");
             daoProp.alterarProposta(proposta);
@@ -272,7 +276,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         // Edita Proposta aprovando projeto para o aluno
         // Crio uma proposta e uma proposta dao
         PropostaDAO daoProp = new PropostaDAO();
-        Proposta proposta = daoProp.getProposta(codDaProposta);
+        Proposta proposta = daoProp.getProposta(this.proposta.getPropostaId());
         if (proposta.getPropostaStatus().equals("Aguardando aprovação")) {
             proposta.setPropostaStatus("Em aberto");
             daoProp.alterarProposta(proposta);
@@ -284,67 +288,104 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
     private void btn_detalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detalhesActionPerformed
         // Mostra a tela ver mensagens
-        //FrmVerDetalhesTema tela = new FrmVerDetalhesTema();
-        //tela.setTemaId(this.codDaProposta);
-        //tela.setVisible(true);
+        FrmVerDetalhesTema tela = new FrmVerDetalhesTema();
+        tela.setProposta(proposta);
+        tela.setVisible(true);
     }//GEN-LAST:event_btn_detalhesActionPerformed
 
     private void btn_notasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_notasActionPerformed
         // Abre tela para inclusão das notas
         FrmIncluirNota tela = new FrmIncluirNota();
-        tela.setPropostaId(codDaProposta);
+        tela.setPropostaId(proposta.getPropostaId());
         tela.setVisible(true);
     }//GEN-LAST:event_btn_notasActionPerformed
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // Ao carregar, bloqueia os botões
-        gerenciaBotoes(false, false, false, false);
-        // Lista todoas as propostas do professor
-        toList();
-    }//GEN-LAST:event_formWindowActivated
-
     private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
 
-        // Pega o ID vindo da tabela
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando proposta...");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+            public void run() {
+                // Pega o ID vindo da tabela
         int codTema = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 1).toString());
         // Instancia uma classe PropostaDAO
         PropostaDAO daoP = new PropostaDAO();
-        // Cria um objeto proposta com todos os dados do objeto
-        Proposta proposta = daoP.getProposta(codTema);
-        // seta a proposta em questão como atributo
-        setCodDaProposta(proposta.getPropostaId());
+        // Armazena no atributo proposta
+        proposta = daoP.getProposta(codTema);
+        // Pega dados do aluno relacionado caso exista vinculado
+        if (proposta.getPropostaAlunoMatricula() != 0) {
+            // Cria um objeto alunoDAO
+            AlunoDAO daoAluno = new AlunoDAO();
+            // atribui valor ao atributo aluno
+            aluno = daoAluno.getAluno(proposta.getPropostaAlunoMatricula());
+            // 
+        }
         // Verifica se o status está aprovado
         if (proposta.getPropostaStatus().equals("Aprovado")) {
             // Libera os botões
             gerenciaBotoes(true, true, true, true);
-
         } else {
-
             // Libera os botões
             gerenciaBotoes(true, true, true, false);
-
         }
+        
+        // Desativa botão de incluir a nota caso já exista
+        if (Integer.getInteger(aluno.getNota()) == 0) {
+            btn_notas.setEnabled(false);
+        }
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
+        
+        
     }//GEN-LAST:event_tbl_propostasMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando propostas...");
+        loading.setVisible(true);
+
+        Thread t = new Thread() {
+            public void run() {
+                // Ao carregar, bloqueia os botões
+                gerenciaBotoes(false, false, false, false);
+                // Lista todoas as propostas do professor
+                toList();
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+    }//GEN-LAST:event_formWindowOpened
 
     public void toList() {
         // Instancia objeto DAO
         PropostaDAO dao = new PropostaDAO();
         // Armazena em uma lista o retorno do método listarAlunos
-        List<Proposta> lista = dao.listarMinhasPropostas(usuarioId);
+        List<Proposta> lista = dao.listarMinhasPropostas(professor.getCodigo());
         // Cria o DefaultTableModel para armazenar os dados que serão exibidos na tabela
         DefaultTableModel dados = (DefaultTableModel) tbl_propostas.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
-
+        // Objeto AlunoDAO
+        AlunoDAO daoAluno = new AlunoDAO();
         // cada ocorrência em lista irá para um objeto professor
         for (Proposta p : lista) {
             // E agora será adicionado a lista na tabela. Linha a linha
+            Aluno aluno = daoAluno.getAluno(p.getPropostaAlunoMatricula());
             dados.addRow(new Object[]{
-                (p.getPropostaAlunoMatricula() == 0) ? "Nenhum aluno vinculado" : p.getPropostaAlunoMatricula(),
+                (p.getPropostaAlunoMatricula() == 0) ? "Nenhum aluno vinculado" : aluno.getNome(),
                 p.getPropostaId(),
                 p.getPropostaTitulo(),
                 p.getPropostaStatus(),
-                (p.getPropostaAlunoNota() == 0) ? "Não Calculada" : p.getPropostaAlunoNota()
+                (p.getPropostaAlunoMatricula() == 0) ? "Não Calculada" : aluno.getNota()
             });
         }
 

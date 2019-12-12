@@ -218,6 +218,7 @@ public class AlunoDAO {
                 aluno.setEmail(rs.getString("email"));
                 aluno.setTelefone(rs.getString("telefone"));
                 aluno.setSenha(rs.getString("senha"));
+                aluno.setNota(rs.getString("nota"));
                                 
                 // Abre tela principal
                 FrmMenu tela = new FrmMenu();
@@ -302,7 +303,7 @@ public class AlunoDAO {
                 aluno.setEmail(rs.getString("email"));
                 aluno.setTelefone(rs.getString("telefone"));
                 aluno.setSenha(rs.getString("senha"));
-                
+                aluno.setNota(rs.getString("nota"));
             }
             
         } catch (SQLException error) {
