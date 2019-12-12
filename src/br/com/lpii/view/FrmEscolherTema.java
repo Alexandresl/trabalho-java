@@ -256,7 +256,7 @@ public class FrmEscolherTema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_escolherTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_escolherTemaActionPerformed
-        if (aluno.getProposta() == null) {
+        if (aluno.getProposta() == null || aluno.getProposta().getPropostaStatus().equals("Em aberto")) {
 
             // Atualiza proposta incluindo o id do aluno que irá realizar o trabalho
             PropostaDAO dao = new PropostaDAO();

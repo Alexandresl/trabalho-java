@@ -300,6 +300,25 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
             proposta.setPropostaStatus("Em aberto");
             PropostaDAO daoPro = new PropostaDAO();
             daoPro.alterarProposta(proposta);
+
+            FrmLoading loading = new FrmLoading();
+            loading.setLabel("Carregando propostas...");
+            loading.setVisible(true);
+
+            Thread t = new Thread() {
+                public void run() {
+                    // Ao carregar, bloqueia os botões
+                    gerenciaBotoes(false, false, false, false);
+
+                    // Lista todoas as propostas do professor
+                    toList();
+                    loading.dispose();
+                }
+
+            };
+
+            t.start();
+
         } else {
             JOptionPane.showMessageDialog(null, "Esta proposta não pode ser rejeitada");
         }
@@ -323,7 +342,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
     private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
         // função disparada ao clicar em um item na tabela
-        
+
         // Tela de carregamento...
         FrmLoading loading = new FrmLoading();
         loading.setLabel("Carregando proposta...");
@@ -416,7 +435,6 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
             });
         }
 
-        
     }
 
     /**
