@@ -340,13 +340,9 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
                     AlunoDAO daoAluno = new AlunoDAO();
                     // atribui valor ao atributo aluno
                     aluno = daoAluno.getAluno(proposta.getPropostaAlunoMatricula());
-                    // 
-                }
-                // Verifica se o status está aprovado
-                if (proposta.getPropostaStatus().equals("Aprovado") && proposta.getPropostaAlunoMatricula() != 0) {
                     // Libera os botões
                     gerenciaBotoes(true, true, true, true);
-                } else {
+                } else { // Verifica se o status está aprovado
                     // Libera os botões
                     gerenciaBotoes(true, true, true, false);
                 }
