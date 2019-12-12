@@ -343,7 +343,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
                     // 
                 }
                 // Verifica se o status está aprovado
-                if (proposta.getPropostaStatus().equals("Aprovado")) {
+                if (proposta.getPropostaStatus().equals("Aprovado") && proposta.getPropostaAlunoMatricula() != 0) {
                     // Libera os botões
                     gerenciaBotoes(true, true, true, true);
                 } else {

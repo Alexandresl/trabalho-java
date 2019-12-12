@@ -315,7 +315,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         label_orientador.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         label_orientador.setForeground(new java.awt.Color(0, 102, 51));
-        label_orientador.setText("orientador");
+        label_orientador.setText("Orientador");
 
         label_banca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         label_banca.setForeground(new java.awt.Color(0, 102, 51));
@@ -377,7 +377,7 @@ public class FrmProfessores extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,22 +581,28 @@ public class FrmProfessores extends javax.swing.JFrame {
                     // Comando para carregar para outra aba
                     jTabbedPane1.setSelectedIndex(1);
                 }
-                // Pega o ID vindo da tabela
-                int codProfessor = Integer.parseInt(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 0).toString());
-                // Busca os dados na tabela
-                ProfessorDAO dao = new ProfessorDAO();
-                Professor professor = dao.buscaProfessor(codProfessor);
 
-                // Pega os dados e envia para o formulário de clientes
-                txt_codigo.setText(String.valueOf(professor.getCodigo()));
-                txt_nome.setText(professor.getNome());
-                txt_email.setText(professor.getEmail());
-                txt_senha.setText(professor.getSenha());
-                txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
-                txt_banca.setText(String.valueOf(professor.getConta_banca()));
-                txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
+                try {
+                    // Pega o ID vindo da tabela
+                    int codProfessor = Integer.parseInt(tbl_professor.getValueAt(tbl_professor.getSelectedRow(), 0).toString());
+                    // Busca os dados na tabela
+                    ProfessorDAO dao = new ProfessorDAO();
+                    Professor professor = dao.buscaProfessor(codProfessor);
 
-                jTabbedPane1.setSelectedIndex(1);
+                    // Pega os dados e envia para o formulário de clientes
+                    txt_codigo.setText(String.valueOf(professor.getCodigo()));
+                    txt_nome.setText(professor.getNome());
+                    txt_email.setText(professor.getEmail());
+                    txt_senha.setText(professor.getSenha());
+                    txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
+                    txt_banca.setText(String.valueOf(professor.getConta_banca()));
+                    txt_contaOrientador.setText(String.valueOf(professor.getConta_orientador()));
+
+                    jTabbedPane1.setSelectedIndex(1);
+                } catch (ArrayIndexOutOfBoundsException erro) {
+                    JOptionPane.showMessageDialog(null, "Erro ao selecionar professor. Tente novamente.");
+                }
+
                 loading.dispose();
             }
 
