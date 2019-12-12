@@ -381,10 +381,11 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
 
     public void mostraBanca() {
         
-        ProfessorDAO dao = new ProfessorDAO();
+        
         
         if (proposta.getBanca1() != 0 ) {
             Professor prof = new Professor();
+            ProfessorDAO dao = new ProfessorDAO();
             prof = dao.buscaProfessor(proposta.getBanca1());
             txt_banca1.setText(prof.getNome());
         } else {
@@ -392,6 +393,7 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
         }
         if (proposta.getBanca2() != 0 ) {
             Professor prof = new Professor();
+            ProfessorDAO dao = new ProfessorDAO();
             prof = dao.buscaProfessor(proposta.getBanca2());
             txt_banca2.setText(prof.getNome());
         } else {
