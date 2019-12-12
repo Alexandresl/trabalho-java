@@ -499,6 +499,11 @@ public class FrmProfessores extends javax.swing.JFrame {
         if (!txt_codigo.getText().equals("") && dao.verificaProfessor(Integer.parseInt(txt_codigo.getText()))) {
 
             /**
+             * Instancia objeto da classe AlunoDao Já é aberta a conexão a
+             * partir do construtor
+             */
+            ProfessorDAO daoP = new ProfessorDAO();
+            /**
              * Ação responsável por Editar Aluno insere dados no objeto
              * professor
              */
@@ -511,7 +516,7 @@ public class FrmProfessores extends javax.swing.JFrame {
             /**
              * Método que irá salbar o obj Aluno no banco de dados
              */
-            dao.alterarProfessor(professor);
+            daoP.alterarProfessor(professor);
 
             /**
              * Atualiza table professor após a edição
@@ -599,7 +604,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         t.start();
 
-        
+
     }//GEN-LAST:event_tbl_professorMouseClicked
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed

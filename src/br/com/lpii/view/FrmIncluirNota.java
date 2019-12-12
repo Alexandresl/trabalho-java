@@ -142,11 +142,6 @@ public class FrmIncluirNota extends javax.swing.JFrame {
                 txt_nota_orientadorFocusLost(evt);
             }
         });
-        txt_nota_orientador.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_nota_orientadorKeyTyped(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 153, 51));
@@ -278,11 +273,6 @@ public class FrmIncluirNota extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_formWindowActivated
 
-    private void txt_nota_orientadorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nota_orientadorKeyTyped
-        // Valida para verificar se não há letras
-        ValidaNumero(txt_nota_orientador);
-    }//GEN-LAST:event_txt_nota_orientadorKeyTyped
-
     private void txt_nota_banca1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nota_banca1KeyTyped
         // Valida para verificar se não há letras
         ValidaNumero(txt_nota_banca1);
@@ -341,7 +331,7 @@ public class FrmIncluirNota extends javax.swing.JFrame {
             try {
                 valor = Long.parseLong(txt.getText());
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Campo matrícula só aceita números", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Campos só aceita números", "Informação", JOptionPane.INFORMATION_MESSAGE);
                 txt.grabFocus();
                 txt_matricula.setText("");
             }
