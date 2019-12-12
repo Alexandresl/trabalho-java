@@ -382,15 +382,16 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
     public void mostraBanca() {
         
         ProfessorDAO dao = new ProfessorDAO();
-        Professor prof = new Professor();
         
         if (proposta.getBanca1() != 0 ) {
+            Professor prof = new Professor();
             prof = dao.buscaProfessor(proposta.getBanca1());
             txt_banca1.setText(prof.getNome());
         } else {
             txt_banca1.setText("Não definido");
         }
         if (proposta.getBanca2() != 0 ) {
+            Professor prof = new Professor();
             prof = dao.buscaProfessor(proposta.getBanca2());
             txt_banca2.setText(prof.getNome());
         } else {

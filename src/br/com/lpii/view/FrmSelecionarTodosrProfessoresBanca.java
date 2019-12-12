@@ -6,6 +6,8 @@
 package br.com.lpii.view;
 
 import br.com.lpii.dao.AreaInteresseDAO;
+import br.com.lpii.dao.ProfessorDAO;
+import br.com.lpii.dao.PropostaDAO;
 import br.com.lpii.model.Professor;
 import br.com.lpii.model.Proposta;
 import java.util.List;
@@ -18,6 +20,7 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
 
     private Professor professor;
     private Proposta proposta;
+    private int banca;
 
     /**
      * Creates new form FrmSelecionarProfessorBanca
@@ -42,7 +45,13 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
         this.professor = professor;
     }
 
-    
+    public int getBanca() {
+        return banca;
+    }
+
+    public void setBanca(int banca) {
+        this.banca = banca;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,8 +72,8 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Selecionar banca");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -73,12 +82,16 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
 
         c_professores.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         c_professores.setForeground(new java.awt.Color(0, 153, 51));
-        c_professores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione..." }));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 153, 51));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/accept.png"))); // NOI18N
         jButton1.setText("Selecionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,17 +135,56 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Salvando banca...");
+        loading.setVisible(true);
 
+        Thread t = new Thread() {
+            public void run() {
+                // Salva professor escolhido
+                Professor professorNomeBanca = (Professor) c_professores.getSelectedItem();
+
+                // salva professor (nome) no objeto proposta
+                if (banca == 1) {
+                    proposta.setBanca1Nome(professorNomeBanca.getNome());
+                    proposta.setBanca1(professorNomeBanca.getCodigo());
+
+                } else if (banca == 2) {
+                    proposta.setBanca2Nome(professorNomeBanca.getNome());
+                    proposta.setBanca2(professorNomeBanca.getCodigo());
+
+                }
+
+                PropostaDAO dao = new PropostaDAO();
+                ProfessorDAO daoProf = new ProfessorDAO();
+                dao.alterarPropostaIncluirBanca(proposta);
+                daoProf.addBanca(professorNomeBanca.getCodigo(), professorNomeBanca.getConta_banca());
+                loading.dispose();
+            }
+
+        };
+
+        t.start();
+
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         AreaInteresseDAO daoAI = new AreaInteresseDAO();
 
         List<Professor> lista = daoAI.ListaTodosProfessores(professor.getCodigo());
 
         for (Professor item : lista) {
-            c_professores.addItem(item.getNome());
+            Professor p = new Professor();
+            p.setNome(item.getNome());
+            p.setCodigo(item.getCodigo());
+            p.setConta_banca(item.getConta_banca());
+            if (p.getConta_banca() < 5) {
+                c_professores.addItem(p);
+            }
         }
-
-    }//GEN-LAST:event_formWindowActivated
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -171,7 +223,7 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> c_professores;
+    private javax.swing.JComboBox<Professor> c_professores;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

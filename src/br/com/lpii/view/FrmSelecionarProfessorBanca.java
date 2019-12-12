@@ -157,6 +157,7 @@ public class FrmSelecionarProfessorBanca extends javax.swing.JFrame {
         FrmSelecionarTodosrProfessoresBanca tela = new FrmSelecionarTodosrProfessoresBanca();
         tela.setProposta(proposta);
         tela.setProfessor(professor);
+        tela.setBanca(getBanca());
         tela.setVisible(true);
     }//GEN-LAST:event_btn_verOutrosProfessoresActionPerformed
 

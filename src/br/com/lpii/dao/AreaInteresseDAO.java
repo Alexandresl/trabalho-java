@@ -129,6 +129,7 @@ public class AreaInteresseDAO {
             stmt.close();
             rs.close();
             con.close();
+            
             return lista;
 
         } catch (SQLException error) {
