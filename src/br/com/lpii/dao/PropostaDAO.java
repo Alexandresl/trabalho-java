@@ -50,6 +50,7 @@ public class PropostaDAO {
             //Executa sql
             stmt.execute();
             stmt.close();
+            con.close();
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
@@ -57,7 +58,6 @@ public class PropostaDAO {
 
     }
 
-    
     // Este método não atualiza a matricula do aluno que estará vinculado a proposta
     public void alterarProposta(Proposta proposta) {
 
@@ -81,6 +81,7 @@ public class PropostaDAO {
             //Executa sql
             stmt.execute();
             stmt.close();
+            con.close();;
 
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
 
@@ -109,6 +110,7 @@ public class PropostaDAO {
             //Executa sql
             stmt.execute();
             stmt.close();
+            con.close();
 
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
 
@@ -117,7 +119,7 @@ public class PropostaDAO {
         }
 
     }
-    
+
     public void excluirProposta(Proposta proposta) {
 
         try {
@@ -132,6 +134,7 @@ public class PropostaDAO {
             //Executa sql
             stmt.execute();
             stmt.close();
+            con.close();
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
 
         } catch (SQLException error) {
@@ -142,14 +145,14 @@ public class PropostaDAO {
 
     }
 
-    public List<Proposta> listarPropostas() throws SQLException {
+    public List<Proposta> listarPropostas() {
 
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
             List<Proposta> lista = new ArrayList<>();
             // Cria comando sql
-            
+
             String sql = "SELECT * FROM proposta p "
                     + "INNER JOIN area_interesse ai ON p.id_area_interesse = ai.id_area_interesse "
                     + "INNER JOIN professor prof ON p.id_professor = prof.id_professor "
@@ -180,7 +183,9 @@ public class PropostaDAO {
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(proposta);
             }
-
+            stmt.close();
+            rs.close();
+            con.close();
             return lista;
 
         } catch (Exception error) {
@@ -188,13 +193,11 @@ public class PropostaDAO {
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
 
-        } finally {
-            con.close();
         }
 
     }
 
-    public List<Proposta> listarMinhasPropostas(int id) throws SQLException {
+    public List<Proposta> listarMinhasPropostas(int id) {
 
         // try...catch para tratar eventual erro
         try {
@@ -230,7 +233,9 @@ public class PropostaDAO {
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(proposta);
             }
-
+            stmt.close();
+            rs.close();
+            con.close();
             return lista;
 
         } catch (SQLException error) {
@@ -238,13 +243,11 @@ public class PropostaDAO {
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
 
-        } finally {
-            con.close();
         }
 
     }
 
-    public List<Proposta> buscarPropostas(String param) throws SQLException {
+    public List<Proposta> buscarPropostas(String param) {
 
         // try...catch para tratar eventual erro
         try {
@@ -281,20 +284,20 @@ public class PropostaDAO {
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(proposta);
             }
-
+            stmt.close();
+            rs.close();
+            con.close();
             return lista;
 
         } catch (Exception error) {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar propostas: " + error);
             return null;
-        }finally {
-            con.close();
         }
 
     }
 
-    public boolean verificaProposta(int id) throws SQLException {
+    public boolean verificaProposta(int id) {
 
         try {
             // Verifica se existe o usuário no banco
@@ -306,7 +309,9 @@ public class PropostaDAO {
 
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
-
+            stmt.close();
+            rs.close();
+            con.close();
             // verifica se encontrou
             return rs.next(); // Usuário existe
 
@@ -315,13 +320,11 @@ public class PropostaDAO {
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
 
-        } finally {
-            con.close();
         }
 
     }
 
-    public Proposta getProposta(int id) throws SQLException {
+    public Proposta getProposta(int id) {
 
         Proposta proposta = new Proposta();
 
@@ -354,21 +357,22 @@ public class PropostaDAO {
                 proposta.setPropostaStatus(rs.getString("status"));
                 proposta.setBanca1(rs.getInt("banca1"));
                 proposta.setBanca2(rs.getInt("banca2"));
-                
+
             }
+            stmt.close();
+            rs.close();
+            con.close();
             return proposta;
 
         } catch (SQLException error) {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return null;
-        } finally {
-            con.close();
         }
 
     }
-    
-    public Proposta getPropostaAluno(Aluno aluno) throws SQLException {
+
+    public Proposta getPropostaAluno(Aluno aluno) {
 
         Proposta proposta = new Proposta();
 
@@ -401,14 +405,13 @@ public class PropostaDAO {
                 proposta.setPropostaStatus(rs.getString("status"));
 
             }
+            con.close();
             return proposta;
 
         } catch (SQLException error) {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return null;
-        } finally {
-            con.close();
         }
 
     }

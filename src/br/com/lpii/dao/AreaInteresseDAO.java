@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Alexandre Lima
  */
 public class AreaInteresseDAO {
 
@@ -31,6 +30,10 @@ public class AreaInteresseDAO {
         this.con = new ConnectionFactory().getConnection();
     }
 
+    /**
+     * Método responsável por cadastrar áreas de interesse
+     * @param lista de objetos do tipo AreaInteresse
+     */
     public void cadastrarAreaInteresse(List<AreaInteresse> lista) {
 
         try {
@@ -50,6 +53,7 @@ public class AreaInteresseDAO {
                 //Executa sql
                 stmt.execute();
                 stmt.close();
+                con.close();
 
             }
 
@@ -61,10 +65,11 @@ public class AreaInteresseDAO {
 
         }
     }
-    
+
+    // Exclui áreas de interesse do professor que é recebido por parâmetro
     public void deletarAreaInteresse(Professor professor) {
         try {
-            
+
             // Comando SQL
             String sql = "DELETE FROM professor_area_interesse WHERE professor_id = ?";
             // Conectar o banco de dados e organizar o SQL
@@ -75,15 +80,17 @@ public class AreaInteresseDAO {
             //Executa sql
             stmt.execute();
             stmt.close();
-            
+            con.close();
+
         } catch (SQLException error) {
-            
+
             JOptionPane.showMessageDialog(null, "Erro: " + error);
-            
+
         }
     }
 
-    public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId, int banca1, int banca2) throws SQLException {
+    // Lista professores que possuem áreas de interesse em comum
+    public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId, int banca1, int banca2) {
         try {
             // Cria uma lista com os professorea que possuem a área de interesse
             List<Professor> lista = new ArrayList<>();
@@ -107,7 +114,7 @@ public class AreaInteresseDAO {
 
             // verifica se encontrou
             while (rs.next()) {
-                
+
                 Professor professor = new Professor();
                 professor.setCodigo(rs.getInt("id_professor"));
                 professor.setNome(rs.getString("nome"));
@@ -119,17 +126,19 @@ public class AreaInteresseDAO {
             }
 
             // retorna lista de professores
+            stmt.close();
+            rs.close();
+            con.close();
             return lista;
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
             return null;
-        }  finally {
-            con.close();
         }
     }
-    
-    public List<Professor> ListaTodosProfessores(int usuarioId) throws SQLException {
+
+    // Lista todos os professores que participam que possuem até 5 bancas
+    public List<Professor> ListaTodosProfessores(int usuarioId) {
         try {
             // Cria uma lista com os professorea que possuem a área de interesse
             List<Professor> lista = new ArrayList<>();
@@ -149,7 +158,7 @@ public class AreaInteresseDAO {
 
             // verifica se encontrou
             while (rs.next()) {
-                
+
                 Professor professor = new Professor();
                 professor.setCodigo(rs.getInt("id_professor"));
                 professor.setNome(rs.getString("nome"));
@@ -158,21 +167,23 @@ public class AreaInteresseDAO {
                 professor.setConta_orientador(rs.getInt("conta_orientador"));
                 professor.setSenha(rs.getString("senha"));
                 lista.add(professor);
-                
+
             }
 
+            stmt.close();
+            rs.close();
+            con.close();
             // retorna lista de professores
             return lista;
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
             return null;
-        }  finally {
-            con.close();
         }
     }
 
-    public AreaInteresse getAreaInteresse(int id) throws SQLException {
+    // retorna uma área de interesse a partir do id recebido por parâmetro
+    public AreaInteresse getAreaInteresse(int id) {
 
         AreaInteresse ai = new AreaInteresse();
 
@@ -193,20 +204,22 @@ public class AreaInteresseDAO {
                 ai.setId_area_interesse(id);
                 ai.setNome(rs.getString("nome"));
             }
+            stmt.close();
+            rs.close();
+            con.close();
             return ai;
 
         } catch (SQLException error) {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return null;
-        }  finally {
-            con.close();
         }
 
     }
-    
-    public List<AreaInteresse> PegaAreaInteresseProfessor(Professor professor) throws SQLException {
-        
+
+    // Retorna a área de interesse do professor
+    public List<AreaInteresse> PegaAreaInteresseProfessor(Professor professor) {
+
         try {
             // Cria uma lista com os professorea que possuem a área de interesse
             List<AreaInteresse> lista = new ArrayList<>();
@@ -226,26 +239,26 @@ public class AreaInteresseDAO {
 
             // verifica se encontrou
             while (rs.next()) {
-                
+
                 AreaInteresse ai = new AreaInteresse();
                 ai.setId_area_interesse(rs.getInt("pai.area_interesse_id"));
                 ai.setNome(rs.getString("ai.nome"));
                 ai.setProfessor_id(rs.getInt("pai.professor_id"));
-                
+
                 professor.setConta_orientador(rs.getInt("conta_orientador"));
                 professor.setSenha(rs.getString("senha"));
                 lista.add(ai);
             }
-
+            stmt.close();
+            rs.close();
+            con.close();
             // retorna lista de professores
             return lista;
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
             return null;
-        }  finally {
-            con.close();
         }
-        
+
     }
 }

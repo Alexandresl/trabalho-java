@@ -17,14 +17,17 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
- * ?
+ * 
  * Classe responsável pela interação com o banco de dados
  */
 public class AlunoDAO {
 
+    // Declaração de atributo para criação da conexão
     private Connection con;
 
+    // Método construtor
     public AlunoDAO() {
+        // Abre conexão com banco de dados
         this.con = new ConnectionFactory().getConnection();
     }
 
@@ -47,9 +50,14 @@ public class AlunoDAO {
 
             //Executa sql
             stmt.execute();
+            // Fecha conexões
             stmt.close();
+            con.close();
+            // Mensagem de sucesso
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+            
         } catch (SQLException error) {
+            // Mensagem caso haja alguma sqlexception
             JOptionPane.showMessageDialog(null, "Erro: " + error);
         }
     }
@@ -57,12 +65,11 @@ public class AlunoDAO {
     // Método alterar aluno
     public void alterarAluno(Aluno aluno) {
         try {
-            
+
             // Comando SQL
-            String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, senha = ?, nota = ? " +
-                    "WHERE matricula = ?";
-            
-            
+            String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, telefone = ?, senha = ?, nota = ? "
+                    + "WHERE matricula = ?";
+
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
@@ -76,11 +83,13 @@ public class AlunoDAO {
 
             //Executa sql
             stmt.execute();
+            // Fecha conexões
             stmt.close();
-            
+            con.close();
+            // Mensagem caso sucesso
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
-            
         } catch (SQLException error) {
+            // Lança exceção
             JOptionPane.showMessageDialog(null, "Erro: " + error);
         }
     }
@@ -89,7 +98,6 @@ public class AlunoDAO {
     public void excluirAluno(Aluno aluno) {
 
         try {
-            
             // Comando SQL
             String sql = "DELETE FROM aluno WHERE matricula = ?";
             // Conectar o banco de dados e organizar o SQL
@@ -99,19 +107,22 @@ public class AlunoDAO {
 
             //Executa sql
             stmt.execute();
+            // Fecha conexões
             stmt.close();
+            con.close();
+            // Mensagem de sucesso
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
-            
+
         } catch (SQLException error) {
-            
+            // Mensagem caso exceção
             JOptionPane.showMessageDialog(null, "Erro: " + error);
-            
+
         }
-        
+
     }
 
     // Método para listar todos os alunos
-    public List<Aluno> listarAlunos() throws SQLException {
+    public List<Aluno> listarAlunos() {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -139,21 +150,23 @@ public class AlunoDAO {
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(aluno);
             }
-
+            // fecha conexões
+            stmt.close();
+            rs.close();
+            con.close();
+            // Retorna lista de alunos
             return lista;
 
         } catch (Exception error) {
-
+            // Caso seja lançada exceção
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
-        } finally {
-            con.close();
         }
 
     }
-    
+
     // Método para pesquisar alunos por nome
-    public List<Aluno> buscaAlunos(String param) throws SQLException {
+    public List<Aluno> buscaAlunos(String param) {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -183,21 +196,23 @@ public class AlunoDAO {
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(aluno);
             }
-
+            // fecha conexões
+            stmt.close();
+            rs.close();
+            con.close();
+            // retorna lista de alunos
             return lista;
 
         } catch (Exception error) {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
-        } finally {
-            con.close();
         }
 
     }
-    
+
     // Método que efetua login quando perfil aluno
-    public boolean loginAluno(String email, String senha) throws SQLException {
+    public boolean loginAluno(String email, String senha) {
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM aluno WHERE email = ? AND senha = ?";
@@ -206,15 +221,15 @@ public class AlunoDAO {
             // o resultado do select é armazenada em um objeto ResultSet
             stmt.setString(1, email);
             stmt.setString(2, senha);
-            
+
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
-            
+
             // verifica se encontrou
             if (rs.next()) {
                 // usuário logou
                 Aluno aluno = new Aluno();
-                
+
                 // pega os dados do usuário logado e armazena em um objeto do tipo usuário
                 aluno.setMatricula(rs.getInt("matricula"));
                 aluno.setNome(rs.getString("nome"));
@@ -223,39 +238,41 @@ public class AlunoDAO {
                 aluno.setTelefone(rs.getString("telefone"));
                 aluno.setSenha(rs.getString("senha"));
                 aluno.setNota(rs.getString("nota"));
-                                
+
                 // Abre tela principal
                 FrmMenu tela = new FrmMenu();
                 tela.setAluno(aluno);
                 tela.setPerfil("Aluno");
-                
+
                 // Desabilita os menus que não estarão visível para o aluno
                 tela.submenu_prof_gerenciarAlunos.setVisible(false);
                 tela.menu_professor.setVisible(false);
                 tela.submenu_prof_gerenciarPropostas.setVisible(false);
                 tela.submenu_prof_definirBanca.setVisible(false);
                 tela.setVisible(true);
-                
+                // fecha conexões
+                stmt.close();
+                rs.close();
+                con.close();
+                // Retorna true
                 return true;
-                
+
             } else {
                 // dados incoretos
                 JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos.");
                 return false;
             }
-            
+
         } catch (SQLException error) {
-            
+            // Caso lançada exceção
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
-            
-        }  finally {
-            con.close();
+
         }
     }
-    
-    
-    public boolean verificaAluno(int matricula) throws SQLException {
+
+    // Método para verificar se aluno existe
+    public boolean verificaAluno(int matricula) {
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM aluno WHERE matricula = ?";
@@ -263,10 +280,12 @@ public class AlunoDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
             stmt.setInt(1, matricula);
-            
+
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
-            
+            stmt.close();
+            rs.close();
+            con.close();
             // verifica se encontrou
             if (rs.next()) {
                 // Usuário existe
@@ -274,22 +293,20 @@ public class AlunoDAO {
             } else {
                 return false;
             }
-            
+
         } catch (SQLException error) {
-            
+
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
-            
-        }  finally {
-            con.close();
+
         }
     }
-    
-    
-    public Aluno getAluno(int matricula) throws SQLException {
-        
+
+    // método recebe o número da matricula e retorna um Obj do tipo aluno
+    public Aluno getAluno(int matricula) {
+        // intancia um aluno
         Aluno aluno = new Aluno();
-        
+
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM aluno WHERE matricula = ?";
@@ -297,13 +314,13 @@ public class AlunoDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             // o resultado do select é armazenada em um objeto ResultSet
             stmt.setInt(1, matricula);
-            
+
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
-            
+
             // verifica se encontrou
             if (rs.next()) {
-                
+
                 // É setado os atributos. Os parâmetros do get são os nomes das colunas
                 aluno.setMatricula(rs.getInt("matricula"));
                 aluno.setNome(rs.getString("nome"));
@@ -313,27 +330,27 @@ public class AlunoDAO {
                 aluno.setSenha(rs.getString("senha"));
                 aluno.setNota(rs.getString("nota"));
             }
-            
-        } catch (SQLException error) {
-            
-            JOptionPane.showMessageDialog(null, "Erro sql: " + error);
-            
-        }  finally {
+
+            stmt.close();
+            rs.close();
             con.close();
+        } catch (SQLException error) {
+
+            JOptionPane.showMessageDialog(null, "Erro sql: " + error);
+
         }
-        
-        return aluno; 
+        return aluno;
     }
-    
-    public void incluirNotaFinal (double notaFinal, int matricula) throws SQLException {
-        
+
+    // Método para o cadastro da nota final
+    public void incluirNotaFinal(double notaFinal, int matricula) {
+
         try {
-            
+
             // Comando SQL
-            String sql = "UPDATE aluno SET nota = ? " +
-                    "WHERE matricula = ?";
-            
-            
+            String sql = "UPDATE aluno SET nota = ? "
+                    + "WHERE matricula = ?";
+
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
@@ -342,19 +359,16 @@ public class AlunoDAO {
 
             //Executa sql
             stmt.execute();
+            // Fecha conexões
             stmt.close();
-            
+            con.close();;
+
             JOptionPane.showMessageDialog(null, "Nota Cadastrada com Sucesso!");
-            
+
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
-        }  finally {
-            con.close();
         }
-        
-    }
-    
-}
 
-    
- 
+    }
+
+}
