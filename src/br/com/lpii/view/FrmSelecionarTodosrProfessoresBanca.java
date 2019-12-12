@@ -171,19 +171,32 @@ public class FrmSelecionarTodosrProfessoresBanca extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        AreaInteresseDAO daoAI = new AreaInteresseDAO();
 
-        List<Professor> lista = daoAI.ListaTodosProfessores(professor.getCodigo());
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Carregando Professores...");
+        loading.setVisible(true);
 
-        for (Professor item : lista) {
-            Professor p = new Professor();
-            p.setNome(item.getNome());
-            p.setCodigo(item.getCodigo());
-            p.setConta_banca(item.getConta_banca());
-            if (p.getConta_banca() < 5) {
-                c_professores.addItem(p);
+        Thread t = new Thread() {
+            public void run() {
+                AreaInteresseDAO daoAI = new AreaInteresseDAO();
+
+                List<Professor> lista = daoAI.ListaTodosProfessores(professor.getCodigo());
+
+                for (Professor item : lista) {
+                    Professor p = new Professor();
+                    p.setNome(item.getNome());
+                    p.setCodigo(item.getCodigo());
+                    p.setConta_banca(item.getConta_banca());
+                    if (p.getConta_banca() < 5) {
+                        c_professores.addItem(p);
+                    }
+                }
+                loading.dispose();
             }
-        }
+
+        };
+
+        t.start();
     }//GEN-LAST:event_formWindowOpened
 
     /**

@@ -527,6 +527,7 @@ public class FrmProfessores extends javax.swing.JFrame {
             professor.setNome(txt_nome.getText());
             professor.setEmail(txt_email.getText());
             professor.setSenha(String.valueOf(txt_senha.getPassword()));
+            professor.setConta_banca(0);
 
             /**
              * Método que irá salbar o obj Aluno no banco de dados

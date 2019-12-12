@@ -117,6 +117,8 @@ public class PropostaDAO {
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
+        } catch (RuntimeException error) {
+            JOptionPane.showMessageDialog(null, "A conexão demorou para responder... Tente novamente");
         }
 
     }

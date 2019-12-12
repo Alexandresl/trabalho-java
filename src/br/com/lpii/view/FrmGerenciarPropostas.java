@@ -298,7 +298,8 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         Proposta proposta = daoProp.getProposta(this.proposta.getPropostaId());
         if (proposta.getPropostaStatus().equals("Aguardando aprovação")) {
             proposta.setPropostaStatus("Em aberto");
-            daoProp.alterarProposta(proposta);
+            PropostaDAO daoPro = new PropostaDAO();
+            daoPro.alterarProposta(proposta);
         } else {
             JOptionPane.showMessageDialog(null, "Esta proposta não pode ser rejeitada");
         }

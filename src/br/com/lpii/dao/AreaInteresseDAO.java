@@ -135,6 +135,9 @@ public class AreaInteresseDAO {
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
             return null;
+        } catch (RuntimeException error) {
+            JOptionPane.showMessageDialog(null, "Conexão demorou para responder. Tente novamente mais tarde.");
+            return null;
         }
     }
 
@@ -145,10 +148,8 @@ public class AreaInteresseDAO {
             List<Professor> lista = new ArrayList<>();
 
             // Cria a seleção
-            String sql = "SELECT * FROM professor_area_interesse pai "
-                    + "INNER JOIN professor p ON pai.professor_id = p.id_professor "
-                    + "WHERE p.conta_banca <= 5 AND pai.professor_id != ? "
-                    + "GROUP BY pai.professor_id";
+            String sql = "SELECT * FROM professor p "
+                    + "WHERE p.conta_banca <= 5 AND p.id_professor != ?";
 
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -179,6 +180,9 @@ public class AreaInteresseDAO {
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
+            return null;
+        } catch (RuntimeException error) {
+            JOptionPane.showMessageDialog(null, "A conexão demorou para responder... Tente novamente");
             return null;
         }
     }
