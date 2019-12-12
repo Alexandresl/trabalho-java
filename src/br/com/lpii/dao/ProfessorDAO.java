@@ -300,14 +300,18 @@ public class ProfessorDAO {
 
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
-            stmt.close();
-            rs.close();
-            con.close();
+
             // verifica se encontrou
             if (rs.next()) {
+                stmt.close();
+                rs.close();
+                con.close();
                 // Usuário existe
                 return true;
             } else {
+                stmt.close();
+                rs.close();
+                con.close();
                 return false;
             }
 
