@@ -176,7 +176,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         btn_rejeitar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btn_rejeitar.setForeground(new java.awt.Color(0, 102, 51));
         btn_rejeitar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cancel.png"))); // NOI18N
-        btn_rejeitar.setText("Rejaitar Proposta");
+        btn_rejeitar.setText("Rejeitar Proposta");
         btn_rejeitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_rejeitarActionPerformed(evt);

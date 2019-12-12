@@ -116,7 +116,7 @@ public class FrmDefinirBanca extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 153, 51));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Gerenciar Propostas");
+        jLabel1.setText("Selecionar banca");
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logo-instituto.png"))); // NOI18N
 
