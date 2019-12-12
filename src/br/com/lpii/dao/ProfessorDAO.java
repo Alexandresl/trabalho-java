@@ -102,7 +102,7 @@ public class ProfessorDAO {
     }
 
     // Método para listar todos os alunos
-    public List<Professor> listarProfessor() {
+    public List<Professor> listarProfessor() throws SQLException {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -138,12 +138,14 @@ public class ProfessorDAO {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
+        }  finally {
+            con.close();
         }
 
     }
 
     // Método para pesquisar alunos por nome
-    public List<Professor> buscaProfessor(String param) {
+    public List<Professor> buscaProfessor(String param) throws SQLException {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -180,12 +182,14 @@ public class ProfessorDAO {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
+        }  finally {
+            con.close();
         }
 
     }
 
     // Método para pesquisar um Professor por id
-    public Professor buscaProfessor(int codigo) {
+    public Professor buscaProfessor(int codigo) throws SQLException {
         // cria um professor que será retornado
         Professor professor = new Professor();
         // try...catch para tratar eventual erro
@@ -219,12 +223,14 @@ public class ProfessorDAO {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
+        }  finally {
+            con.close();
         }
 
     }
     
     // realiza o login professor
-     public boolean loginProfessor(String email, String senha) {
+     public boolean loginProfessor(String email, String senha) throws SQLException {
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM professor WHERE email = ? AND senha = ?";
@@ -274,11 +280,13 @@ public class ProfessorDAO {
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
             
+        }  finally {
+            con.close();
         }
     }
     
 
-    public boolean verificaProfessor(int id) {
+    public boolean verificaProfessor(int id) throws SQLException {
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM professor WHERE id_professor = ?";
@@ -303,10 +311,12 @@ public class ProfessorDAO {
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
 
+        }  finally {
+            con.close();
         }
     }
     
-    public void addBanca(int professorId, int contaBanca) {
+    public void addBanca(int professorId, int contaBanca) throws SQLException {
         try {
             // Comando SQL
             String sql = "UPDATE professor SET conta_banca = ? "
@@ -323,6 +333,8 @@ public class ProfessorDAO {
             stmt.close();
         } catch (SQLException e) {
             System.out.println(e);
+        }  finally {
+            con.close();
         }
     }
 

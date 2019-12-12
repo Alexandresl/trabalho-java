@@ -111,7 +111,7 @@ public class AlunoDAO {
     }
 
     // Método para listar todos os alunos
-    public List<Aluno> listarAlunos() {
+    public List<Aluno> listarAlunos() throws SQLException {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -146,12 +146,14 @@ public class AlunoDAO {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
+        } finally {
+            con.close();
         }
 
     }
     
     // Método para pesquisar alunos por nome
-    public List<Aluno> buscaAlunos(String param) {
+    public List<Aluno> buscaAlunos(String param) throws SQLException {
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -188,12 +190,14 @@ public class AlunoDAO {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
+        } finally {
+            con.close();
         }
 
     }
     
     // Método que efetua login quando perfil aluno
-    public boolean loginAluno(String email, String senha) {
+    public boolean loginAluno(String email, String senha) throws SQLException {
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM aluno WHERE email = ? AND senha = ?";
@@ -245,11 +249,13 @@ public class AlunoDAO {
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
             
+        }  finally {
+            con.close();
         }
     }
     
     
-    public boolean verificaAluno(int matricula) {
+    public boolean verificaAluno(int matricula) throws SQLException {
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM aluno WHERE matricula = ?";
@@ -274,11 +280,13 @@ public class AlunoDAO {
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
             
+        }  finally {
+            con.close();
         }
     }
     
     
-    public Aluno getAluno(int matricula) {
+    public Aluno getAluno(int matricula) throws SQLException {
         
         Aluno aluno = new Aluno();
         
@@ -310,12 +318,14 @@ public class AlunoDAO {
             
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             
+        }  finally {
+            con.close();
         }
         
         return aluno; 
     }
     
-    public void incluirNotaFinal (double notaFinal, int matricula) {
+    public void incluirNotaFinal (double notaFinal, int matricula) throws SQLException {
         
         try {
             
@@ -338,6 +348,8 @@ public class AlunoDAO {
             
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
+        }  finally {
+            con.close();
         }
         
     }

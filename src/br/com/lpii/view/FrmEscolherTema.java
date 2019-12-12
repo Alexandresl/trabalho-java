@@ -285,9 +285,9 @@ public class FrmEscolherTema extends javax.swing.JFrame {
                         toList();
                         loading.dispose();
                     }
-                    
+
                 };
-                
+
                 t.start();
             } else {
                 JOptionPane.showMessageDialog(null, "Este tema não pode mais ser escolhido.");
@@ -317,7 +317,9 @@ public class FrmEscolherTema extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_verDetalhesActionPerformed
 
     private void btn_verMinhaNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verMinhaNotaActionPerformed
-        // TODO add your handling code here:
+        FrmVerNota tela = new FrmVerNota();
+        tela.setNota(aluno.getNota());
+        tela.setVisible(true);
     }//GEN-LAST:event_btn_verMinhaNotaActionPerformed
 
     private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
@@ -374,7 +376,16 @@ public class FrmEscolherTema extends javax.swing.JFrame {
             public void run() {
                 // Carregamento dos projeto
                 toList();
-
+                // Verifica se nota do aluno está disponível
+                try {
+                    if (Integer.parseInt(aluno.getNota()) != 0) {
+                        btn_verMinhaNota.setEnabled(true);
+                    }
+                } catch (NullPointerException erro) {
+                    btn_verMinhaNota.setEnabled(false);
+                } catch (NumberFormatException error) {
+                    btn_verMinhaNota.setEnabled(false);
+                }
                 loading.dispose();
             }
 

@@ -309,32 +309,36 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         Thread t = new Thread() {
             public void run() {
                 // Pega o ID vindo da tabela
-        int codTema = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 1).toString());
-        // Instancia uma classe PropostaDAO
-        PropostaDAO daoP = new PropostaDAO();
-        // Armazena no atributo proposta
-        proposta = daoP.getProposta(codTema);
-        // Pega dados do aluno relacionado caso exista vinculado
-        if (proposta.getPropostaAlunoMatricula() != 0) {
-            // Cria um objeto alunoDAO
-            AlunoDAO daoAluno = new AlunoDAO();
-            // atribui valor ao atributo aluno
-            aluno = daoAluno.getAluno(proposta.getPropostaAlunoMatricula());
-            // 
-        }
-        // Verifica se o status está aprovado
-        if (proposta.getPropostaStatus().equals("Aprovado")) {
-            // Libera os botões
-            gerenciaBotoes(true, true, true, true);
-        } else {
-            // Libera os botões
-            gerenciaBotoes(true, true, true, false);
-        }
-        
-        // Desativa botão de incluir a nota caso já exista
-        if (Integer.getInteger(aluno.getNota()) == 0) {
-            btn_notas.setEnabled(false);
-        }
+                int codTema = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 1).toString());
+                // Instancia uma classe PropostaDAO
+                PropostaDAO daoP = new PropostaDAO();
+                // Armazena no atributo proposta
+                proposta = daoP.getProposta(codTema);
+                // Pega dados do aluno relacionado caso exista vinculado
+                if (proposta.getPropostaAlunoMatricula() != 0) {
+                    // Cria um objeto alunoDAO
+                    AlunoDAO daoAluno = new AlunoDAO();
+                    // atribui valor ao atributo aluno
+                    aluno = daoAluno.getAluno(proposta.getPropostaAlunoMatricula());
+                    // 
+                }
+                // Verifica se o status está aprovado
+                if (proposta.getPropostaStatus().equals("Aprovado")) {
+                    // Libera os botões
+                    gerenciaBotoes(true, true, true, true);
+                } else {
+                    // Libera os botões
+                    gerenciaBotoes(true, true, true, false);
+                }
+
+                // Desativa botão de incluir a nota caso já exista
+                try {
+                    if (Integer.parseInt(aluno.getNota()) != 0) {
+                        btn_notas.setEnabled(false);
+                    }
+                } catch (NullPointerException error) {
+                    btn_notas.setEnabled(true);
+                }
                 loading.dispose();
             }
 
@@ -342,8 +346,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
         t.start();
 
-        
-        
+
     }//GEN-LAST:event_tbl_propostasMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -355,6 +358,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
             public void run() {
                 // Ao carregar, bloqueia os botões
                 gerenciaBotoes(false, false, false, false);
+                
                 // Lista todoas as propostas do professor
                 toList();
                 loading.dispose();

@@ -83,7 +83,7 @@ public class AreaInteresseDAO {
         }
     }
 
-    public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId, int banca1, int banca2) {
+    public List<Professor> ListaProfessorAreaInteresse(int areaInteresse, int usuarioId, int banca1, int banca2) throws SQLException {
         try {
             // Cria uma lista com os professorea que possuem a área de interesse
             List<Professor> lista = new ArrayList<>();
@@ -124,10 +124,12 @@ public class AreaInteresseDAO {
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
             return null;
+        }  finally {
+            con.close();
         }
     }
     
-    public List<Professor> ListaTodosProfessores(int usuarioId) {
+    public List<Professor> ListaTodosProfessores(int usuarioId) throws SQLException {
         try {
             // Cria uma lista com os professorea que possuem a área de interesse
             List<Professor> lista = new ArrayList<>();
@@ -165,10 +167,12 @@ public class AreaInteresseDAO {
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
             return null;
+        }  finally {
+            con.close();
         }
     }
 
-    public AreaInteresse getAreaInteresse(int id) {
+    public AreaInteresse getAreaInteresse(int id) throws SQLException {
 
         AreaInteresse ai = new AreaInteresse();
 
@@ -195,11 +199,13 @@ public class AreaInteresseDAO {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return null;
+        }  finally {
+            con.close();
         }
 
     }
     
-    public List<AreaInteresse> PegaAreaInteresseProfessor(Professor professor) {
+    public List<AreaInteresse> PegaAreaInteresseProfessor(Professor professor) throws SQLException {
         
         try {
             // Cria uma lista com os professorea que possuem a área de interesse
@@ -237,6 +243,8 @@ public class AreaInteresseDAO {
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro: " + error);
             return null;
+        }  finally {
+            con.close();
         }
         
     }

@@ -1,204 +1,175 @@
--- phpMyAdmin SQL Dump
--- version 4.9.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Tempo de geração: 26-Nov-2019 às 02:07
--- Versão do servidor: 10.4.8-MariaDB
--- versão do PHP: 7.3.10
+/*
+Navicat MySQL Data Transfer
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
+Source Server         : hostgator
+Source Server Version : 50641
+Source Host           : br538.hostgator.com.br:3306
+Source Database       : alexa577_trabalhoJava
 
+Target Server Type    : MYSQL
+Target Server Version : 50641
+File Encoding         : 65001
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+Date: 2019-12-12 02:23:19
+*/
 
---
--- Banco de dados: `trabalho-java`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `aluno`
---
-
+SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for `aluno`
+-- ----------------------------
+DROP TABLE IF EXISTS `aluno`;
 CREATE TABLE `aluno` (
-  `matricula` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `cpf` varchar(30) DEFAULT '',
-  `email` varchar(100) NOT NULL,
-  `telefone` varchar(30) NOT NULL,
-  `perfil` varchar(30) NOT NULL,
-  `senha` varchar(30) DEFAULT NULL,
-  `proposta` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`matricula`  int(11) NOT NULL AUTO_INCREMENT ,
+`nome`  varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+`cpf`  varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' ,
+`email`  varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+`telefone`  varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+`senha`  varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+`nota`  int(11) NULL DEFAULT NULL ,
+PRIMARY KEY (`matricula`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci
+AUTO_INCREMENT=2019765766
 
---
--- Extraindo dados da tabela `aluno`
---
+;
 
-INSERT INTO `aluno` (`matricula`, `nome`, `cpf`, `email`, `telefone`, `perfil`, `senha`, `proposta`) VALUES
-(1, 'Alexandre Silva Lima', '935 . 808 . 430 - 87', 'limaalexguitar@gmail.com', '( 51 ) 98562 - 5609', 'Aluno', '1234', 'Em aberto'),
-(5, 'Sofia Gomes Lima', '098 . 879 . 678 - 75', 'sofiagomes@gmail.com', '( 51 ) 98562 - 5609', 'Aluno', '1234', 'Em aberto'),
-(723, 'Tucstênio', '827 . 389 . 283 - 74', 'tucstenio@gmail.com', '( 82 ) 73928 - 7394', 'Aluno', '1234', 'Em aberto'),
-(876, 'Laura', '985 . 234 . 298 - 27', 'laura@gmail.com', '( 98 ) 76987 - 6987', 'Aluno', '1234', 'Em aberto'),
-(9876, 'admin', '987 . 698 . 769 - 87', 'admin@admin', '( 51 ) 98769 - 8768', 'Aluno', '1234', 'Em aberto'),
-(675675, 'Helamã Vieira', '727 . 364 . 827 - 36', 'ajsdhf@askdjkf.com', '( 76 ) 87687 - 6876', 'Aluno', '', 'Em aberto');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `area_interesse`
---
-
-CREATE TABLE `area_interesse` (
-  `id_area_interesse` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `banca`
---
-
-CREATE TABLE `banca` (
-  `id_professor` int(11) NOT NULL,
-  `id_proposta` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `professor`
---
-
-CREATE TABLE `professor` (
-  `id_professor` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `count_banca` int(11) NOT NULL,
-  `senha` varchar(30) DEFAULT NULL,
-  `perfil` varchar(12) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `professor`
---
-
-INSERT INTO `professor` (`id_professor`, `nome`, `email`, `count_banca`, `senha`, `perfil`) VALUES
-(1, 'Daniel Cauê Enrico Figueiredo', 'danielcaueenricofigueiredo_@officetectecnologia.com.br', 0, '1234', 'Professor'),
-(2, 'Antonella Sophia Jéssica Moura', 'aantonellasophiajessicamoura@advocaciand.adv.br', 0, NULL, 'Professor'),
-(3, 'Osvaldo Heitor Cavalcanti', 'osvaldoheitorcavalcanti_@i9pneus.com.br', 0, '1234', 'Professor');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `proposta`
---
-
-CREATE TABLE `proposta` (
-  `id_proposta` int(11) NOT NULL,
-  `matricula` int(11) NOT NULL,
-  `id_area_interesse` int(11) NOT NULL,
-  `id_professor` int(11) NOT NULL,
-  `titulo` varchar(100) NOT NULL,
-  `descricao` varchar(256) NOT NULL,
-  `status` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Índices para tabelas despejadas
---
-
---
--- Índices para tabela `aluno`
---
-ALTER TABLE `aluno`
-  ADD PRIMARY KEY (`matricula`);
-
---
--- Índices para tabela `area_interesse`
---
-ALTER TABLE `area_interesse`
-  ADD PRIMARY KEY (`id_area_interesse`);
-
---
--- Índices para tabela `banca`
---
-ALTER TABLE `banca`
-  ADD PRIMARY KEY (`id_professor`,`id_proposta`),
-  ADD KEY `banca_proposta_fk` (`id_proposta`);
-
---
--- Índices para tabela `professor`
---
-ALTER TABLE `professor`
-  ADD PRIMARY KEY (`id_professor`);
-
---
--- Índices para tabela `proposta`
---
-ALTER TABLE `proposta`
-  ADD PRIMARY KEY (`id_proposta`),
-  ADD KEY `proposta_area_interesse_fk` (`id_area_interesse`),
-  ADD KEY `proposta_aluno_fk` (`matricula`),
-  ADD KEY `proposta_professor_fk` (`id_professor`);
-
---
--- AUTO_INCREMENT de tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `aluno`
---
-ALTER TABLE `aluno`
-  MODIFY `matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2019765766;
-
---
--- AUTO_INCREMENT de tabela `area_interesse`
---
-ALTER TABLE `area_interesse`
-  MODIFY `id_area_interesse` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `professor`
---
-ALTER TABLE `professor`
-  MODIFY `id_professor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de tabela `proposta`
---
-ALTER TABLE `proposta`
-  MODIFY `id_proposta` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restrições para despejos de tabelas
---
-
---
--- Limitadores para a tabela `banca`
---
-ALTER TABLE `banca`
-  ADD CONSTRAINT `banca_professor_fk` FOREIGN KEY (`id_professor`) REFERENCES `professor` (`id_professor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `banca_proposta_fk` FOREIGN KEY (`id_proposta`) REFERENCES `proposta` (`id_proposta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Limitadores para a tabela `proposta`
---
-ALTER TABLE `proposta`
-  ADD CONSTRAINT `proposta_aluno_fk` FOREIGN KEY (`matricula`) REFERENCES `aluno` (`matricula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `proposta_interesse_fk` FOREIGN KEY (`id_area_interesse`) REFERENCES `area_interesse` (`id_area_interesse`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `proposta_professor_fk` FOREIGN KEY (`id_professor`) REFERENCES `professor` (`id_professor`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ----------------------------
+-- Records of aluno
+-- ----------------------------
+BEGIN;
+INSERT INTO aluno VALUES ('1', 'admin', '982 . 739 . 428 - 37', 'admin', '( 33 ) 33333 - 3333', '1234', '8'), ('12345', 'jorge', '019 . 199 . 131 - 93', 'jorge@jorge', '( 51 ) 49234 - 2342', '123', null), ('2019001', 'Rosângela Adriana de Paula', '634 . 571 . 732 - 06', 'rosangelapaula@gmail.com', '( 51 ) 99311 - 9672', '1234', null), ('2019002', 'Yago Jorge Ruan Figueiredo', '019 . 183 . 130 - 16', 'yagofigueiredo@gmail.com', '( 51 ) 99793 - 2748', '1234', null), ('2019003', 'Luan Kauê Gael Freitas', '610 . 138 . 850 - 66', 'luanfreitas@gmail.com', '( 51 ) 99616 - 4493', '1234', null), ('2019004', 'Nina Adriana de Paula', '008 . 170 . 000 - 89', 'ninapaula@gmail.com', '( 51 ) 99919 - 4193', '1234', null), ('2019005', 'Marina Alana Oliveira', '386 . 523 . 190 - 06', 'marinaoliveira@gmail.com', '( 51 ) 98283 - 4006', '1234', null), ('2019006', 'Esther Eduarda Luzia Peixoto', '341 . 348 . 580 - 62', 'estherpeixoto@gmail.com', '( 53 ) 98739 - 6341', '1234', null), ('2019007', 'Márcia Aparecida Lima', '852 . 457 . 680 - 46', 'marcialima@gmail.com', '( 53 ) 98116 - 5997', '1234', null), ('2019008', 'Leonardo Nelson Marcos Campos', '281 . 417 . 230 - 14', 'leonardocampos@gmail.com', '( 51 ) 99128 - 5901', '1234', null), ('2019009', 'Luciana Silvana Fernandes', '372 . 374 . 110 - 04', 'lucianafernandes@gmail.com', '( 51 ) 99617 - 8810', '1234', null), ('2019010', 'Carlos Eduardo Theo Mário da Cunha', '272 . 397 . 800 - 15', 'carloscunha@gmail.com', '( 53 ) 99661 - 5512', '1234', null);
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- ----------------------------
+-- Table structure for `area_interesse`
+-- ----------------------------
+DROP TABLE IF EXISTS `area_interesse`;
+CREATE TABLE `area_interesse` (
+`id_area_interesse`  int(11) NOT NULL AUTO_INCREMENT ,
+`nome`  varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+PRIMARY KEY (`id_area_interesse`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci
+AUTO_INCREMENT=36
+
+;
+
+-- ----------------------------
+-- Records of area_interesse
+-- ----------------------------
+BEGIN;
+INSERT INTO area_interesse VALUES ('1', 'Python'), ('2', 'JavaScript'), ('3', 'Java'), ('4', 'PHP'), ('5', 'C#'), ('6', 'HTML'), ('7', 'CSS'), ('8', 'C'), ('9', 'Desenvolvimento Android'), ('10', 'Desenvolvimento iOS'), ('11', 'Banco de dados'), ('12', 'Estrutura de dados'), ('13', 'Machine Learning'), ('14', 'Desenvolvimento de Games'), ('15', 'Data Science');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for `professor`
+-- ----------------------------
+DROP TABLE IF EXISTS `professor`;
+CREATE TABLE `professor` (
+`id_professor`  int(11) NOT NULL AUTO_INCREMENT ,
+`nome`  varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+`email`  varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+`conta_banca`  int(11) NULL DEFAULT NULL ,
+`senha`  varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+`conta_orientador`  int(11) NULL DEFAULT NULL ,
+PRIMARY KEY (`id_professor`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci
+AUTO_INCREMENT=15
+
+;
+
+-- ----------------------------
+-- Records of professor
+-- ----------------------------
+BEGIN;
+INSERT INTO professor VALUES ('1', 'Daniel Cauê Enrico Figueiredo', 'danielcaueenricofigueiredo_@officetectecnologia.com.br', '1', '1234', '1'), ('2', 'Antonella Sophia Jéssica Moura', 'asj@gmail.com', '5', '1234', null), ('3', 'Osvaldo Heitor Cavalcanti', 'osvaldoheitorcavalcanti_@i9pneus.com.br', '0', '1234', null), ('4', 'Francisco Silva', 'fs@gmail.com', '1', '1234', '4'), ('5', 'Marcelo Silva', 'marcelo@gmail.com', '1', '1234', null), ('8', 'admin', 'admin', '1', 'admin', '5');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for `professor_area_interesse`
+-- ----------------------------
+DROP TABLE IF EXISTS `professor_area_interesse`;
+CREATE TABLE `professor_area_interesse` (
+`professor_id`  int(11) NOT NULL DEFAULT 0 ,
+`area_interesse_id`  int(11) NOT NULL DEFAULT 0 ,
+PRIMARY KEY (`professor_id`, `area_interesse_id`)
+)
+ENGINE=MyISAM
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_unicode_ci
+
+;
+
+-- ----------------------------
+-- Records of professor_area_interesse
+-- ----------------------------
+BEGIN;
+INSERT INTO professor_area_interesse VALUES ('1', '15'), ('4', '4'), ('4', '13'), ('4', '15'), ('8', '1'), ('8', '10'), ('8', '11'), ('8', '15'), ('11', '2'), ('11', '4'), ('11', '14'), ('14', '2'), ('14', '4'), ('14', '6'), ('14', '7'), ('14', '11');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for `proposta`
+-- ----------------------------
+DROP TABLE IF EXISTS `proposta`;
+CREATE TABLE `proposta` (
+`id_proposta`  int(11) NOT NULL AUTO_INCREMENT ,
+`matricula`  int(11) NULL DEFAULT NULL ,
+`id_area_interesse`  int(11) NOT NULL ,
+`id_professor`  int(11) NOT NULL ,
+`titulo`  varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+`descricao`  varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+`status`  varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+`banca1`  int(11) NULL DEFAULT NULL ,
+`banca2`  int(11) NULL DEFAULT NULL ,
+PRIMARY KEY (`id_proposta`),
+FOREIGN KEY (`matricula`) REFERENCES `aluno` (`matricula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY (`id_area_interesse`) REFERENCES `area_interesse` (`id_area_interesse`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY (`id_professor`) REFERENCES `professor` (`id_professor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci
+AUTO_INCREMENT=67
+
+;
+
+-- ----------------------------
+-- Records of proposta
+-- ----------------------------
+BEGIN;
+INSERT INTO proposta VALUES ('52', null, '1', '8', 'proposta 1', 'proposta 1 - Python', 'Em aberto', null, null), ('53', null, '2', '8', 'proposta 2', 'proposta 2 - JavaScript', 'Em aberto', null, null), ('54', null, '3', '8', 'Proposta 3', 'Proposta 3 - Java', 'Em aberto', null, null), ('55', '1', '4', '8', 'Proposta 4', 'proposta 4 - PHP', 'Aprovado', null, null), ('57', null, '4', '8', 'Proposta 5', 'Proposta 5 - PHP', 'Em aberto', null, null), ('64', null, '4', '4', 'Análise do tempo de resposta para teste de desempenho em aplicações  web', 'A atividade de teste é geralmente bastante onerosa, isso ocorre porque boa parte dessas atividades são executadas manualmente. Para melhorar\nisto, Model-Based Testing', 'Em aberto', null, null), ('65', null, '15', '4', 'Usando Data Science no combate a Fraudes', 'Fraude não é um fenômeno apenas da nossa sociedade moderna. Ao longo da história, a humanidade tem se especializado em ações fraudulentas. Entretanto, nunca tivemos tantas ferramentas como', 'Em aberto', null, null), ('66', null, '11', '4', 'Desenvolvimento de aplicação para análise de dados', 'Este trabalho visa conceituar o leitor acerca da abordagem conhecida como Data\nScience, que é definida como a área da computação responsável pela coleta de dados,\nanálise de informações e tomada...', 'Em aberto', null, null);
+COMMIT;
+
+-- ----------------------------
+-- Auto increment value for `aluno`
+-- ----------------------------
+ALTER TABLE `aluno` AUTO_INCREMENT=2019765766;
+
+-- ----------------------------
+-- Auto increment value for `area_interesse`
+-- ----------------------------
+ALTER TABLE `area_interesse` AUTO_INCREMENT=36;
+
+-- ----------------------------
+-- Auto increment value for `professor`
+-- ----------------------------
+ALTER TABLE `professor` AUTO_INCREMENT=15;
+
+-- ----------------------------
+-- Indexes structure for table `professor_area_interesse`
+-- ----------------------------
+CREATE INDEX `fk_area_interesse` ON `professor_area_interesse`(`area_interesse_id`) USING BTREE ;
+
+-- ----------------------------
+-- Indexes structure for table `proposta`
+-- ----------------------------
+CREATE INDEX `proposta_area_interesse_fk` ON `proposta`(`id_area_interesse`) USING BTREE ;
+CREATE INDEX `proposta_aluno_fk` ON `proposta`(`matricula`) USING BTREE ;
+CREATE INDEX `proposta_professor_fk` ON `proposta`(`id_professor`) USING BTREE ;
+
+-- ----------------------------
+-- Auto increment value for `proposta`
+-- ----------------------------
+ALTER TABLE `proposta` AUTO_INCREMENT=67;

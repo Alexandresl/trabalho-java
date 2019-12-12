@@ -142,7 +142,7 @@ public class PropostaDAO {
 
     }
 
-    public List<Proposta> listarPropostas() {
+    public List<Proposta> listarPropostas() throws SQLException {
 
         // try...catch para tratar eventual erro
         try {
@@ -188,11 +188,13 @@ public class PropostaDAO {
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
 
+        } finally {
+            con.close();
         }
 
     }
 
-    public List<Proposta> listarMinhasPropostas(int id) {
+    public List<Proposta> listarMinhasPropostas(int id) throws SQLException {
 
         // try...catch para tratar eventual erro
         try {
@@ -236,11 +238,13 @@ public class PropostaDAO {
             JOptionPane.showMessageDialog(null, "Erro ao carregar alunos: " + error);
             return null;
 
+        } finally {
+            con.close();
         }
 
     }
 
-    public List<Proposta> buscarPropostas(String param) {
+    public List<Proposta> buscarPropostas(String param) throws SQLException {
 
         // try...catch para tratar eventual erro
         try {
@@ -284,11 +288,13 @@ public class PropostaDAO {
 
             JOptionPane.showMessageDialog(null, "Erro ao carregar propostas: " + error);
             return null;
+        }finally {
+            con.close();
         }
 
     }
 
-    public boolean verificaProposta(int id) {
+    public boolean verificaProposta(int id) throws SQLException {
 
         try {
             // Verifica se existe o usuário no banco
@@ -309,11 +315,13 @@ public class PropostaDAO {
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return false;
 
+        } finally {
+            con.close();
         }
 
     }
 
-    public Proposta getProposta(int id) {
+    public Proposta getProposta(int id) throws SQLException {
 
         Proposta proposta = new Proposta();
 
@@ -354,11 +362,13 @@ public class PropostaDAO {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return null;
+        } finally {
+            con.close();
         }
 
     }
     
-    public Proposta getPropostaAluno(Aluno aluno) {
+    public Proposta getPropostaAluno(Aluno aluno) throws SQLException {
 
         Proposta proposta = new Proposta();
 
@@ -397,6 +407,8 @@ public class PropostaDAO {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
             return null;
+        } finally {
+            con.close();
         }
 
     }
