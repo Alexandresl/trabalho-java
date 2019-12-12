@@ -7,7 +7,9 @@ package br.com.lpii.view;
 
 import br.com.lpii.dao.AlunoDAO;
 import br.com.lpii.dao.PropostaDAO;
+import br.com.lpii.model.Aluno;
 import br.com.lpii.model.Proposta;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -17,8 +19,27 @@ import javax.swing.JTextField;
  */
 public class FrmIncluirNota extends javax.swing.JFrame {
     
-    private int propostaId;
+    
     Proposta proposta;
+    Aluno aluno;
+
+    public Proposta getProposta() {
+        return proposta;
+    }
+
+    public void setProposta(Proposta proposta) {
+        this.proposta = proposta;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+    
+    
     
     /**
      * Creates new form FrmIncluirNota
@@ -32,14 +53,6 @@ public class FrmIncluirNota extends javax.swing.JFrame {
         txt_nota_banca1.setEnabled(false);
         txt_nota_banca2.setEnabled(false);
         btn_calcular.setEnabled(false);
-    }
-
-    public int getPropostaId() {
-        return propostaId;
-    }
-
-    public void setPropostaId(int propostaId) {
-        this.propostaId = propostaId;
     }
 
     /**
@@ -154,11 +167,6 @@ public class FrmIncluirNota extends javax.swing.JFrame {
                 txt_nota_banca1FocusLost(evt);
             }
         });
-        txt_nota_banca1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_nota_banca1KeyTyped(evt);
-            }
-        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 153, 51));
@@ -169,11 +177,6 @@ public class FrmIncluirNota extends javax.swing.JFrame {
         txt_nota_banca2.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_nota_banca2FocusLost(evt);
-            }
-        });
-        txt_nota_banca2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_nota_banca2KeyTyped(evt);
             }
         });
 
@@ -257,12 +260,12 @@ public class FrmIncluirNota extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // Carrega dados da proposta
         PropostaDAO dao = new PropostaDAO();
-        proposta = dao.getProposta(propostaId);
+        proposta = dao.getProposta(proposta.getPropostaId());
         
         // Preenche os campos apenas como leitura
         txt_matricula.setText(String.valueOf(proposta.getPropostaId()));
         txt_matricula.setEditable(false);
-        txt_aluno.setText(proposta.getPropostaAlunoNome());
+        txt_aluno.setText(aluno.getNome());
         txt_aluno.setEditable(false);
         txt_tema.setText(proposta.getPropostaTitulo());
         txt_tema.setEditable(false);
@@ -272,16 +275,6 @@ public class FrmIncluirNota extends javax.swing.JFrame {
         btn_calcular.setEnabled(true);
                 
     }//GEN-LAST:event_formWindowActivated
-
-    private void txt_nota_banca1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nota_banca1KeyTyped
-        // Valida para verificar se não há letras
-        ValidaNumero(txt_nota_banca1);
-    }//GEN-LAST:event_txt_nota_banca1KeyTyped
-
-    private void txt_nota_banca2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nota_banca2KeyTyped
-       // Valida para verificar se não há letras
-        ValidaNumero(txt_nota_banca2);
-    }//GEN-LAST:event_txt_nota_banca2KeyTyped
 
     private void txt_nota_banca2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nota_banca2FocusLost
         /// Valida para verificar se não há letras
@@ -307,14 +300,17 @@ public class FrmIncluirNota extends javax.swing.JFrame {
         } else {
             
             // Calcula a média final
-            double notaFinal = (Integer.parseInt(txt_nota_orientador.getText()) + 
-                    Integer.parseInt(txt_nota_banca1.getText()) +
-                    Integer.parseInt(txt_nota_banca2.getText())) / 3;
+            double notaFinal = (Double.valueOf(txt_nota_orientador.getText()) + 
+                    Double.valueOf(txt_nota_banca1.getText()) +
+                    Double.valueOf(txt_nota_banca2.getText())) / 3;
+            
+            DecimalFormat df = new DecimalFormat("###.##");
+
             
             // inclui a nota final
             AlunoDAO dao = new AlunoDAO();
             
-            dao.incluirNotaFinal(notaFinal, proposta.getPropostaAlunoMatricula());
+            dao.incluirNotaFinal(df.format(notaFinal), proposta.getPropostaAlunoMatricula());
             
             this.dispose();
             
@@ -326,12 +322,12 @@ public class FrmIncluirNota extends javax.swing.JFrame {
      * Método para garantir que não vá número no campo matrícula
      */
     public void ValidaNumero(JTextField txt) {
-        long valor;
+        Double valor;
         if (txt.getText().length() != 0) {
             try {
-                valor = Long.parseLong(txt.getText());
+                valor = Double.parseDouble(txt.getText());
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Campos só aceita números", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Campos só aceita números\nSe estiver utilizando vírgula (,) substitua por (.)", "Informação", JOptionPane.INFORMATION_MESSAGE);
                 txt.grabFocus();
                 txt_matricula.setText("");
             }

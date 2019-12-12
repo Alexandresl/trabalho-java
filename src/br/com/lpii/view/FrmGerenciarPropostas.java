@@ -316,17 +316,22 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
     private void btn_notasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_notasActionPerformed
         // Abre tela para inclusão das notas
         FrmIncluirNota tela = new FrmIncluirNota();
-        tela.setPropostaId(proposta.getPropostaId());
+        tela.setProposta(proposta);
+        tela.setAluno(aluno);
         tela.setVisible(true);
     }//GEN-LAST:event_btn_notasActionPerformed
 
     private void tbl_propostasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_propostasMouseClicked
-
+        // função disparada ao clicar em um item na tabela
+        
+        // Tela de carregamento...
         FrmLoading loading = new FrmLoading();
         loading.setLabel("Carregando proposta...");
         loading.setVisible(true);
 
+        // Cria um thread
         Thread t = new Thread() {
+            // Implementa método run()
             public void run() {
                 // Pega o ID vindo da tabela
                 int codTema = Integer.parseInt(tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 1).toString());
@@ -349,7 +354,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
 
                 // Desativa botão de incluir a nota caso já exista
                 try {
-                    if (Integer.parseInt(aluno.getNota()) != 0) {
+                    if (tbl_propostas.getValueAt(tbl_propostas.getSelectedRow(), 4) == "Não Calculada" && proposta.getPropostaAlunoMatricula() == 0) {
                         btn_notas.setEnabled(false);
                     }
                 } catch (NullPointerException error) {
@@ -407,10 +412,11 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
                 p.getPropostaId(),
                 p.getPropostaTitulo(),
                 p.getPropostaStatus(),
-                (p.getPropostaAlunoMatricula() == 0) ? "Não Calculada" : aluno.getNota()
+                (p.getPropostaAlunoMatricula() == 0 || aluno.getNota().equals("0")) ? "Não Calculada" : aluno.getNota()
             });
         }
 
+        
     }
 
     /**

@@ -32,6 +32,7 @@ public class AreaInteresseDAO {
 
     /**
      * Método responsável por cadastrar áreas de interesse
+     *
      * @param lista de objetos do tipo AreaInteresse
      */
     public void cadastrarAreaInteresse(List<AreaInteresse> lista) {
@@ -42,21 +43,23 @@ public class AreaInteresseDAO {
             String sql = "INSERT INTO professor_area_interesse (professor_id, area_interesse_id) "
                     + "VALUES (?, ?)";
             // Percorre a lista para salvar no banco de dados
+            
+            // Conectar o banco de dados e organizar o SQL
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
             for (AreaInteresse ai : lista) {
 
-                // Conectar o banco de dados e organizar o SQL
-                PreparedStatement stmt = con.prepareStatement(sql);
 
                 stmt.setInt(1, ai.getProfessor_id());
                 stmt.setInt(2, ai.getId_area_interesse());
 
                 //Executa sql
                 stmt.execute();
-                stmt.close();
-                con.close();
 
             }
 
+            stmt.close();
+            con.close();
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
 
         } catch (SQLException error) {
@@ -129,7 +132,7 @@ public class AreaInteresseDAO {
             stmt.close();
             rs.close();
             con.close();
-            
+
             return lista;
 
         } catch (SQLException error) {

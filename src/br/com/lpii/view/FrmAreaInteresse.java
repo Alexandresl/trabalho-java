@@ -311,38 +311,51 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
 
-        // Cria a lista
-        List<AreaInteresse> lista = new ArrayList<>();
-        // Instancia 
-        AreaInteresseDAO daoAI = new AreaInteresseDAO();
+        FrmLoading loading = new FrmLoading();
+        loading.setLabel("Salvando áreas de interesse...");
+        loading.setVisible(true);
 
-        for (Component c : painel_chk.getComponents()) {
+        Thread t = new Thread() {
+            public void run() {
+                // Cria a lista
+                List<AreaInteresse> lista = new ArrayList<>();
 
-            if (c instanceof JCheckBox) {
+                for (Component c : painel_chk.getComponents()) {
 
-                if (((JCheckBox) c).isSelected()) {
+                    if (c instanceof JCheckBox) {
 
-                    AreaInteresse ai = new AreaInteresse();
-                    ai.setId_area_interesse(getAreaInteresse(((JCheckBox) c).getText()));
-                    ai.setProfessor_id(professor.getCodigo());
-                    lista.add(ai);
+                        if (((JCheckBox) c).isSelected()) {
+// Instancia 
+                            AreaInteresseDAO daoAI = new AreaInteresseDAO();
+                            AreaInteresse ai = new AreaInteresse();
+                            ai.setId_area_interesse(getAreaInteresse(((JCheckBox) c).getText()));
+                            ai.setProfessor_id(professor.getCodigo());
+                            lista.add(ai);
+                        }
+
+                    }
+
                 }
 
+                if (!lista.isEmpty()) {
+                    AreaInteresseDAO daoAI = new AreaInteresseDAO();
+                    daoAI.deletarAreaInteresse(professor);
+                    AreaInteresseDAO daoAI2 = new AreaInteresseDAO();
+                    daoAI2.cadastrarAreaInteresse(lista);
+                    atualizarCkbox();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecione ao menus uma área de interesse.");
+                }
+                loading.dispose();
             }
 
-        }
+        };
 
-        if (!lista.isEmpty()) {
-            daoAI.deletarAreaInteresse(professor);
-            daoAI.cadastrarAreaInteresse(lista);
-            atualizarCkbox();
-        } else {
-            JOptionPane.showMessageDialog(null, "Selecione ao menus uma área de interesse.");
-        }
+        t.start();
+
 
     }//GEN-LAST:event_btn_salvarActionPerformed
 
-    
     public void atualizarCkbox() {
         FrmLoading loading = new FrmLoading();
         loading.setLabel("Carregando Áreas de interesse...");
@@ -380,7 +393,7 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
 
         t.start();
     }
-    
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
         atualizarCkbox();
@@ -401,7 +414,7 @@ public class FrmAreaInteresse extends javax.swing.JFrame {
                 break;
             }
         }
-        return i+1;
+        return i + 1;
     }
 
     /**

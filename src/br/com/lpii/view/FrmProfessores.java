@@ -145,6 +145,7 @@ public class FrmProfessores extends javax.swing.JFrame {
         txt_contaOrientador = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txt_senha = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
         btn_novo = new javax.swing.JButton();
         btn_salvar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
@@ -286,7 +287,7 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setText("Código");
+        jLabel2.setText("Código:");
 
         txt_codigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_codigo.setForeground(new java.awt.Color(0, 102, 51));
@@ -301,11 +302,11 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("Nome:");
+        jLabel3.setText("Nome*:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setText("Email:");
+        jLabel4.setText("Email*:");
 
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_email.setForeground(new java.awt.Color(0, 102, 51));
@@ -350,10 +351,14 @@ public class FrmProfessores extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel6.setText("Senha");
+        jLabel6.setText("Senha*:");
 
         txt_senha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_senha.setForeground(new java.awt.Color(0, 102, 51));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel5.setText("* Campos obrigatórios");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -378,11 +383,17 @@ public class FrmProfessores extends javax.swing.JFrame {
                         .addGap(5, 5, 5)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(165, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(6, 6, 6)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -400,7 +411,7 @@ public class FrmProfessores extends javax.swing.JFrame {
                     .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados do professor", jPanel2);
@@ -488,8 +499,27 @@ public class FrmProfessores extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    // Função para verificar se todos os campos estão preenchidos
+    public boolean temCamposVazios() {
+
+        if (txt_nome.getText().trim().equals("")
+                || txt_email.getText().trim().equals("")
+                || String.valueOf(txt_senha.getPassword()).trim().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam estar preenchidos");
+            return true;
+
+        }
+
+        return false;
+
+    }
+    
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
 
+        
+        if (!temCamposVazios()) {
         /**
          * Instancia objeto da classe AlunoDao Já é aberta a conexão a partir do
          * construtor
@@ -551,6 +581,24 @@ public class FrmProfessores extends javax.swing.JFrame {
         // libera botão para cadastro de um novo professor
         gerenciaBotoes(true, false, false, false);
 
+        }
+        
+        FrmLoading loading = new FrmLoading();
+            loading.setLabel("Carregando professores...");
+            loading.setVisible(true);
+
+            Thread t = new Thread() {
+                public void run() {
+                    // Lista todoas as propostas do professor
+                    toList();
+                    loading.dispose();
+                    // direciona para a lista de alunos após atualizar
+                    jTabbedPane1.setSelectedIndex(1);
+                }
+
+            };
+
+            t.start();
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
@@ -770,6 +818,7 @@ public class FrmProfessores extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

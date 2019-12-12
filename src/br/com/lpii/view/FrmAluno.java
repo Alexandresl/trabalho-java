@@ -624,10 +624,12 @@ public class FrmAluno extends javax.swing.JFrame {
                         aluno.setTelefone(txt_celular.getText());
                         aluno.setSenha(String.valueOf(txt_senha.getPassword()));
 
+                        AlunoDAO daoA = new AlunoDAO();
+                        
                         /**
                          * Método que irá salvar o obj Aluno no banco de dados
                          */
-                        dao.alterarAluno(aluno);
+                        daoA.alterarAluno(aluno);
 
                         /**
                          * Atualiza table aluno após a edição
@@ -662,10 +664,13 @@ public class FrmAluno extends javax.swing.JFrame {
                     aluno.setEmail(txt_email.getText());
                     aluno.setTelefone(txt_celular.getText());
                     aluno.setSenha(String.valueOf(txt_senha.getPassword()));
+                    aluno.setNota("0");
+                    
+                    AlunoDAO daoAl = new AlunoDAO();
                     /**
                      * Método que irá salbar o obj Aluno no banco de dados
                      */
-                    dao.cadastrarAluno(aluno);
+                    daoAl.cadastrarAluno(aluno);
 
                     /**
                      * Limpa os campos do formulário

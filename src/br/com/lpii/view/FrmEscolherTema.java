@@ -378,7 +378,7 @@ public class FrmEscolherTema extends javax.swing.JFrame {
                 toList();
                 // Verifica se nota do aluno está disponível
                 try {
-                    if (Integer.parseInt(aluno.getNota()) != 0) {
+                    if (!aluno.getNota().equals("0")) {
                         btn_verMinhaNota.setEnabled(true);
                     }
                 } catch (NullPointerException erro) {

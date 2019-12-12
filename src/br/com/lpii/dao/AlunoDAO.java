@@ -17,7 +17,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
- * 
+ *
  * Classe responsável pela interação com o banco de dados
  */
 public class AlunoDAO {
@@ -55,10 +55,10 @@ public class AlunoDAO {
             con.close();
             // Mensagem de sucesso
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
-            
+
         } catch (SQLException error) {
             // Mensagem caso haja alguma sqlexception
-            JOptionPane.showMessageDialog(null, "Erro: " + error);
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar: " + error);
         }
     }
 
@@ -283,14 +283,18 @@ public class AlunoDAO {
 
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
-            stmt.close();
-            rs.close();
-            con.close();
+
             // verifica se encontrou
             if (rs.next()) {
+                stmt.close();
+                rs.close();
+                con.close();
                 // Usuário existe
                 return true;
             } else {
+                stmt.close();
+                rs.close();
+                con.close();
                 return false;
             }
 
@@ -343,7 +347,7 @@ public class AlunoDAO {
     }
 
     // Método para o cadastro da nota final
-    public void incluirNotaFinal(double notaFinal, int matricula) {
+    public void incluirNotaFinal(String notaFinal, int matricula) {
 
         try {
 
@@ -354,7 +358,7 @@ public class AlunoDAO {
             // Conectar o banco de dados e organizar o SQL
             PreparedStatement stmt = con.prepareStatement(sql);
             // insere os valores no sql
-            stmt.setDouble(1, notaFinal);
+            stmt.setString(1, notaFinal);
             stmt.setInt(2, matricula);
 
             //Executa sql

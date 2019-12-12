@@ -25,13 +25,10 @@ public class PropostaDAO {
     // Atributo para conexão
     private Connection con;
 
-    // Construtor
-    public PropostaDAO() {
-        this.con = new ConnectionFactory().getConnection();
-    }
-
     // Método para cadastro de propostas
     public void cadastrarProposta(Proposta proposta) {
+        // Inicia conexao
+        abreConexao();
 
         try {
             // Comando SQL
@@ -60,7 +57,8 @@ public class PropostaDAO {
 
     // Este método não atualiza a matricula do aluno que estará vinculado a proposta
     public void alterarProposta(Proposta proposta) {
-
+// Inicia conexao
+        abreConexao();
         try {
 
             // Comando SQL
@@ -93,7 +91,8 @@ public class PropostaDAO {
     }
 
     public void alterarPropostaIncluirBanca(Proposta proposta) { // Método para inclur professores das bancas
-
+// Inicia conexao
+        abreConexao();
         try {
 
             // Comando SQL
@@ -124,7 +123,8 @@ public class PropostaDAO {
     }
 
     public void excluirProposta(Proposta proposta) {
-
+// Inicia conexao
+        abreConexao();
         try {
 
             // Comando SQL
@@ -149,7 +149,8 @@ public class PropostaDAO {
     }
 
     public List<Proposta> listarPropostas() {
-
+// Inicia conexao
+        abreConexao();
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -202,6 +203,9 @@ public class PropostaDAO {
 
     public List<Proposta> listarMinhasPropostas(int id) {
 
+        // Inicia conexao
+        abreConexao();
+
         // try...catch para tratar eventual erro
         try {
             // Cria a lista
@@ -236,11 +240,11 @@ public class PropostaDAO {
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(proposta);
             }
-            
+
             stmt.close();
             rs.close();
             con.close();
-            
+
             return lista;
 
         } catch (SQLException error) {
@@ -253,7 +257,8 @@ public class PropostaDAO {
     }
 
     public List<Proposta> buscarPropostas(String param) {
-
+// Inicia conexao
+        abreConexao();
         // try...catch para tratar eventual erro
         try {
 
@@ -303,7 +308,8 @@ public class PropostaDAO {
     }
 
     public boolean verificaProposta(int id) {
-
+// Inicia conexao
+        abreConexao();
         try {
             // Verifica se existe o usuário no banco
             String sql = "SELECT * FROM proposta WHERE id_proposta = ?";
@@ -314,12 +320,18 @@ public class PropostaDAO {
 
             // Armazena o resultado
             ResultSet rs = stmt.executeQuery();
+            
+            // verifica se encontrou
+            boolean verifica = rs.next();
+            //Fecha
             stmt.close();
             rs.close();
             con.close();
-            // verifica se encontrou
-            return rs.next(); // Usuário existe
+            
+            return verifica; // Usuário existe
 
+            
+            
         } catch (SQLException error) {
 
             JOptionPane.showMessageDialog(null, "Erro sql: " + error);
@@ -330,7 +342,8 @@ public class PropostaDAO {
     }
 
     public Proposta getProposta(int id) {
-
+// Inicia conexao
+        abreConexao();
         Proposta proposta = new Proposta();
 
         try {
@@ -377,7 +390,8 @@ public class PropostaDAO {
     }
 
     public Proposta getPropostaAluno(Aluno aluno) {
-
+// Inicia conexao
+        abreConexao();
         Proposta proposta = new Proposta();
 
         try {
@@ -418,6 +432,10 @@ public class PropostaDAO {
             return null;
         }
 
+    }
+
+    public void abreConexao() {
+        this.con = new ConnectionFactory().getConnection();
     }
 
 }

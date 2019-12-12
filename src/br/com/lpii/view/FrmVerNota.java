@@ -101,7 +101,7 @@ public class FrmVerNota extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(0, 153, 51));
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 153, 51));
-        jLabel2.setText("Sua nota total é:");
+        jLabel2.setText("Sua nota final é:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,7 +116,7 @@ public class FrmVerNota extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(56, 56, 56)
                     .addComponent(jLabel2)
-                    .addContainerGap(418, Short.MAX_VALUE)))
+                    .addContainerGap(419, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
