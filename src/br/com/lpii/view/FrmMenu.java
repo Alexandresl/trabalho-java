@@ -374,10 +374,20 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void submenu_trocarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_trocarUsuarioActionPerformed
-        // Métrodo para trocar de usuário fecha a tela de menu para realizar novo login
-        FrmLogin telaLogin = new FrmLogin();
-        this.dispose();
-        telaLogin.setVisible(true);
+        // declara uma variável do tipo int
+        int op;
+        // pega o returno do JOptionPane para confirmar que usuário deseja sair
+        op = JOptionPane.showConfirmDialog(null, "Você será deslogado do sistema. Confirma?");
+        // Se valor de op for 0 (zero) programa será fechado, pois usuário clicou em sim.
+        if (op == 0) {
+            // "limpa" os objetos
+            aluno = null;
+            professor = null;
+            // Métrodo para trocar de usuário fecha a tela de menu para realizar novo login
+            FrmLogin telaLogin = new FrmLogin();
+            this.dispose();
+            telaLogin.setVisible(true);
+        }
 
     }//GEN-LAST:event_submenu_trocarUsuarioActionPerformed
 
@@ -388,6 +398,9 @@ public class FrmMenu extends javax.swing.JFrame {
         op = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja sai?");
         // Se valor de op for 0 (zero) programa será fechado, pois usuário clicou em sim.
         if (op == 0) {
+            // "limpa" os objetos
+            aluno = null;
+            professor = null;
             System.exit(0);
         }
 
@@ -424,11 +437,11 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_submenu_prof_gerenciarPropostasActionPerformed
 
     private void submenu_aluno_meuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_aluno_meuCadastroActionPerformed
-        
+
         FrmMeuCadastroAluno tela = new FrmMeuCadastroAluno();
         tela.setAluno(aluno);
         tela.setVisible(true);
-        
+
     }//GEN-LAST:event_submenu_aluno_meuCadastroActionPerformed
 
     private void submenu_aluno_escolherTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_aluno_escolherTemaActionPerformed
@@ -453,8 +466,8 @@ public class FrmMenu extends javax.swing.JFrame {
             Desktop.getDesktop().open(arquivo);
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex,  "ERRO",JOptionPane.ERROR_MESSAGE);
- 
+            JOptionPane.showMessageDialog(null, ex, "ERRO", JOptionPane.ERROR_MESSAGE);
+
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -466,8 +479,8 @@ public class FrmMenu extends javax.swing.JFrame {
             Desktop.getDesktop().open(arquivo);
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex,  "ERRO",JOptionPane.ERROR_MESSAGE);
- 
+            JOptionPane.showMessageDialog(null, ex, "ERRO", JOptionPane.ERROR_MESSAGE);
+
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 

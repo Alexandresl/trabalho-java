@@ -265,7 +265,26 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         Proposta proposta = daoProp.getProposta(this.proposta.getPropostaId());
         if (proposta.getPropostaAlunoMatricula() != 0) {
             proposta.setPropostaStatus("Aprovado");
-            daoProp.alterarProposta(proposta);
+            // Crio uma proposta e uma proposta dao
+            PropostaDAO daoPropAltera = new PropostaDAO();
+            daoPropAltera.alterarProposta(proposta);
+            FrmLoading loading = new FrmLoading();
+            loading.setLabel("Carregando propostas...");
+            loading.setVisible(true);
+
+            Thread t = new Thread() {
+                public void run() {
+                    // Ao carregar, bloqueia os botões
+                    gerenciaBotoes(false, false, false, false);
+
+                    // Lista todoas as propostas do professor
+                    toList();
+                    loading.dispose();
+                }
+
+            };
+
+            t.start();
         } else {
             JOptionPane.showMessageDialog(null, "Ainda não há alunos vinculados");
         }
@@ -338,6 +357,8 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
                     }
                 } catch (NullPointerException error) {
                     btn_notas.setEnabled(true);
+                } catch (NumberFormatException error) {
+                    btn_notas.setEnabled(true);
                 }
                 loading.dispose();
             }
@@ -358,7 +379,7 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
             public void run() {
                 // Ao carregar, bloqueia os botões
                 gerenciaBotoes(false, false, false, false);
-                
+
                 // Lista todoas as propostas do professor
                 toList();
                 loading.dispose();
@@ -378,10 +399,10 @@ public class FrmGerenciarPropostas extends javax.swing.JFrame {
         DefaultTableModel dados = (DefaultTableModel) tbl_propostas.getModel();
         // limpa dados da tabela
         dados.setNumRows(0);
-        // Objeto AlunoDAO
-        AlunoDAO daoAluno = new AlunoDAO();
         // cada ocorrência em lista irá para um objeto professor
         for (Proposta p : lista) {
+            // Objeto AlunoDAO
+            AlunoDAO daoAluno = new AlunoDAO();
             // E agora será adicionado a lista na tabela. Linha a linha
             Aluno aluno = daoAluno.getAluno(p.getPropostaAlunoMatricula());
             dados.addRow(new Object[]{

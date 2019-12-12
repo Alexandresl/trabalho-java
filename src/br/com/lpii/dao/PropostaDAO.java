@@ -64,7 +64,7 @@ public class PropostaDAO {
         try {
 
             // Comando SQL
-            String sql = "UPDATE proposta SET id_area_interesse = ?, id_professor = ?, titulo = ?, descricao = ?, status = ? "
+            String sql = "UPDATE proposta SET id_area_interesse = ?, matricula = ?, id_professor = ?, titulo = ?, descricao = ?, status = ? "
                     + "WHERE id_proposta = ?";
 
             // Conectar o banco de dados e organizar o SQL
@@ -72,11 +72,12 @@ public class PropostaDAO {
 
             // insere os valores no sql
             stmt.setInt(1, proposta.getPropostaCodAreaInteresse());
-            stmt.setInt(2, proposta.getPropostaIdProfessor());
-            stmt.setString(3, proposta.getPropostaTitulo());
-            stmt.setString(4, proposta.getPropostaDescricao());
-            stmt.setString(5, proposta.getPropostaStatus());
-            stmt.setInt(6, proposta.getPropostaId());
+            stmt.setInt(2, proposta.getPropostaAlunoMatricula());
+            stmt.setInt(3, proposta.getPropostaIdProfessor());
+            stmt.setString(4, proposta.getPropostaTitulo());
+            stmt.setString(5, proposta.getPropostaDescricao());
+            stmt.setString(6, proposta.getPropostaStatus());
+            stmt.setInt(7, proposta.getPropostaId());
 
             //Executa sql
             stmt.execute();
@@ -233,9 +234,11 @@ public class PropostaDAO {
                 // Após setar todos os atributos, o objeto é adicionado à lista
                 lista.add(proposta);
             }
+            
             stmt.close();
             rs.close();
             con.close();
+            
             return lista;
 
         } catch (SQLException error) {
@@ -357,7 +360,6 @@ public class PropostaDAO {
                 proposta.setPropostaStatus(rs.getString("status"));
                 proposta.setBanca1(rs.getInt("banca1"));
                 proposta.setBanca2(rs.getInt("banca2"));
-
             }
             stmt.close();
             rs.close();
