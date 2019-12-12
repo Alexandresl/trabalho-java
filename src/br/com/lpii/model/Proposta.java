@@ -10,24 +10,19 @@ package br.com.lpii.model;
  * @author
  */
 public class Proposta {
-    
+
+    // Atributos 
     private int propostaId;
     private int propostaAlunoMatricula;
     private int propostaCodAreaInteresse;
-    private String propostaNomeAreaInteresse;
     private int propostaIdProfessor;
-    private String propostaNomeProfessor;
-    private String propostaProfEmail;
     private String propostaTitulo;
     private String propostaDescricao;
     private String propostaStatus;
-    private String PropostaAlunoNome;
     private int banca1;
-    private String banca1Nome;
     private int banca2;
-    private String banca2Nome;
-    private int PropostaAlunoNota;
 
+    // Getters and Setters
     public int getPropostaId() {
         return propostaId;
     }
@@ -52,6 +47,8 @@ public class Proposta {
         this.propostaCodAreaInteresse = propostaCodAreaInteresse;
     }
 
+    private String propostaNomeAreaInteresse;
+
     public String getPropostaNomeAreaInteresse() {
         return propostaNomeAreaInteresse;
     }
@@ -60,6 +57,8 @@ public class Proposta {
         this.propostaNomeAreaInteresse = propostaNomeAreaInteresse;
     }
 
+    private String propostaNomeProfessor;
+
     public String getPropostaNomeProfessor() {
         return propostaNomeProfessor;
     }
@@ -67,6 +66,8 @@ public class Proposta {
     public void setPropostaNomeProfessor(String propostaNomeProfessor) {
         this.propostaNomeProfessor = propostaNomeProfessor;
     }
+
+    private String propostaProfEmail;
 
     public String getPropostaProfEmail() {
         return propostaProfEmail;
@@ -108,6 +109,8 @@ public class Proposta {
         this.propostaStatus = propostaStatus;
     }
 
+    private String PropostaAlunoNome;
+
     public String getPropostaAlunoNome() {
         return PropostaAlunoNome;
     }
@@ -115,6 +118,8 @@ public class Proposta {
     public void setPropostaAlunoNome(String PropostaAlunoNome) {
         this.PropostaAlunoNome = PropostaAlunoNome;
     }
+
+    private int PropostaAlunoNota;
 
     public int getPropostaAlunoNota() {
         return PropostaAlunoNota;
@@ -140,6 +145,8 @@ public class Proposta {
         this.banca2 = banca2;
     }
 
+    private String banca1Nome;
+
     public String getBanca1Nome() {
         return banca1Nome;
     }
@@ -148,6 +155,8 @@ public class Proposta {
         this.banca1Nome = banca1Nome;
     }
 
+    private String banca2Nome;
+
     public String getBanca2Nome() {
         return banca2Nome;
     }
@@ -155,7 +164,5 @@ public class Proposta {
     public void setBanca2Nome(String banca2Nome) {
         this.banca2Nome = banca2Nome;
     }
-    
-    
-    
+
 }
